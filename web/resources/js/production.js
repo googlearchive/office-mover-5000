@@ -44,16 +44,57 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var App = {
+	var utils  = __webpack_require__(1);
+
+
+	/*
+	* Application Module
+	*
+	* This is the main module that initializes the entire application.
+	*/
+
+	var app = {
 	  init: function() {
-	    console.log('tesasdft');
+	    console.log(utils.urls.root);
 	  }
-
-
 	};
 
 
-	module.exports = App;
+	/*
+	* Initialize App
+	*
+	*/
+
+	$(document).ready(function() {
+	  app.init();
+	});
+
+
+	/*
+	* Export App
+	*
+	*/
+
+	module.exports = app;
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	* Helper
+	*
+	*/
+
+	var utils = {
+	  urls: {
+	    root: 'https://office-mover.firebaseio.com/',
+	    furniture: this.root + 'furniture/',
+	    background: this.root + 'background/'
+	  }
+	};
+
+	module.exports = utils;
 
 /***/ }
 /******/ ])
