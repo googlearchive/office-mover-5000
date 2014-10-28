@@ -19,6 +19,9 @@
 		63BBF8FD1A001E5300F74141 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8FC1A001E5300F74141 /* SystemConfiguration.framework */; };
 		63BBF8FF1A001E5800F74141 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8FE1A001E5800F74141 /* Security.framework */; };
 		63BBF9011A001E5E00F74141 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9001A001E5E00F74141 /* libc++.dylib */; };
+		63BBF9091A0023C400F74141 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BBF9081A0023C400F74141 /* Room.swift */; };
+		63BBF90B1A0045EF00F74141 /* Furniture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BBF90A1A0045EF00F74141 /* Furniture.swift */; };
+		63BBF90E1A00538700F74141 /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BBF90D1A00538700F74141 /* Sync.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		63BBF8FE1A001E5800F74141 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63BBF9001A001E5E00F74141 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		63BBF9021A001F1A00F74141 /* OfficeMover500-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OfficeMover500-Bridging-Header.h"; sourceTree = "<group>"; };
+		63BBF9081A0023C400F74141 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		63BBF90A1A0045EF00F74141 /* Furniture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Furniture.swift; sourceTree = "<group>"; };
+		63BBF90D1A00538700F74141 /* Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +103,7 @@
 		5F05DA051A0018C50076D47C /* OfficeMover500 */ = {
 			isa = PBXGroup;
 			children = (
+				63BBF90C1A00537500F74141 /* Adapters */,
 				63BBF8F51A001D2200F74141 /* Models */,
 				5F05DA081A0018C50076D47C /* AppDelegate.swift */,
 				5F05DA0A1A0018C50076D47C /* ViewController.swift */,
@@ -137,6 +144,8 @@
 		63BBF8F51A001D2200F74141 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				63BBF9081A0023C400F74141 /* Room.swift */,
+				63BBF90A1A0045EF00F74141 /* Furniture.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -152,6 +161,14 @@
 				63BBF8F81A001E4500F74141 /* CFNetwork.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		63BBF90C1A00537500F74141 /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				63BBF90D1A00538700F74141 /* Sync.swift */,
+			);
+			name = Adapters;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,8 +271,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63BBF90E1A00538700F74141 /* Sync.swift in Sources */,
+				63BBF90B1A0045EF00F74141 /* Furniture.swift in Sources */,
 				5F05DA0B1A0018C50076D47C /* ViewController.swift in Sources */,
 				5F05DA091A0018C50076D47C /* AppDelegate.swift in Sources */,
+				63BBF9091A0023C400F74141 /* Room.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
