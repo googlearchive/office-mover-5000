@@ -18,7 +18,8 @@ gulp.task('css', function() {
       .pipe(sass())
       .pipe(autoprefixer())
       .pipe(minifyCSS({ noAdvanced: true }))
-      .pipe(gulp.dest('resources/css'));
+      .pipe(gulp.dest('resources/css'))
+      .pipe(connect.reload());
 
   return stream;
 });
@@ -37,7 +38,8 @@ gulp.task("webpack", function() {
         filename: 'production.js',
       }
     }))
-    .pipe(gulp.dest('resources/js/'));
+    .pipe(gulp.dest('resources/js/'))
+    .pipe(connect.reload());
 
   return stream;
 });
