@@ -8,20 +8,25 @@
 
 import UIKit
 
+let RoomWidth = 600
+let RoomHeight = 800
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var roomView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        createFurnitureView()
+        createFurnitureView()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    // This should take in a Furniture Model whatever that is.
+    // This creates a view as a button, and makes it draggable.
+    func createFurnitureView() -> UIButton {
+        let funitureButton = FurnitureButton()
+        roomView.addSubview(funitureButton)
+        return funitureButton
     }
-
-
 }
-
