@@ -4,6 +4,7 @@ var autoprefixer    = require('gulp-autoprefixer');
 var minifyCSS       = require('gulp-minify-css');
 var connect         = require('gulp-connect');
 var openPage        = require("gulp-open");
+var webpack         = require('gulp-webpack');
 
 
 /**
@@ -13,11 +14,32 @@ var openPage        = require("gulp-open");
 */
 
 gulp.task('css', function() {
-  var stream = gulp.src('scss/**/*.scss')
+  var stream = gulp.src('resources/scss/**/*.scss')
       .pipe(sass())
       .pipe(autoprefixer())
       .pipe(minifyCSS({ noAdvanced: true }))
-      .pipe(gulp.dest('css'));
+      .pipe(gulp.dest('resources/css'))
+      .pipe(connect.reload());
+
+  return stream;
+});
+
+
+/**
+*  WEBPACK
+*
+*  Process javascript modules into common.js format
+*/
+
+gulp.task("webpack", function() {
+  var stream = gulp.src('resources/js/app.js')
+    .pipe(webpack({
+      output: {
+        filename: 'production.js',
+      }
+    }))
+    .pipe(gulp.dest('resources/js/'))
+    .pipe(connect.reload());
 
   return stream;
 });
@@ -30,9 +52,9 @@ gulp.task('css', function() {
 */
 
 gulp.task('watch', function() {
-  gulp.watch('scss/**/*.scss', ['css']);
-  gulp.watch('js/**/*.js');
-  gulp.watch('images/**/*.{jpg,png,gif}');
+  gulp.watch('resources/scss/**/*.scss', ['css']);
+  gulp.watch('resources/js/**/*.js');
+  gulp.watch('resources/images/**/*.{jpg,png,gif}');
   gulp.watch('index.html');
 });
 
@@ -57,7 +79,7 @@ gulp.task('connect', function() {
 *
 *  Local and production build tasks
 */
-gulp.task('default', ['css', 'watch', 'connect'], function() {
+gulp.task('default', ['css', 'webpack', 'watch', 'connect'], function() {
   //Now open in browser
   var stream = gulp.src("index.html")
       .pipe(openPage("", {

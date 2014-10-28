@@ -13,6 +13,7 @@
 		5F05DA101A0018C50076D47C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F05DA0F1A0018C50076D47C /* Images.xcassets */; };
 		5F05DA131A0018C50076D47C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F05DA111A0018C50076D47C /* LaunchScreen.xib */; };
 		5F05DA1F1A0018C50076D47C /* OfficeMover500Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA1E1A0018C50076D47C /* OfficeMover500Tests.swift */; };
+		5F05DA291A0022BB0076D47C /* FurnitureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA281A0022BB0076D47C /* FurnitureButton.swift */; };
 		63BBF8F71A001E0800F74141 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8F61A001E0800F74141 /* Firebase.framework */; };
 		63BBF8F91A001E4500F74141 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8F81A001E4500F74141 /* CFNetwork.framework */; };
 		63BBF8FB1A001E4D00F74141 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8FA1A001E4D00F74141 /* libicucore.dylib */; };
@@ -45,6 +46,7 @@
 		5F05DA181A0018C50076D47C /* OfficeMover500Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OfficeMover500Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F05DA1D1A0018C50076D47C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F05DA1E1A0018C50076D47C /* OfficeMover500Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeMover500Tests.swift; sourceTree = "<group>"; };
+		5F05DA281A0022BB0076D47C /* FurnitureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FurnitureButton.swift; sourceTree = "<group>"; };
 		63BBF8F61A001E0800F74141 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Firebase.framework; path = OfficeMover500/Firebase.framework; sourceTree = "<group>"; };
 		63BBF8F81A001E4500F74141 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		63BBF8FA1A001E4D00F74141 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -112,6 +114,7 @@
 				5F05DA111A0018C50076D47C /* LaunchScreen.xib */,
 				5F05DA061A0018C50076D47C /* Supporting Files */,
 				63BBF9021A001F1A00F74141 /* OfficeMover500-Bridging-Header.h */,
+				5F05DA281A0022BB0076D47C /* FurnitureButton.swift */,
 			);
 			path = OfficeMover500;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				63BBF90E1A00538700F74141 /* Sync.swift in Sources */,
 				63BBF90B1A0045EF00F74141 /* Furniture.swift in Sources */,
 				5F05DA0B1A0018C50076D47C /* ViewController.swift in Sources */,
+				5F05DA291A0022BB0076D47C /* FurnitureButton.swift in Sources */,
 				5F05DA091A0018C50076D47C /* AppDelegate.swift in Sources */,
 				63BBF9091A0023C400F74141 /* Room.swift in Sources */,
 			);

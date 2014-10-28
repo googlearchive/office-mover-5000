@@ -1,3 +1,25 @@
 body {
-  background: blue;
+  background: red;
 }
+
+.editor {
+
+  .editor-furniture {
+    position: absolute !important;
+
+    &.editor-desk {
+      width: 300px;
+      height: 150px;
+      padding: 5px;
+      border: 1px solid black;
+    }
+
+    &.editor-plant {
+      width: 50px;
+      height: 50px;
+      padding: 5px;
+      border: 1px solid black;
+    }
+  }
+}
+
