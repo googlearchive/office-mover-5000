@@ -78,12 +78,7 @@
 		5F05D9FA1A0018C50076D47C = {
 			isa = PBXGroup;
 			children = (
-				63BBF8F61A001E0800F74141 /* Firebase.framework */,
-				63BBF9001A001E5E00F74141 /* libc++.dylib */,
-				63BBF8FE1A001E5800F74141 /* Security.framework */,
-				63BBF8FC1A001E5300F74141 /* SystemConfiguration.framework */,
-				63BBF8FA1A001E4D00F74141 /* libicucore.dylib */,
-				63BBF8F81A001E4500F74141 /* CFNetwork.framework */,
+				63BBF9051A00227700F74141 /* Frameworks */,
 				5F05DA051A0018C50076D47C /* OfficeMover500 */,
 				5F05DA1B1A0018C50076D47C /* OfficeMover500Tests */,
 				5F05DA041A0018C50076D47C /* Products */,
@@ -144,6 +139,19 @@
 			children = (
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		63BBF9051A00227700F74141 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				63BBF8F61A001E0800F74141 /* Firebase.framework */,
+				63BBF9001A001E5E00F74141 /* libc++.dylib */,
+				63BBF8FE1A001E5800F74141 /* Security.framework */,
+				63BBF8FC1A001E5300F74141 /* SystemConfiguration.framework */,
+				63BBF8FA1A001E4D00F74141 /* libicucore.dylib */,
+				63BBF8F81A001E4500F74141 /* CFNetwork.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
