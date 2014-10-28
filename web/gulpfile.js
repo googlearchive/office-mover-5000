@@ -30,9 +30,9 @@ gulp.task('css', function() {
 */
 
 gulp.task('watch', function() {
-  gulp.watch('scss/**/*.scss', ['css']);
-  gulp.watch('js/**/*.js');
-  gulp.watch('images/**/*.{jpg,png,gif}');
+  gulp.watch('resources/scss/**/*.scss', ['css']);
+  gulp.watch('resources/js/**/*.js');
+  gulp.watch('resources/images/**/*.{jpg,png,gif}');
   gulp.watch('index.html');
 });
 
