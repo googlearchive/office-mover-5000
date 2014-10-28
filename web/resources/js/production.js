@@ -44,16 +44,34 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var App = {
+	var utils  = __webpack_require__(1);
+
+	var app = {
 	  init: function() {
-	    console.log('test');
+	    console.log(utils.urls.root);
 	  }
-
-
 	};
 
 
-	module.exports = App;
+	$(document).ready(function() {
+	  app.init();
+	});
+
+	module.exports = app;
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var utils = {
+	  urls: {
+	    root: 'https://office-mover.firebaseio.com/',
+	    furniture: this.root + 'furniture/',
+	    background: this.root + 'background/'
+	  }
+	};
+
+	module.exports = utils;
 
 /***/ }
 /******/ ])
