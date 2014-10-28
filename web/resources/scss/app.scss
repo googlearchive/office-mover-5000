@@ -1,24 +1,25 @@
+@import 'vars';
+
 body {
-  background: red;
+  background: $text-and-icons;
 }
 
 .editor {
 
   .editor-furniture {
     position: absolute !important;
+    border-radius: 5px;
+    border: 1px solid $gray-border;
+    background-color: $gray;
 
     &.editor-desk {
-      width: 300px;
-      height: 150px;
-      padding: 5px;
-      border: 1px solid black;
+      width: 150px;
+      height: 75px;
     }
 
     &.editor-plant {
       width: 50px;
       height: 50px;
-      padding: 5px;
-      border: 1px solid black;
     }
   }
 }
