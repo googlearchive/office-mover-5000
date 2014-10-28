@@ -4,6 +4,7 @@ var autoprefixer    = require('gulp-autoprefixer');
 var minifyCSS       = require('gulp-minify-css');
 var connect         = require('gulp-connect');
 var openPage        = require("gulp-open");
+var webpack         = require('gulp-webpack');
 
 
 /**
@@ -24,15 +25,37 @@ gulp.task('css', function() {
 
 
 /**
+*  WEBPACK
+*
+*  Process javascript modules into common.js format
+*/
+
+gulp.task("webpack", function() {
+  var stream = gulp.src('resources/js/app.js')
+    .pipe(webpack({
+      entry: {
+        app: 'resources/js/app.js',
+      },
+      output: {
+        filename: 'app.js',
+      }
+    }))
+    .pipe(gulp.dest('dist/'));
+
+  return stream;
+});
+
+
+/**
 *  WATCH
 *
 *  Rerun process after any of these files are edited
 */
 
 gulp.task('watch', function() {
-  gulp.watch('scss/**/*.scss', ['css']);
-  gulp.watch('js/**/*.js');
-  gulp.watch('images/**/*.{jpg,png,gif}');
+  gulp.watch('resources/scss/**/*.scss', ['css']);
+  gulp.watch('resources/js/**/*.js');
+  gulp.watch('resources/images/**/*.{jpg,png,gif}');
   gulp.watch('index.html');
 });
 
