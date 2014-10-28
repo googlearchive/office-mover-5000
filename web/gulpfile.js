@@ -13,11 +13,11 @@ var openPage        = require("gulp-open");
 */
 
 gulp.task('css', function() {
-  var stream = gulp.src('scss/**/*.scss')
+  var stream = gulp.src('resources/scss/**/*.scss')
       .pipe(sass())
       .pipe(autoprefixer())
       .pipe(minifyCSS({ noAdvanced: true }))
-      .pipe(gulp.dest('css'));
+      .pipe(gulp.dest('resources/css'));
 
   return stream;
 });
