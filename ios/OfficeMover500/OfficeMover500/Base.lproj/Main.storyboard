@@ -27,6 +27,9 @@
                             <constraint firstAttribute="centerY" secondItem="H65-Mr-WCT" secondAttribute="centerY" id="BFl-aF-UVm"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="roomView" destination="H65-Mr-WCT" id="rpl-Q4-vmj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
