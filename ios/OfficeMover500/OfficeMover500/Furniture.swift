@@ -11,22 +11,22 @@ import Foundation
 class Furniture {
     
     var key : String
-    var top : Int
-    var left : Int
-    var zIndex: Int
-    var rotation: Int
-    var type : String
-    var locked : Bool
+    var top : Int?
+    var left : Int?
+    var zIndex: Int?
+    var rotation: Int?
+    var type : String?
+    var locked : Bool?
 
     init(key: String, json: Dictionary<String, AnyObject>) {
      
         self.key = key
-        self.top = json["top"] as Int
-        self.left = json["left"] as Int
-        self.zIndex = json["zIndex"] as Int
-        self.rotation = json["rotation"] as Int
-        self.type = json["type"] as String
-        self.locked = json["locked"] as Bool
+        self.top = json["top"] as? Int
+        self.left = json["left"] as? Int
+        self.zIndex = json["z-index"] as? Int
+        self.rotation = json["rotation"] as? Int
+        self.type = json["type"] as? String
+        self.locked = json["locked"] as? Bool
         
     }
     
@@ -42,12 +42,12 @@ class Furniture {
         
     }
     
-    func toJson() -> Dictionary<String, AnyObject> {
+    func toJson() -> Dictionary<String, AnyObject?> {
         return [
             "key" : self.key,
             "top" : self.top,
             "left" : self.left,
-            "zIndex" : self.zIndex,
+            "z-index" : self.zIndex,
             "rotation" : self.rotation,
             "type" : self.type,
             "locked" : self.locked

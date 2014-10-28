@@ -18,8 +18,14 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        createFurnitureView()
-        createFurnitureView()
+        let ref = Firebase(url: "https://office-mover.firebaseio.com/")
+        var sync = Sync(ref: ref)
+        
+        sync.onFurnitureAdded({ item in
+            println(item.key)
+            self.createFurnitureView()
+        })
+        
     }
     
     // This should take in a Furniture Model whatever that is.

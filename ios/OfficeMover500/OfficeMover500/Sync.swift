@@ -11,20 +11,24 @@ import Foundation
 class Sync {
     
     var room : Room
+    var ref : Firebase
     
     init (ref: Firebase) {
         
-        room = Room(json: nil);
+        room = Room(json: nil)
+        self.ref = ref
         
+    }
+    
+    func onFurnitureAdded (onAdded : (Furniture) -> ()) {
         
-        ref.observeEventType(.ChildAdded, withBlock: { snapshot in
+        let furnitureRef = ref.childByAppendingPath("furniture")
+        
+        furnitureRef.observeEventType(.ChildAdded, withBlock: { snapshot in
             
             var furniture = Furniture(snap: snapshot)
-            
-            println(furniture.key)
-            
-//            println(snapshot.value.objectForKey("author"))
-//            println(snapshot.value.objectForKey("title"))
+            self.room.addFurniture(furniture)
+            onAdded(furniture)
             
         })
         
