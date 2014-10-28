@@ -4,6 +4,7 @@ var autoprefixer    = require('gulp-autoprefixer');
 var minifyCSS       = require('gulp-minify-css');
 var connect         = require('gulp-connect');
 var openPage        = require("gulp-open");
+var webpack         = require('gulp-webpack');
 
 
 /**
@@ -17,7 +18,28 @@ gulp.task('css', function() {
       .pipe(sass())
       .pipe(autoprefixer())
       .pipe(minifyCSS({ noAdvanced: true }))
-      .pipe(gulp.dest('resources/css'));
+      .pipe(gulp.dest('resources/css'))
+      .pipe(connect.reload());
+
+  return stream;
+});
+
+
+/**
+*  WEBPACK
+*
+*  Process javascript modules into common.js format
+*/
+
+gulp.task("webpack", function() {
+  var stream = gulp.src('resources/js/app.js')
+    .pipe(webpack({
+      output: {
+        filename: 'production.js',
+      }
+    }))
+    .pipe(gulp.dest('resources/js/'))
+    .pipe(connect.reload());
 
   return stream;
 });
@@ -57,7 +79,7 @@ gulp.task('connect', function() {
 *
 *  Local and production build tasks
 */
-gulp.task('default', ['css', 'watch', 'connect'], function() {
+gulp.task('default', ['css', 'webpack', 'watch', 'connect'], function() {
   //Now open in browser
   var stream = gulp.src("index.html")
       .pipe(openPage("", {
