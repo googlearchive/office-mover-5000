@@ -13,6 +13,12 @@
 		5F05DA101A0018C50076D47C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F05DA0F1A0018C50076D47C /* Images.xcassets */; };
 		5F05DA131A0018C50076D47C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F05DA111A0018C50076D47C /* LaunchScreen.xib */; };
 		5F05DA1F1A0018C50076D47C /* OfficeMover500Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA1E1A0018C50076D47C /* OfficeMover500Tests.swift */; };
+		63BBF8F71A001E0800F74141 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8F61A001E0800F74141 /* Firebase.framework */; };
+		63BBF8F91A001E4500F74141 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8F81A001E4500F74141 /* CFNetwork.framework */; };
+		63BBF8FB1A001E4D00F74141 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8FA1A001E4D00F74141 /* libicucore.dylib */; };
+		63BBF8FD1A001E5300F74141 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8FC1A001E5300F74141 /* SystemConfiguration.framework */; };
+		63BBF8FF1A001E5800F74141 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8FE1A001E5800F74141 /* Security.framework */; };
+		63BBF9011A001E5E00F74141 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9001A001E5E00F74141 /* libc++.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +42,13 @@
 		5F05DA181A0018C50076D47C /* OfficeMover500Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OfficeMover500Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F05DA1D1A0018C50076D47C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F05DA1E1A0018C50076D47C /* OfficeMover500Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeMover500Tests.swift; sourceTree = "<group>"; };
+		63BBF8F61A001E0800F74141 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Firebase.framework; path = OfficeMover500/Firebase.framework; sourceTree = "<group>"; };
+		63BBF8F81A001E4500F74141 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		63BBF8FA1A001E4D00F74141 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		63BBF8FC1A001E5300F74141 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		63BBF8FE1A001E5800F74141 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		63BBF9001A001E5E00F74141 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		63BBF9021A001F1A00F74141 /* OfficeMover500-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OfficeMover500-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +56,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63BBF9011A001E5E00F74141 /* libc++.dylib in Frameworks */,
+				63BBF8FF1A001E5800F74141 /* Security.framework in Frameworks */,
+				63BBF8FD1A001E5300F74141 /* SystemConfiguration.framework in Frameworks */,
+				63BBF8FB1A001E4D00F74141 /* libicucore.dylib in Frameworks */,
+				63BBF8F91A001E4500F74141 /* CFNetwork.framework in Frameworks */,
+				63BBF8F71A001E0800F74141 /* Firebase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +78,12 @@
 		5F05D9FA1A0018C50076D47C = {
 			isa = PBXGroup;
 			children = (
+				63BBF8F61A001E0800F74141 /* Firebase.framework */,
+				63BBF9001A001E5E00F74141 /* libc++.dylib */,
+				63BBF8FE1A001E5800F74141 /* Security.framework */,
+				63BBF8FC1A001E5300F74141 /* SystemConfiguration.framework */,
+				63BBF8FA1A001E4D00F74141 /* libicucore.dylib */,
+				63BBF8F81A001E4500F74141 /* CFNetwork.framework */,
 				5F05DA051A0018C50076D47C /* OfficeMover500 */,
 				5F05DA1B1A0018C50076D47C /* OfficeMover500Tests */,
 				5F05DA041A0018C50076D47C /* Products */,
@@ -77,12 +102,14 @@
 		5F05DA051A0018C50076D47C /* OfficeMover500 */ = {
 			isa = PBXGroup;
 			children = (
+				63BBF8F51A001D2200F74141 /* Models */,
 				5F05DA081A0018C50076D47C /* AppDelegate.swift */,
 				5F05DA0A1A0018C50076D47C /* ViewController.swift */,
 				5F05DA0C1A0018C50076D47C /* Main.storyboard */,
 				5F05DA0F1A0018C50076D47C /* Images.xcassets */,
 				5F05DA111A0018C50076D47C /* LaunchScreen.xib */,
 				5F05DA061A0018C50076D47C /* Supporting Files */,
+				63BBF9021A001F1A00F74141 /* OfficeMover500-Bridging-Header.h */,
 			);
 			path = OfficeMover500;
 			sourceTree = "<group>";
@@ -110,6 +137,13 @@
 				5F05DA1D1A0018C50076D47C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		63BBF8F51A001D2200F74141 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,9 +372,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OfficeMover500",
+				);
 				INFOPLIST_FILE = OfficeMover500/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OfficeMover500/OfficeMover500-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -348,9 +390,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/OfficeMover500",
+				);
 				INFOPLIST_FILE = OfficeMover500/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "OfficeMover500/OfficeMover500-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -407,6 +456,7 @@
 				5F05DA241A0018C50076D47C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5F05DA251A0018C50076D47C /* Build configuration list for PBXNativeTarget "OfficeMover500Tests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +465,7 @@
 				5F05DA271A0018C50076D47C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
