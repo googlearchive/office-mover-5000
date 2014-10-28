@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5F06C0EA-9B06-4DAF-991D-084E5E8BB614</string>
+	<key>IDESourceControlProjectName</key>
+	<string>OfficeMover500</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>1ADA34196AA7399DBC6B873C8AFA2324550DC994</key>
+		<string>github.com:firebase/office-mover-5000.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ios/OfficeMover500/OfficeMover500.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>1ADA34196AA7399DBC6B873C8AFA2324550DC994</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:firebase/office-mover-5000.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>1ADA34196AA7399DBC6B873C8AFA2324550DC994</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1ADA34196AA7399DBC6B873C8AFA2324550DC994</string>
+			<key>IDESourceControlWCCName</key>
+			<string>office-mover-5000</string>
+		</dict>
+	</array>
+</dict>
+</plist>
