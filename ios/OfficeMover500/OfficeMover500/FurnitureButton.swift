@@ -11,6 +11,8 @@ import UIKit
 
 class FurnitureButton : UIButton {
     
+    var onMoveHandler: ((Int, Int) -> ())?
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -30,7 +32,9 @@ class FurnitureButton : UIButton {
         if let touch = event.touchesForView(button)?.anyObject() as? UITouch {
             let touchLoc = touch.locationInView(self.superview)
             center = boundLocToRoom(touchLoc)
-            
+            if let handler = onMoveHandler {
+                handler(top, left)
+            }
         }
     }
     
@@ -43,7 +47,7 @@ class FurnitureButton : UIButton {
         } else if loc.x > CGFloat(RoomWidth) - frame.size.width / 2 {
             pt.x = CGFloat(RoomWidth) - frame.size.width / 2
         }
-
+        
         // Bound y inside of height
         if loc.y < frame.size.height / 2 {
             pt.y = frame.size.height / 2
@@ -52,5 +56,13 @@ class FurnitureButton : UIButton {
         }
         
         return pt
+    }
+    
+    var top:Int {
+        return Int(frame.origin.y)
+    }
+    
+    var left:Int {
+        return Int(frame.origin.x)
     }
 }
