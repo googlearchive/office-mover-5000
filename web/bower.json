@@ -1,0 +1,27 @@
+{
+  "name": "web",
+  "version": "0.0.0",
+  "homepage": "https://github.com/firebase/office-mover-5000",
+  "authors": [
+    "alexwolfe <alex@firebase.com>",
+    "joeyyang <joey@firebase.com>",
+    "berlinjohnson <ali@firebase.com>"
+  ],
+  "private": true,
+  "dependencies": {
+    "firebase": "1.1.0",
+    "font-awesome": "4.0.3",
+    "jquery": "1.9.1",
+    "jquery.validation": "1.11.1",
+    "lodash": "2.4.1",
+    "modernizr": "2.6.2"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
