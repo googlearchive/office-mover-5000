@@ -33,14 +33,11 @@ gulp.task('css', function() {
 gulp.task("webpack", function() {
   var stream = gulp.src('resources/js/app.js')
     .pipe(webpack({
-      entry: {
-        app: 'resources/js/app.js',
-      },
       output: {
-        filename: 'app.js',
+        filename: 'production.js',
       }
     }))
-    .pipe(gulp.dest('dist/'));
+    .pipe(gulp.dest('resources/js/'));
 
   return stream;
 });
@@ -80,7 +77,7 @@ gulp.task('connect', function() {
 *
 *  Local and production build tasks
 */
-gulp.task('default', ['css', 'watch', 'connect'], function() {
+gulp.task('default', ['css', 'webpack', 'watch', 'connect'], function() {
   //Now open in browser
   var stream = gulp.src("index.html")
       .pipe(openPage("", {
