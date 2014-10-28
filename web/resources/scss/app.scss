@@ -1,4 +1,5 @@
 @import 'vars';
+@import 'state';
 
 body {
   background: $text-and-icons;
@@ -12,6 +13,11 @@ body {
     border: 1px solid $gray-border;
     background-color: $gray;
 
+    &.is-editor-furniture-active {
+      border: 3px solid $blue-primary;
+      background-color: $blue-light;
+    }
+    
     &.editor-desk {
       width: 150px;
       height: 75px;

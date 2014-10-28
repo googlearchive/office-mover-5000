@@ -46,7 +46,7 @@
 
 	var App = {
 	  init: function() {
-	    console.log('test');
+	    console.log('tesasdft');
 	  }
 
 

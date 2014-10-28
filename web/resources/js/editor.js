@@ -12,9 +12,11 @@ var furnitureTemplates = {
 var state = {};
 var draggableOptions = {
   start: function(event, ui){
-    var eventTarget = $(event.target);
-    var location = eventTarget.data('id');
+    var $eventTarget = $(event.target);
+    var location = $eventTarget.data('id');
     var itemRef;
+
+    $eventTarget.addClass("is-editor-furniture-active");
 
     state[location] = {
       ref: new Firebase(location)
@@ -25,8 +27,8 @@ var draggableOptions = {
   },
 
   drag: function(event, ui){
-    var eventTarget = $(event.target);
-    var location = eventTarget.data('id');
+    var $eventTarget = $(event.target);
+    var location = $eventTarget.data('id');
     var itemRef = state[location].ref;
 
     itemRef.child("left").set(ui.position.left);
@@ -34,9 +36,11 @@ var draggableOptions = {
   },
 
   stop: function(event, ui){
-    var eventTarget = $(event.target);
-    var location = eventTarget.data('id');
+    var $eventTarget = $(event.target);
+    var location = $eventTarget.data('id');
     var itemRef = state[location].ref;
+
+    $eventTarget.removeClass("is-editor-furniture-active");
 
     itemRef.child("locked").set(false);
   }
