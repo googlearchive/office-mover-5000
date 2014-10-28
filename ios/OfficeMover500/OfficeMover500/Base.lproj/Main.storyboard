@@ -16,15 +16,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H65-Mr-WCT">
-                                <rect key="frame" x="0.0" y="106" width="600" height="800"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H65-Mr-WCT">
+                                <rect key="frame" x="0.0" y="-100" width="600" height="800"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="800" id="CJf-aH-cTO"/>
+                                    <constraint firstAttribute="width" constant="600" id="EN3-vt-O2i"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="H65-Mr-WCT" secondAttribute="centerX" id="6o7-Tv-M6D"/>
-                            <constraint firstAttribute="centerY" secondItem="H65-Mr-WCT" secondAttribute="centerY" id="BFl-aF-UVm"/>
+                            <constraint firstAttribute="centerY" secondItem="H65-Mr-WCT" secondAttribute="centerY" id="XKy-e2-AhY"/>
+                            <constraint firstAttribute="centerX" secondItem="H65-Mr-WCT" secondAttribute="centerX" id="Y27-U7-P3W"/>
                         </constraints>
                     </view>
                     <connections>
@@ -33,6 +37,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="191" y="-74"/>
         </scene>
     </scenes>
 </document>

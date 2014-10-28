@@ -31,8 +31,11 @@ class ViewController: UIViewController {
     // This should take in a Furniture Model whatever that is.
     // This creates a view as a button, and makes it draggable.
     func createFurnitureView() -> UIButton {
-        let funitureButton = FurnitureButton()
-        roomView.addSubview(funitureButton)
-        return funitureButton
+        let furnitureButton = FurnitureButton()
+        furnitureButton.onMoveHandler = { top, left in
+            println("From here \(top), \(left)")
+        }
+        roomView.addSubview(furnitureButton)
+        return furnitureButton
     }
 }
