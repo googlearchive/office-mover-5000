@@ -17,17 +17,21 @@ class FurnitureButton : UIButton {
     
     override init() {
         super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 100, 100))
+        
+        // Set image
         backgroundColor = UIColor.redColor()
-        self.addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
+        
+        // Add dragability
+        addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
     }
-
+    
     func dragged(button: UIButton, withEvent event: UIEvent) {
-        // Get the Touch
+        // Get the touch in view, bound it to the room, and move the button there
         if let touch = event.touchesForView(button)?.anyObject() as? UITouch {
-            let touchLoc = touch.locationInView(self.superview) // CGPoint
-            button.center = boundLocToRoom(touchLoc)
+            let touchLoc = touch.locationInView(self.superview)
+            center = boundLocToRoom(touchLoc)
+            
         }
-        // Get delta?
     }
     
     func boundLocToRoom(loc: CGPoint) -> CGPoint {
