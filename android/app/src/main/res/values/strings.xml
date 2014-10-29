@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Inetech Office Mover 5000</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_new_thing">New Thing</string>
+
+</resources>
