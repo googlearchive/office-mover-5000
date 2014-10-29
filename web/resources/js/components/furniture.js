@@ -5,7 +5,8 @@ var dragOptions = require("../helpers/drag-options");
 
 
 
-var Furniture = function(snapshot) {
+var Furniture = function(snapshot, options) {
+  options = options || {};
   var self = this;
   var data = snapshot.val();
 
@@ -14,6 +15,7 @@ var Furniture = function(snapshot) {
   *
   */
 
+  this.officeSpace = $('#office-space');
   this.element = $("<div class='editor-furniture editor-desk'></div>");
   this.id = snapshot.name();
   this.ref = snapshot.ref();
@@ -34,14 +36,15 @@ var Furniture = function(snapshot) {
 
 
   /*
-  * Create Furniture Element
+  * Create Furniture Method
   *
   */
 
-  this.createElement = function(type) {
+  this.createElement = function() {
 
     //SET DRAG OPTIONS
     this.element.draggable({
+      containment: self.officeSpace,
       start: function(event, ui){
 
         self.element.addClass("is-editor-furniture-active");
@@ -60,16 +63,20 @@ var Furniture = function(snapshot) {
     });
 
     this.element.css({
-        "top": parseInt(this.top, 10),
-        "left": parseInt(this.left, 10)
-      });
+      "top": parseInt(this.top, 10),
+      "left": parseInt(this.left, 10)
+    });
 
-    $(".editor").append(this.element);
+    this.officeSpace.append(this.element);
   };
 
 
+  /*
+  * Create Furniture Element
+  *
+  */
 
-  this.createElement(this.type);
+  this.createElement();
 };
 
 module.exports = Furniture;
