@@ -52,6 +52,7 @@ class FurnitureButton : UIButton {
     init(furniture: Furniture) {
         super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 100, 50))
         setTop(furniture.top, left: furniture.left)
+        rotateView(furniture.rotation)
         
         // TODO replace with image stuff
         setTitle(furniture.key, forState:.Normal)
@@ -75,8 +76,10 @@ class FurnitureButton : UIButton {
         frame.origin = boundLocToRoom(frame.origin)
     }
     
-    func rotateView(rotation: Int) {
-        transform = CGAffineTransformMakeRotation(CGFloat(rotation / 90) * CGFloat(M_PI / -2))
+    func rotateView(rotation: Int?) {
+        if let rot = rotation {
+            transform = CGAffineTransformMakeRotation(CGFloat(rot / 90) * CGFloat(M_PI / -2))
+        }
     }
     
     func deleteView() {
