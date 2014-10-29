@@ -15,14 +15,12 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var roomView: UIView!
     
+    var sync = RoomSync(ref: Firebase(url: "https://office-mover.firebaseio.com/"))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let ref = Firebase(url: "https://office-mover.firebaseio.com/")
-        var sync = Sync(ref: ref)
-        
         sync.onFurnitureAdded({ item in
-            println(item.key)
             self.createFurnitureView(item)
         })
         
@@ -30,12 +28,11 @@ class ViewController: UIViewController {
     
     // This should take in a Furniture Model whatever that is.
     // This creates a view as a button, and makes it draggable.
-    func createFurnitureView(furniture: Furniture) -> UIButton {
+    func createFurnitureView(furniture: Furniture) {
         let view = FurnitureButton(furniture: furniture)
         
         view.moveHandler = { top, left in
-            // TODO: update to view. Something like: sync.updateItem(furniture, top, left)
-            println("[\(furniture.key)] Furniture at \(top), \(left)")
+            self.sync.moveFurniture(furniture.key, top: top, left: left)
         }
         
         view.rotateHandler = {
@@ -45,12 +42,10 @@ class ViewController: UIViewController {
         }
         
         view.deleteHandler = {
-            // TODO: delete furniture
-            println("[\(furniture.key)] should delete")
             view.deleteView()
+            self.sync.deleteFurniture(furniture)
         }
         
         roomView.addSubview(view)
-        return view
     }
 }
