@@ -62,11 +62,13 @@ var Furniture = function(snapshot, options) {
       }
     });
 
+    // SET CURRENT LOCATION
     this.element.css({
       "top": parseInt(this.top, 10),
       "left": parseInt(this.left, 10)
     });
 
+    // ADD TO DOM
     this.officeSpace.append(this.element);
   };
 
