@@ -90,9 +90,9 @@ class FurnitureButton : UIButton {
         
         // Setup other properties
         setTitle(furniture.name, forState:.Normal)
+        rotation = furniture.rotation
         top = furniture.top
         left = furniture.left
-        rotation = furniture.left
         
         // Add dragability
         addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
@@ -139,26 +139,6 @@ class FurnitureButton : UIButton {
             pt.y = frame.size.height / 2
         } else if centerLoc.y > CGFloat(RoomHeight) - frame.size.height / 2 {
             pt.y = CGFloat(RoomHeight) - frame.size.height / 2
-        }
-        
-        return pt
-    }
-    
-    func boundLocToRoom(topLeftLoc: CGPoint) -> CGPoint {
-        var pt = CGPointMake(topLeftLoc.x, topLeftLoc.y)
-        
-        // Bound x inside of width
-        if topLeftLoc.x < frame.size.width / 2 {
-            pt.x = frame.size.width / 2
-        } else if topLeftLoc.x > CGFloat(RoomWidth) - frame.size.width {
-            pt.x = CGFloat(RoomWidth) - frame.size.width
-        }
-        
-        // Bound y inside of height
-        if topLeftLoc.y < frame.size.height / 2 {
-            pt.y = frame.size.height / 2
-        } else if topLeftLoc.y > CGFloat(RoomHeight) - frame.size.height {
-            pt.y = CGFloat(RoomHeight) - frame.size.height
         }
         
         return pt
