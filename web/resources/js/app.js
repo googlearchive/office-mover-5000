@@ -1,5 +1,7 @@
-var utils  = require('./helpers/utils');
-var editor = require('./editor');
+var Utils  = require('./helpers/utils');
+var Furniture  = require('./components/furniture');
+var rootRef = new Firebase(Utils.urls.root);
+var furnitureRef = new Firebase(Utils.urls.furniture);
 
 
 /*
@@ -9,8 +11,27 @@ var editor = require('./editor');
 */
 
 var app = {
+
+  /*
+  * Initalize the application
+  *
+  * Get intials dump of Firebase furniture data.
+  */
+
   init: function() {
-    editor.init();
+    var self = this;
+
+    furnitureRef.once("value", function(snapshot){
+       self.createFurniture(snapshot, {
+
+       });
+    });
+  },
+
+  createFurniture: function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      new Furniture(childSnapshot);
+    });
   }
 };
 

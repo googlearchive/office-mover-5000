@@ -11,20 +11,8 @@ import Foundation
 class Room {
     
     var furniture = Array<Furniture>()
-    
+
     init(json: Dictionary<String, AnyObject>?) {
-//        var items = snap.childSnapshotForPath("furniture").children.allObjects
-//        
-//        for item in items {
-//            
-//            // initialize Furniture
-//            if let data = item as? Dictionary<String, AnyObject> {
-//                var furnitureItem = Furniture(key: item, json: <#Dictionary<String, AnyObject>#>)
-//                furniture.append(
-//            }
-//            
-//            furniture.append(item)
-//        }
         
     }
     

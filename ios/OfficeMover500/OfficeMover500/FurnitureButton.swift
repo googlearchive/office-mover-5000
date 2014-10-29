@@ -15,86 +15,122 @@ class FurnitureButton : UIButton {
     var moveHandler: ((Int, Int) -> ())?
     var rotateHandler: ((Int) -> ())?
     var deleteHandler: (() -> ())?
-
+    var editHandler: ((String) -> ())?
+    
     // Calculated propeties
     var top:Int {
-        return Int(frame.origin.y)
+        get {
+            return Int(frame.origin.y)
+        }
+        set (newValue) {
+            if newValue < 0 {
+                frame.origin.y = 0
+            } else if newValue > RoomHeight - Int(frame.size.height) {
+                frame.origin.y = CGFloat(RoomHeight) - frame.size.height
+            } else {
+                frame.origin.y = CGFloat(newValue)
+            }
+        }
     }
     
     var left:Int {
-        return Int(frame.origin.x)
+        get {
+            return Int(frame.origin.x)
+        }
+        set (newValue) {
+            if newValue < 0 {
+                frame.origin.x = 0
+            } else if newValue > RoomWidth - Int(frame.size.width) {
+                frame.origin.x = CGFloat(RoomWidth) - frame.size.width
+            } else {
+                frame.origin.x = CGFloat(newValue)
+            }
+        }
     }
     
     var rotation:Int {
-        let radians = atan2f(Float(transform.b), Float(transform.a))
-        let degrees = radians * Float(180/M_PI)
-        switch (degrees) {
-        case -90:
-            return 90
-        case -180, 180:
-            return 180
-        case 90, -270:
-            return 270
-        default:
-            return 0
+        get {
+            let radians = atan2f(Float(transform.b), Float(transform.a))
+            let degrees = radians * Float(180/M_PI)
+            switch (degrees) {
+            case -90:
+                return 90
+            case -180, 180:
+                return 180
+            case 90, -270:
+                return 270
+            default:
+                return 0
+            }
+        }
+        set (newValue) {
+            transform = CGAffineTransformMakeRotation(CGFloat(newValue / 90) * CGFloat(M_PI / -2))
+        }
+    }
+    
+    var name:String? {
+        get {
+            return currentTitle
+        }
+        set (newValue) {
+            setTitle(newValue, forState:.Normal)
         }
     }
     
     // --- Handling UI state
     var dragging = false
     var menuShowing = false
+    let type: String
+    var alert: UIAlertController?
+    var startDown: CGPoint?
     private var menuListener: AnyObject?
     
     required init(coder aDecoder: NSCoder) {
+        type = "desk"
         super.init(coder: aDecoder)
     }
     
     init(furniture: Furniture) {
-        super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 100, 50))
-        setTop(furniture.top, left: furniture.left)
-        rotateView(furniture.rotation)
+        type = furniture.type == "plant" ? "plant1" : furniture.type // hack because we have 2 plant images
+        super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 10, 10))
+
+        // Setup image and size
+        let image = UIImage(named:"\(type).png")
+        setBackgroundImage(image, forState:.Normal)
+        frame.size = image!.size
         
-        // TODO replace with image stuff
-        setTitle(furniture.key, forState:.Normal)
-        backgroundColor = UIColor.redColor()
+        // Setup other properties
+        name = furniture.name
+        rotation = furniture.rotation
+        top = furniture.top
+        left = furniture.left
         
         // Add dragability
         addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
         
         // Add tap menu
+        addTarget(self, action:Selector("touchDown:withEvent:"), forControlEvents:.TouchDown)
         addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside)
     }
     
     // -- Methods for updating the view
-    func setTop(top: Int?, left: Int?) {
-        if let x = left {
-            frame.origin.x = CGFloat(x)
+    func delete() {
+        if superview != nil {
+            removeFromSuperview()
         }
-        if let y = top {
-            frame.origin.y = CGFloat(y)
-        }
-        frame.origin = boundLocToRoom(frame.origin)
-    }
-    
-    func rotateView(rotation: Int?) {
-        if let rot = rotation {
-            transform = CGAffineTransformMakeRotation(CGFloat(rot / 90) * CGFloat(M_PI / -2))
-        }
-    }
-    
-    func deleteView() {
-        removeFromSuperview()
     }
     
     
     // --- Methods for dragging
     func dragged(button: UIButton, withEvent event: UIEvent) {
-        dragging = true // To avoid triggering tap functionality
         temporarilyHideMenu() // Hide the menu while dragging
         
         // Get the touch in view, bound it to the room, and move the button there
         if let touch = event.touchesForView(button)?.anyObject() as? UITouch {
             let touchLoc = touch.locationInView(self.superview)
+            if abs(startDown!.x - touchLoc.x) > 10 || abs(startDown!.y - touchLoc.y) > 10 {
+                dragging = true // To avoid triggering tap functionality
+            }
             center = boundCenterLocToRoom(touchLoc)
             if let handler = moveHandler {
                 handler(top, left)
@@ -122,29 +158,15 @@ class FurnitureButton : UIButton {
         return pt
     }
     
-    func boundLocToRoom(topLeftLoc: CGPoint) -> CGPoint {
-        var pt = CGPointMake(topLeftLoc.x, topLeftLoc.y)
-        
-        // Bound x inside of width
-        if topLeftLoc.x < frame.size.width / 2 {
-            pt.x = frame.size.width / 2
-        } else if topLeftLoc.x > CGFloat(RoomWidth) - frame.size.width {
-            pt.x = CGFloat(RoomWidth) - frame.size.width
-        }
-        
-        // Bound y inside of height
-        if topLeftLoc.y < frame.size.height / 2 {
-            pt.y = frame.size.height / 2
-        } else if topLeftLoc.y > CGFloat(RoomHeight) - frame.size.height {
-            pt.y = CGFloat(RoomHeight) - frame.size.height
-        }
-        
-        return pt
+    // --- Methods for popping the menu up
+    func touchDown(button: UIButton, withEvent event: UIEvent) {
+        startDown = center
     }
     
-    // --- Methods for popping the menu up
     func touchUp(button: UIButton, withEvent event: UIEvent) {
+        startDown = nil
         if dragging {
+            println("Hi")
             dragging = false // This always ends drag events
             if !menuShowing {
                 // Don't show menu at the end of dragging if there wasn't a menu to begin with
@@ -169,6 +191,27 @@ class FurnitureButton : UIButton {
         }
     }
     
+    func triggerEdit(sender:AnyObject) {
+        // Show pop up to enter name
+        alert = UIAlertController(title: "Who sits here?", message: "Enter name below", preferredStyle: UIAlertControllerStyle.Alert)
+        alert!.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: completeEdit))
+        alert!.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            textField.placeholder = "Name"
+        })
+        parentViewController()?.presentViewController(alert!, animated: true, completion: nil)
+    }
+    
+    func completeEdit(alertAction:UIAlertAction!) {
+        // Popup for name finished, handle naming desk.
+        if let newName = (alert?.textFields?[0] as? UITextField)?.text {
+            name = newName
+            if let handler = editHandler {
+                handler(newName)
+            }
+            alert = nil
+        }
+    }
+    
     // --- Menu helper methods
     
     func showMenu() {
@@ -184,6 +227,9 @@ class FurnitureButton : UIButton {
             UIMenuItem(title: "Rotate", action:Selector("triggerRotate:")),
             UIMenuItem(title: "Delete", action:Selector("triggerDelete:"))
         ]
+        if type == "desk" {
+            menuController.menuItems?.insert(UIMenuItem(title: "Edit", action:Selector("triggerEdit:")), atIndex:0)
+        }
         
         // Handle displaying and disappearing the menu
         becomeFirstResponder()
@@ -218,6 +264,21 @@ class FurnitureButton : UIButton {
     }
     
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        return action == Selector("triggerRotate:") || action == Selector("triggerDelete:")
+        return action == Selector("triggerRotate:") || action == Selector("triggerDelete:") || action == Selector("triggerEdit:")
+    }
+}
+
+extension FurnitureButton {
+    func parentViewController() -> UIViewController? {
+        var parentResponder: UIResponder? = self
+        while true {
+            if parentResponder == nil {
+                return nil
+            }
+            parentResponder = parentResponder!.nextResponder()
+            if parentResponder is UIViewController {
+                return (parentResponder as UIViewController)
+            }
+        }
     }
 }

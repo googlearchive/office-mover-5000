@@ -1,6 +1,4 @@
 var utils = require("./helpers/utils");
-var dragOptions = require("./helpers/drag-options");
-
 var rootRef = new Firebase(utils.urls.root);
 var furnitureRef = new Firebase(utils.urls.furniture);
 
