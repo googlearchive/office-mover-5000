@@ -61,6 +61,7 @@ class ViewController: UIViewController {
         view.deleteHandler = {
             view.delete()
             self.deleteFurniture(furniture)
+            self.furnitureRef.childByAppendingPath(furniture.key).removeAllObservers()
         }
         
         view.editHandler = { name in
