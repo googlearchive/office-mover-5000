@@ -15,7 +15,8 @@
     "jquery.validation": "1.11.1",
     "lodash": "2.4.1",
     "modernizr": "2.6.2",
-    "jquery-ui": "~1.11.2"
+    "jquery-ui": "~1.11.2",
+    "normalize.css": "~3.0.2"
   },
   "license": "MIT",
   "ignore": [

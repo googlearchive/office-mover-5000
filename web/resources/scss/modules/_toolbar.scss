@@ -2,28 +2,53 @@
   padding: 10px;
   height: 40px;
   background-color: $azure;
+  position: relative;
 
   .toolbar-title {
     color: $white;
-  }
-
-  > h3 {
     font-weight: 100;
-    color: $white;
-    margin: 0;
-    line-height: 40px;
     text-align: center;
+    line-height: 40px;
+    margin: 0px;
+    padding: 0px;
+
   }
 
-  .sign-out {
+  .toolbar-menu {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 1000;
+
+    > li {
+      padding: 0px;
+      margin: 0px 20px 0px 0px;
+      display: inline-block;
+    }
+
+    .toolbar-icon-button {
+      border: none;
+      background: none;
+      height: 40px;
+      width: 40px;
+      color: $white;
+      background: $white;
+    }
+  }
+
+  .toolbar-sign-out {
     font-weight: 100;
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 10px;
+    right: 10px;
     border: none;
-    border-radius: $border-radius;
-    font-size: $basefont - 4;
-    padding: 7.5px 15px;
+    border-radius: 3px;
+    height: 40px;
+    padding: 0px 20px;
+    font-size: $basefont - 2;
     background-color: $deep-ocean;
     color: $white;
   }
