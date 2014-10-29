@@ -49,7 +49,6 @@ var Furniture = function(snapshot, options) {
     this.element.draggable({
       containment: self.officeSpace,
       start: function(event, ui){
-
         self.element.addClass("is-editor-furniture-active");
         self.ref.child("locked").set(true);
       },
