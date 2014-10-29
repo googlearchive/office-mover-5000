@@ -55,7 +55,6 @@ class ViewController: UIViewController {
         // delete the view from remote update
         furnitureRef.childByAppendingPath(furniture.key).observeEventType(.ChildRemoved, withBlock: { snapshot in
             view.delete()
-            self.furnitureRef.childByAppendingPath(furniture.key).removeAllObservers()
         })
         
         view.moveHandler = { top, left in
@@ -69,7 +68,6 @@ class ViewController: UIViewController {
         
         view.deleteHandler = {
             view.delete()
-            self.furnitureRef.childByAppendingPath(furniture.key).removeAllObservers()
             self.deleteFurniture(furniture)
         }
         
