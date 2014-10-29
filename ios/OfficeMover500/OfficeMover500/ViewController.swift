@@ -15,36 +15,67 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var roomView: UIView!
     
-    var sync = RoomSync(ref: Firebase(url: "https://office-mover.firebaseio.com/"))
+    let ref = Firebase(url: "https://office-mover.firebaseio.com/")
+    let furnitureRef = Firebase(url: "https://office-mover.firebaseio.com/furniture")
+    var room = Room(json: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        sync.onFurnitureAdded({ item in
-            self.createFurnitureView(item)
+    
+        // load the furniture items from Firebase
+        furnitureRef.observeEventType(.ChildAdded, withBlock: { snapshot in
+            var furniture = Furniture(snap: snapshot)
+            self.room.addFurniture(furniture)
+            self.createFurnitureView(furniture)
         })
+        
     }
     
     // This should take in a Furniture Model whatever that is.
     // This creates a view as a button, and makes it draggable.
     func createFurnitureView(furniture: Furniture) {
         let view = FurnitureButton(furniture: furniture)
+
+        furnitureRef.childByAppendingPath(furniture.key).observeEventType(.Value, withBlock: { snapshot in
+            var furniture = Furniture(snap: snapshot)
+            view.top = furniture.top!
+            view.left = furniture.left!
+            view.rotation = furniture.rotation!
+        })
         
         view.moveHandler = { top, left in
-            self.sync.moveFurniture(furniture.key, top: top, left: left)
+            self.moveFurniture(furniture.key, top: top, left: left)
         }
         
         view.rotateHandler = { rotation in
-            // TODO: rotate furniture
-            println("[\(furniture.key)] should rotate \(rotation)")
             view.rotation = rotation
+            self.rotateFurniture(furniture.key, rotation: rotation)
         }
         
         view.deleteHandler = {
             view.deleteView()
-            self.sync.deleteFurniture(furniture)
+            self.deleteFurniture(furniture)
         }
         
         roomView.addSubview(view)
+    }
+    
+    // update the top and left to Firebase
+    func moveFurniture(key: String, top: Int, left: Int) {
+        self.furnitureRef.childByAppendingPath(key).updateChildValues([
+            "top": top,
+            "left": left
+        ])
+    }
+    
+    func rotateFurniture(key: String, rotation: Int) {
+        self.furnitureRef.childByAppendingPath(key).updateChildValues([
+            "rotation": rotation
+        ])
+    }
+    
+    // remove the furniture item in Firebase
+    func deleteFurniture(item: Furniture) {
+        self.furnitureRef.childByAppendingPath(item.key).removeValue()
     }
 }
