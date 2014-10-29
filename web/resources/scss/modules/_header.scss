@@ -3,11 +3,11 @@
 .mover-header {
 
   height: 40px;
-  background-color: $blue-primary;
+  background-color: $azure;
 
   > h3 {
     font-weight: 100;
-    color: $text-and-icons;
+    color: $white;
     margin: 0;
     line-height: 40px;
     text-align: center;
@@ -22,7 +22,7 @@
     border-radius: $border-radius;
     font-size: $basefont - 4;
     padding: 7.5px 15px;
-    background-color: $button-background;
-    color: $text-and-icons;
+    background-color: $deep-ocean;
+    color: $white;
   }
 }

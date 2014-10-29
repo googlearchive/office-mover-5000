@@ -5,17 +5,17 @@
   width: 600px;
   margin: 20px auto;
   height: 100%;
-  border: 10px solid $editor-border;
+  border: 10px solid $blue-sky;
 
  .editor-furniture {
     position: absolute !important;
     border-radius: $border-radius;
-    border: 1px solid $gray-border;
-    background-color: $gray;
+    border: 1px solid $metal;
+    background-color: $concrete;
 
     &.is-editor-furniture-active {
-      border: 3px solid $blue-primary;
-      background-color: $blue-light;
+      border: 3px solid $azure;
+      background-color: $bluish-gray;
     }
 
     &.editor-desk {
