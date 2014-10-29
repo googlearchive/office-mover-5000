@@ -1,0 +1,17 @@
+@import 'vars';
+
+.error {
+  position: relative;
+  width: 300px;
+  padding: 5px 10px;
+  margin: 10px auto 0;
+
+  line-height: 20px;
+  text-align: center;
+  z-index: 1;
+
+  color: $salmon;
+  background-color: $pink;
+  border: 2px solid $salmon;
+  border-radius: $border-radius;
+}

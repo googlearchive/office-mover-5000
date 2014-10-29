@@ -9,16 +9,26 @@
   <body>
 
       <header class="mover-header">
-        <h1 class="logo">Office Mover</h1>
-        <h3>YOUR OFFICE SPACE</h3>
-        <button class="mover-sign-out">SIGN OUT</button>
+        <h1 class="logo hide">Office Mover</h1>
+        <h3 class="hide">YOUR OFFICE SPACE</h3>
+        <button class="mover-sign-out hide">SIGN OUT</button>
       </header>
 
       <div class="l-container">
-        <div class="editor">
+        <h3 class="buzzwords">
+          <span>Synergy</span> <span>Thought Leadership</span> <span>TPS Reports</span>
+        </h3>
+        <div class="error clearfix">
+          Oops, there was a problem signing you in. Please try signing in again.
+        </div>
+        <div class="welcome-hero">
+          <img class="welcome-hero-logo" src="./resources/images/logo.png"></img>
+          <button class="google-signin">Sign in with Google</button>
+        </div>
+        <div class="editor hide">
+        </div>
           <!-- <button class="editor-new" data-name="desk">new desk</button> -->
           <!-- <button class="editor-new" data-name="plant">new plant</button> -->
-        </div>
       </div>
 
       <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>

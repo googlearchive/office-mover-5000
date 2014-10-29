@@ -1,0 +1,27 @@
+@import 'vars';
+
+$height: 20px;
+
+.buzzwords {
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  margin: 0 auto;
+
+  line-height: $height;
+  text-align: center;
+  z-index: 1;
+
+  background-color: $deep-ocean;
+  color: $azure;
+  font-size: $basefont + 2;
+  font-weight: 100;
+
+  span {
+    display: inline-block;
+    margin: 0 5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+}
