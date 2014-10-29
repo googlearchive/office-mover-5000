@@ -25,7 +25,6 @@ class ViewController: UIViewController {
             println(item.key)
             self.createFurnitureView(item)
         })
-        
     }
     
     // This should take in a Furniture Model whatever that is.
@@ -38,10 +37,10 @@ class ViewController: UIViewController {
             println("[\(furniture.key)] Furniture at \(top), \(left)")
         }
         
-        view.rotateHandler = {
+        view.rotateHandler = { rotation in
             // TODO: rotate furniture
-            println("[\(furniture.key)] should rotate")
-            view.rotateView()
+            println("[\(furniture.key)] should rotate \(rotation)")
+            view.rotateView(rotation)
         }
         
         view.deleteHandler = {
