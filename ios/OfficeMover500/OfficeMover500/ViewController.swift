@@ -45,6 +45,7 @@ class ViewController: UIViewController {
                 view.top = furniture.top
                 view.left = furniture.left
                 view.rotation = furniture.rotation
+                view.name = furniture.name
             }
         })
         
@@ -68,7 +69,7 @@ class ViewController: UIViewController {
         }
         
         view.editHandler = { name in
-            println("What is name? \(name)")
+            self.editFurnitureName(furniture.key, name: name)
         }
         
         roomView.addSubview(view)
@@ -91,5 +92,11 @@ class ViewController: UIViewController {
     // remove the furniture item in Firebase
     func deleteFurniture(item: Furniture) {
         self.furnitureRef.childByAppendingPath(item.key).removeValue()
+    }
+    
+    func editFurnitureName(key: String, name: String) {
+        self.furnitureRef.childByAppendingPath(key).updateChildValues([
+            "name": name
+        ])
     }
 }

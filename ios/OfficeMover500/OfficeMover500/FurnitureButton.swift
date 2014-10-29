@@ -68,10 +68,20 @@ class FurnitureButton : UIButton {
         }
     }
     
+    var name:String? {
+        get {
+            return currentTitle
+        }
+        set (newValue) {
+            setTitle(newValue, forState:.Normal)
+        }
+    }
+    
     // --- Handling UI state
     var dragging = false
     var menuShowing = false
     let type: String
+    var alert: UIAlertController?
     private var menuListener: AnyObject?
     
     required init(coder aDecoder: NSCoder) {
@@ -89,7 +99,7 @@ class FurnitureButton : UIButton {
         frame.size = image!.size
         
         // Setup other properties
-        setTitle(furniture.name, forState:.Normal)
+        name = furniture.name
         rotation = furniture.rotation
         top = furniture.top
         left = furniture.left
@@ -172,8 +182,23 @@ class FurnitureButton : UIButton {
     }
     
     func triggerEdit(sender:AnyObject) {
-        if let handler = editHandler {
-            handler("lies")
+        // Show pop up to enter name
+        alert = UIAlertController(title: "Who sits here?", message: "Enter name below", preferredStyle: UIAlertControllerStyle.Alert)
+        alert!.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: completeEdit))
+        alert!.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            textField.placeholder = "Name"
+        })
+        parentViewController()?.presentViewController(alert!, animated: true, completion: nil)
+    }
+    
+    func completeEdit(alertAction:UIAlertAction!) {
+        // Popup for name finished, handle naming desk.
+        if let newName = (alert?.textFields?[0] as? UITextField)?.text {
+            name = newName
+            if let handler = editHandler {
+                handler(newName)
+            }
+            alert = nil
         }
     }
     
@@ -230,5 +255,20 @@ class FurnitureButton : UIButton {
     
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
         return action == Selector("triggerRotate:") || action == Selector("triggerDelete:") || action == Selector("triggerEdit:")
+    }
+}
+
+extension FurnitureButton {
+    func parentViewController() -> UIViewController? {
+        var parentResponder: UIResponder? = self
+        while true {
+            if parentResponder == nil {
+                return nil
+            }
+            parentResponder = parentResponder!.nextResponder()
+            if parentResponder is UIViewController {
+                return (parentResponder as UIViewController)
+            }
+        }
     }
 }
