@@ -82,6 +82,7 @@ class FurnitureButton : UIButton {
     var menuShowing = false
     let type: String
     var alert: UIAlertController?
+    var startDown: CGPoint?
     private var menuListener: AnyObject?
     
     required init(coder aDecoder: NSCoder) {
@@ -108,6 +109,7 @@ class FurnitureButton : UIButton {
         addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
         
         // Add tap menu
+        addTarget(self, action:Selector("touchDown:withEvent:"), forControlEvents:.TouchDown)
         addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside)
     }
     
@@ -121,12 +123,14 @@ class FurnitureButton : UIButton {
     
     // --- Methods for dragging
     func dragged(button: UIButton, withEvent event: UIEvent) {
-        dragging = true // To avoid triggering tap functionality
         temporarilyHideMenu() // Hide the menu while dragging
         
         // Get the touch in view, bound it to the room, and move the button there
         if let touch = event.touchesForView(button)?.anyObject() as? UITouch {
             let touchLoc = touch.locationInView(self.superview)
+            if abs(startDown!.x - touchLoc.x) > 10 || abs(startDown!.y - touchLoc.y) > 10 {
+                dragging = true // To avoid triggering tap functionality
+            }
             center = boundCenterLocToRoom(touchLoc)
             if let handler = moveHandler {
                 handler(top, left)
@@ -155,8 +159,14 @@ class FurnitureButton : UIButton {
     }
     
     // --- Methods for popping the menu up
+    func touchDown(button: UIButton, withEvent event: UIEvent) {
+        startDown = center
+    }
+    
     func touchUp(button: UIButton, withEvent event: UIEvent) {
+        startDown = nil
         if dragging {
+            println("Hi")
             dragging = false // This always ends drag events
             if !menuShowing {
                 // Don't show menu at the end of dragging if there wasn't a menu to begin with
