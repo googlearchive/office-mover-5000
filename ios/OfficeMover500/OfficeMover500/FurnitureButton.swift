@@ -15,7 +15,8 @@ class FurnitureButton : UIButton {
     var moveHandler: ((Int, Int) -> ())?
     var rotateHandler: ((Int) -> ())?
     var deleteHandler: (() -> ())?
-
+    var editHandler: ((String) -> ())?
+    
     // Calculated propeties
     var top:Int {
         get {
@@ -70,17 +71,19 @@ class FurnitureButton : UIButton {
     // --- Handling UI state
     var dragging = false
     var menuShowing = false
+    let type: String
     private var menuListener: AnyObject?
     
     required init(coder aDecoder: NSCoder) {
+        type = "desk"
         super.init(coder: aDecoder)
     }
     
     init(furniture: Furniture) {
+        type = furniture.type == "plant" ? "plant1" : furniture.type // hack because we have 2 plant images
         super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 10, 10))
 
         // Setup image and size
-        let type = furniture.type == "plant" ? "plant1" : furniture.type // hack because we have 2 plant images
         let image = UIImage(named:"\(type).png")
         setBackgroundImage(image, forState:.Normal)
         frame.size = image!.size
@@ -186,6 +189,12 @@ class FurnitureButton : UIButton {
         }
     }
     
+    func triggerEdit(sender:AnyObject) {
+        if let handler = editHandler {
+            handler("lies")
+        }
+    }
+    
     // --- Menu helper methods
     
     func showMenu() {
@@ -201,6 +210,9 @@ class FurnitureButton : UIButton {
             UIMenuItem(title: "Rotate", action:Selector("triggerRotate:")),
             UIMenuItem(title: "Delete", action:Selector("triggerDelete:"))
         ]
+        if type == "desk" {
+            menuController.menuItems?.insert(UIMenuItem(title: "Edit", action:Selector("triggerEdit:")), atIndex: 0)
+        }
         
         // Handle displaying and disappearing the menu
         becomeFirstResponder()

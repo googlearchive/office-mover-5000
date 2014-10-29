@@ -57,6 +57,10 @@ class ViewController: UIViewController {
             self.deleteFurniture(furniture)
         }
         
+        view.editHandler = { name in
+            println("What is name? \(name)")
+        }
+        
         roomView.addSubview(view)
     }
     
