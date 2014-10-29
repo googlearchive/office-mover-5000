@@ -28,17 +28,18 @@ class FurnitureButton : UIButton {
     // --- Handling UI state
     var dragging = false
     var menuShowing = false
-    var furniture: Furniture?
     private var menuListener: AnyObject?
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override init() {
+    init(furniture: Furniture) {
         super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 100, 50))
+        setTop(furniture.top, left: furniture.left)
         
-        // Set image
+        // TODO replace with image stuff
+        setTitle(furniture.key, forState:.Normal)
         backgroundColor = UIColor.redColor()
         
         // Add dragability
@@ -46,6 +47,25 @@ class FurnitureButton : UIButton {
         
         // Add tap menu
         addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside)
+    }
+    
+    // -- Methods for updating the view
+    func setTop(top: Int?, left: Int?) {
+        if let x = left {
+            frame.origin.x = CGFloat(x)
+        }
+        if let y = top {
+            frame.origin.y = CGFloat(y)
+        }
+        frame.origin = boundLocToRoom(frame.origin)
+    }
+    
+    func rotateView() {
+        transform = CGAffineTransformRotate(transform, CGFloat(M_PI / -2))
+    }
+    
+    func deleteView() {
+        removeFromSuperview()
     }
     
     
@@ -57,28 +77,48 @@ class FurnitureButton : UIButton {
         // Get the touch in view, bound it to the room, and move the button there
         if let touch = event.touchesForView(button)?.anyObject() as? UITouch {
             let touchLoc = touch.locationInView(self.superview)
-            center = boundLocToRoom(touchLoc)
+            center = boundCenterLocToRoom(touchLoc)
             if let handler = moveHandler {
                 handler(top, left)
             }
         }
     }
     
-    func boundLocToRoom(loc: CGPoint) -> CGPoint {
-        var pt = CGPointMake(loc.x, loc.y)
+    func boundCenterLocToRoom(centerLoc: CGPoint) -> CGPoint {
+        var pt = CGPointMake(centerLoc.x, centerLoc.y)
         
         // Bound x inside of width
-        if loc.x < frame.size.width / 2 {
+        if centerLoc.x < frame.size.width / 2 {
             pt.x = frame.size.width / 2
-        } else if loc.x > CGFloat(RoomWidth) - frame.size.width / 2 {
+        } else if centerLoc.x > CGFloat(RoomWidth) - frame.size.width / 2 {
             pt.x = CGFloat(RoomWidth) - frame.size.width / 2
         }
         
         // Bound y inside of height
-        if loc.y < frame.size.height / 2 {
+        if centerLoc.y < frame.size.height / 2 {
             pt.y = frame.size.height / 2
-        } else if loc.y > CGFloat(RoomHeight) - frame.size.height / 2 {
+        } else if centerLoc.y > CGFloat(RoomHeight) - frame.size.height / 2 {
             pt.y = CGFloat(RoomHeight) - frame.size.height / 2
+        }
+        
+        return pt
+    }
+    
+    func boundLocToRoom(topLeftLoc: CGPoint) -> CGPoint {
+        var pt = CGPointMake(topLeftLoc.x, topLeftLoc.y)
+        
+        // Bound x inside of width
+        if topLeftLoc.x < frame.size.width / 2 {
+            pt.x = frame.size.width / 2
+        } else if topLeftLoc.x > CGFloat(RoomWidth) - frame.size.width {
+            pt.x = CGFloat(RoomWidth) - frame.size.width
+        }
+        
+        // Bound y inside of height
+        if topLeftLoc.y < frame.size.height / 2 {
+            pt.y = frame.size.height / 2
+        } else if topLeftLoc.y > CGFloat(RoomHeight) - frame.size.height {
+            pt.y = CGFloat(RoomHeight) - frame.size.height
         }
         
         return pt
@@ -147,7 +187,6 @@ class FurnitureButton : UIButton {
         menuListener = NSNotificationCenter.defaultCenter().addObserverForName(UIMenuControllerWillHideMenuNotification, object:nil, queue: nil, usingBlock: {
             notification in
             if !self.dragging {
-                println("I am disabling \(self.furniture?.key)")
                 self.menuShowing = false
             }
             NSNotificationCenter.defaultCenter().removeObserver(self.menuListener!)
