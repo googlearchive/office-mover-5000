@@ -41,15 +41,11 @@ class ViewController: UIViewController {
             
             // check if snapshot.value does not equal NSNull
             if snapshot.value as? NSNull != NSNull() {
-                
                 var furniture = Furniture(snap: snapshot)
                 view.top = furniture.top
                 view.left = furniture.left
                 view.rotation = furniture.rotation
-                
             }
-            
- 
         })
         
         // delete the view from remote update
