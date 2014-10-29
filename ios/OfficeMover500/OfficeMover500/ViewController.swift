@@ -53,7 +53,7 @@ class ViewController: UIViewController {
         }
         
         view.deleteHandler = {
-            view.deleteView()
+            view.delete()
             self.deleteFurniture(furniture)
         }
         

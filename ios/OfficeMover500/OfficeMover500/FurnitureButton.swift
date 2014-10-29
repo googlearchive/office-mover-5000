@@ -99,7 +99,7 @@ class FurnitureButton : UIButton {
     }
     
     // -- Methods for updating the view
-    func deleteView() {
+    func delete() {
         removeFromSuperview()
     }
     
