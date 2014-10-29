@@ -22,6 +22,10 @@ var app = {
   init: function() {
     var self = this;
 
+    // SET UP HOME PAGE
+    welcome.init();
+
+    // RENDER FURNITURE
     furnitureRef.once("value", function(snapshot){
        self.createFurniture(snapshot, {});
     });

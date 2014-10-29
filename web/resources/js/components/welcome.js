@@ -2,85 +2,83 @@ var utils  = require('../helpers/utils');
 var rootRef = new Firebase(utils.urls.root);
 
 /*
-* FURNITURE MODULES
+* Welcome module
 *
-* This is a furniture class and must be instaniated like
-* a normal class with the "new" keyword.
+* This is the module that sets up the welcome page and Google login
 */
 
-var Furniture = function(snapshot, options) {
-  options = options || {};
-  var self = this;
-  var data = snapshot.val();
+var $loggedInElements =  $(".toolbar > .toolbar-menu," +
+                           ".toolbar > .toolbar-title," +
+                           ".toolbar > .toolbar-sign-out," +
+                           ".editor");
 
-  /*
-  * Register Furniture Values
-  *
-  */
+var $loggedOutElements = $(".buzzwords," +
+                           ".error," +
+                           ".welcome-hero");
 
-  this.officeSpace = $('#office-space');
-  this.element = $("<div class='editor-furniture editor-desk'></div>");
-  this.id = snapshot.name();
-  this.ref = snapshot.ref();
-  this.type = data.type;
-  this.locked = data.locked;
-  this.rotation = data.rotation;
-  this.top = data.top;
-  this.left = data.left;
-  this.name = data.name;
+var updateUIForLogout = function(){
+  $loggedOutElements.removeClass("hide");
+  $loggedInElements.addClass("hide");
+};
 
+var updateUIForLogin = function(){
+  $loggedOutElements.addClass("hide");
+  $loggedInElements.removeClass("hide");
+};
 
-  /*
-  * Create Firebase Reference
-  *
-  */
+var welcome = {
 
-  this.ref  = new Firebase(utils.urls.furniture + this.id);
+  init: function(){
+    // SETUP LOGIN BUTTON
+    $(".google-signin").on("click", function(e){
+      rootRef.authWithOAuthPopup("google", function(error, authData){
+        if (error){
+          $(".error").removeClass("error-hide");
+        }
+        else {
+          $(".error").addClass("error-hide");
+          updateUIForLogin();
+        }
+      });
+    });
 
+    // SETUP LOGOUT BUTTON
+    $(".toolbar-sign-out").on("click", function(e){
+      rootRef.unauth();
+    });
 
-  /*
-  * Create Furniture Method
-  *
-  */
-
-  this.createElement = function() {
-
-    //SET DRAG OPTIONS
-    this.element.draggable({
-      containment: self.officeSpace,
-      start: function(event, ui){
-        self.element.addClass("is-editor-furniture-active");
-        self.ref.child("locked").set(true);
-      },
-
-      drag: function(event, ui){
-        self.ref.child("left").set(ui.position.left);
-        self.ref.child("top").set(ui.position.top);
-      },
-
-      stop: function(event, ui){
-        self.element.removeClass("is-editor-furniture-active");
-        self.ref.child("locked").set(false);
+    // SET AUTH LISTENER
+    rootRef.onAuth(function(authData){
+      if (authData){
+        updateUIForLogin();  // USER IS LOGGED IN
+      }
+      else {
+        updateUIForLogout(); // USER IS LOGGED OUT
       }
     });
 
-    // SET CURRENT LOCATION
-    this.element.css({
-      "top": parseInt(this.top, 10),
-      "left": parseInt(this.left, 10)
+    // SET LISTENERS ON ADD FURNITURE BUTTONS
+    $(".editor-new").on("click", function(e){
+
+      // MAKE JQUERY OBJECT FOR PIECE OF FURNITURE
+      var itemName = $(this).data("name");          // DESK, PLANT, etc.
+      var $item = $(furnitureTemplates[itemName]);  // jQUERY OBJECT
+      var newItemRef = furnitureRef.push({          // PUSH TO FIREBASE
+        type: itemName,
+        top: 0,
+        left: 0,
+        locked: false,
+        name: "",
+        rotation: 0
+      });
+      var itemID = newItemRef.toString();
+
+      // MAKE DRAGGABLE WITH dragOptions AND APPEND TO DOM
+      $item.data('id', itemID);
+      $item.draggable(dragOptions);
+      $(".editor").append($item);
     });
-
-    // ADD TO DOM
-    this.officeSpace.append(this.element);
-  };
-
-
-  /*
-  * Create Furniture Element
-  *
-  */
-
-  this.createElement();
+  }
 };
 
-module.exports = Furniture;
+module.exports = welcome;
