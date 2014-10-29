@@ -38,15 +38,24 @@ class ViewController: UIViewController {
 
         // move the view from a remote update
         furnitureRef.childByAppendingPath(furniture.key).observeEventType(.Value, withBlock: { snapshot in
-            var furniture = Furniture(snap: snapshot)
-            view.top = furniture.top
-            view.left = furniture.left
-            view.rotation = furniture.rotation
+            
+            // check if snapshot.value does not equal NSNull
+            if snapshot.value as? NSNull != NSNull() {
+                
+                var furniture = Furniture(snap: snapshot)
+                view.top = furniture.top
+                view.left = furniture.left
+                view.rotation = furniture.rotation
+                
+            }
+            
+ 
         })
         
         // delete the view from remote update
         furnitureRef.childByAppendingPath(furniture.key).observeEventType(.ChildRemoved, withBlock: { snapshot in
             view.delete()
+            self.furnitureRef.childByAppendingPath(furniture.key).removeAllObservers()
         })
         
         view.moveHandler = { top, left in
@@ -60,8 +69,8 @@ class ViewController: UIViewController {
         
         view.deleteHandler = {
             view.delete()
-            self.deleteFurniture(furniture)
             self.furnitureRef.childByAppendingPath(furniture.key).removeAllObservers()
+            self.deleteFurniture(furniture)
         }
         
         roomView.addSubview(view)
