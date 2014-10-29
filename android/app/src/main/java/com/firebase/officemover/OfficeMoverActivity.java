@@ -13,7 +13,7 @@ public class OfficeMoverActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_office_mover);
 
         mOffice = (OfficeCanvasView)findViewById(R.id.office_canvas);
     }

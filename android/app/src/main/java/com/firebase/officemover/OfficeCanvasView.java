@@ -97,8 +97,7 @@ public class OfficeCanvasView extends View {
             zIndex = mOfficeLayout.get(mOfficeLayout.size() - 1).zIndex + 1;
         }
 
-        //TODO: move to center
-        CircleArea newCircle = new CircleArea(100, 100, mRando.nextInt(RADIUS_LIMIT) + RADIUS_LIMIT, zIndex, circlePaint);
+        CircleArea newCircle = new CircleArea(this.getWidth() / 2, this.getHeight() / 2, mRando.nextInt(RADIUS_LIMIT) + RADIUS_LIMIT, zIndex, circlePaint);
 
         Log.w(TAG, "Added circle " + newCircle);
         mOfficeLayout.add(newCircle);
@@ -131,15 +130,10 @@ public class OfficeCanvasView extends View {
     }
 
     private void init(final Context ct) {
-        // Generate bitmap used for background
-        mBitmap = BitmapFactory.decodeResource(ct.getResources(), R.drawable.office_walls);
     }
 
     @Override
     public void onDraw(final Canvas canv) {
-        // background bitmap to cover all area
-        canv.drawBitmap(mBitmap, null, mMeasuredRect, null);
-
         for (CircleArea circle : mOfficeLayout) {
             canv.drawCircle(circle.centerX, circle.centerY, circle.radius, circle.paint);
         }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.firebase.officemover" >
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/mover_logo"
+        android:icon="@drawable/mover_logo_100dp"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
