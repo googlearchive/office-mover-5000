@@ -23,16 +23,17 @@ class ViewController: UIViewController {
         
         sync.onFurnitureAdded({ item in
             println(item.key)
-            self.createFurnitureView()
+            self.createFurnitureView(item)
         })
         
     }
     
     // This should take in a Furniture Model whatever that is.
     // This creates a view as a button, and makes it draggable.
-    func createFurnitureView() -> UIButton {
+    func createFurnitureView(furniture: Furniture) -> UIButton {
         let furnitureButton = FurnitureButton()
         furnitureButton.onMoveHandler = { top, left in
+            // TODO: update to view. Something like: sync.updateItem(furniture, top, left)
             println("From here \(top), \(left)")
         }
         roomView.addSubview(furnitureButton)
