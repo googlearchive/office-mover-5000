@@ -13,7 +13,7 @@ class FurnitureButton : UIButton {
     
     // -- Model state handlers
     var moveHandler: ((Int, Int) -> ())?
-    var rotateHandler: (() -> ())?
+    var rotateHandler: ((Int) -> ())?
     var deleteHandler: (() -> ())?
 
     // Calculated propeties
@@ -23,6 +23,21 @@ class FurnitureButton : UIButton {
     
     var left:Int {
         return Int(frame.origin.x)
+    }
+    
+    var rotation:Int {
+        let radians = atan2f(Float(transform.b), Float(transform.a))
+        let degrees = radians * Float(180/M_PI)
+        switch (degrees) {
+        case -90:
+            return 90
+        case -180, 180:
+            return 180
+        case 90, -270:
+            return 270
+        default:
+            return 0
+        }
     }
     
     // --- Handling UI state
@@ -37,6 +52,7 @@ class FurnitureButton : UIButton {
     init(furniture: Furniture) {
         super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 100, 50))
         setTop(furniture.top, left: furniture.left)
+        rotateView(furniture.rotation)
         
         // TODO replace with image stuff
         setTitle(furniture.key, forState:.Normal)
@@ -60,8 +76,10 @@ class FurnitureButton : UIButton {
         frame.origin = boundLocToRoom(frame.origin)
     }
     
-    func rotateView() {
-        transform = CGAffineTransformRotate(transform, CGFloat(M_PI / -2))
+    func rotateView(rotation: Int?) {
+        if let rot = rotation {
+            transform = CGAffineTransformMakeRotation(CGFloat(rot / 90) * CGFloat(M_PI / -2))
+        }
     }
     
     func deleteView() {
@@ -139,8 +157,9 @@ class FurnitureButton : UIButton {
     
     // --- Edit buttons were clicked
     func triggerRotate(sender: AnyObject) {
+        transform = CGAffineTransformRotate(transform, CGFloat(M_PI / -2))
         if let handler = rotateHandler {
-            handler()
+            handler(rotation)
         }
     }
     

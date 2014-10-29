@@ -1,4 +1,4 @@
-var utils  = require('./helpers/utils');
+var utils  = require('../helpers/utils');
 var furnitureRef = new Firebase(utils.urls.furniture);
 
 
@@ -10,4 +10,4 @@ var Furniture = function(snapshot) {
 
 };
 
-module.exports = furniture;
+module.exports = Furniture;
