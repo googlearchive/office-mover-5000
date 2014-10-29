@@ -7,6 +7,22 @@ var openPage        = require("gulp-open");
 var webpack         = require('gulp-webpack');
 
 
+
+/**
+*  HTML
+*
+*  reload html
+*/
+
+gulp.task("html", function() {
+  var stream = gulp.src('*.html')
+    .pipe(connect.reload());
+
+  return stream;
+});
+
+
+
 /**
 *  CSS PREPROCESSING
 *
@@ -53,9 +69,9 @@ gulp.task("webpack", function() {
 
 gulp.task('watch', function() {
   gulp.watch('resources/scss/**/*.scss', ['css']);
-  gulp.watch('resources/js/**/*.js');
+  gulp.watch('resources/js/**/*.js', ['webpack']);
   gulp.watch('resources/images/**/*.{jpg,png,gif}');
-  gulp.watch('index.html');
+  gulp.watch('index.html', ['html']);
 });
 
 

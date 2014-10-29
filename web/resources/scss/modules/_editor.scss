@@ -1,17 +1,16 @@
-@import 'vars';
-
 .editor {
   position: relative;
   width: 600px;
-  margin: 20px auto;
-  height: 100%;
+  height: 800px;
+  margin: 50px auto;
+  padding: 0px;
   border: 10px solid $blue-sky;
 
  .editor-furniture {
-    position: absolute !important;
     border-radius: $border-radius;
     border: 1px solid $metal;
     background-color: $concrete;
+    position: absolute !important;
 
     &.is-editor-furniture-active {
       border: 3px solid $azure;
