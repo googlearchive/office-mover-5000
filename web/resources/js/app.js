@@ -1,5 +1,6 @@
 var Utils  = require('./helpers/utils');
 var Furniture  = require('./components/furniture');
+var welcome = require('./components/welcome');
 var rootRef = new Firebase(Utils.urls.root);
 var furnitureRef = new Firebase(Utils.urls.furniture);
 
@@ -22,9 +23,7 @@ var app = {
     var self = this;
 
     furnitureRef.once("value", function(snapshot){
-       self.createFurniture(snapshot, {
-
-       });
+       self.createFurniture(snapshot, {});
     });
   },
 

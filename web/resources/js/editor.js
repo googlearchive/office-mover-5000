@@ -7,9 +7,9 @@ var furnitureTemplates = {
   plant: "<div class='editor-furniture editor-plant'></div>"
 };
 
-var $loggedInElements =  $(".mover-header > .logo," +
-                           ".mover-header > .title," +
-                           ".mover-header > .mover-sign-out," +
+var $loggedInElements =  $(".toolbar > .toolbar-menu," +
+                           ".toolbar > .toolbar-title," +
+                           ".toolbar > .toolbar-sign-out," +
                            ".editor");
 
 var $loggedOutElements = $(".buzzwords," +
@@ -36,6 +36,7 @@ var editor = {
           $(".error").removeClass("error-hide");
         }
         else {
+          $(".error").addClass("error-hide");
           updateUIForLogin();
         }
       });
