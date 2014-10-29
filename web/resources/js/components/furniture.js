@@ -1,9 +1,12 @@
 var utils  = require('../helpers/utils');
 var furnitureRef = new Firebase(utils.urls.furniture);
-var dragOptions = require("../helpers/drag-options");
 
-
-
+/*
+* FURNITURE MODULES
+*
+* This is a furniture class and must be instaniated like
+* a normal class with the "new" keyword.
+*/
 
 var Furniture = function(snapshot, options) {
   options = options || {};

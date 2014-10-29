@@ -69,7 +69,9 @@
 	    var self = this;
 
 	    furnitureRef.once("value", function(snapshot){
-	       self.createFurniture(snapshot);
+	       self.createFurniture(snapshot, {
+
+	       });
 	    });
 	  },
 
@@ -103,8 +105,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var utils = __webpack_require__(2);
-	var dragOptions = __webpack_require__(4);
-
 	var rootRef = new Firebase(utils.urls.root);
 	var furnitureRef = new Firebase(utils.urls.furniture);
 
@@ -195,10 +195,13 @@
 
 	var utils  = __webpack_require__(2);
 	var furnitureRef = new Firebase(utils.urls.furniture);
-	var dragOptions = __webpack_require__(4);
 
-
-
+	/*
+	* FURNITURE MODULES
+	*
+	* This is a furniture class and must be instaniated like
+	* a normal class with the "new" keyword.
+	*/
 
 	var Furniture = function(snapshot, options) {
 	  options = options || {};
@@ -277,52 +280,6 @@
 	};
 
 	module.exports = Furniture;
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	* Drag and Drop Settings
-	*
-	*/
-	var state = {};
-
-	var dragOptions = {
-	  start: function(event, ui){
-	    var $eventTarget = $(event.target);
-	    var location = $eventTarget.data('id');
-	    var itemRef;
-
-	    state[location] = {
-	      ref: new Firebase(location)
-	    };
-
-	    $eventTarget.addClass("is-editor-furniture-active");
-	    itemRef = state[location].ref;
-	    itemRef.child("locked").set(true);
-	  },
-
-	  drag: function(event, ui){
-	    var $eventTarget = $(event.target);
-	    var location = $eventTarget.data('id');
-	    var itemRef = state[location].ref;
-
-	    itemRef.child("left").set(ui.position.left);
-	    itemRef.child("top").set(ui.position.top);
-	  },
-
-	  stop: function(event, ui){
-	    var $eventTarget = $(event.target);
-	    var location = $eventTarget.data('id');
-	    var itemRef = state[location].ref;
-
-	    $eventTarget.removeClass("is-editor-furniture-active");
-	    itemRef.child("locked").set(false);
-	  }
-	};
-
-	module.exports = dragOptions;
 
 /***/ }
 /******/ ])
