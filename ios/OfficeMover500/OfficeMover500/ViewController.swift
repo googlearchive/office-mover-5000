@@ -38,9 +38,9 @@ class ViewController: UIViewController {
 
         furnitureRef.childByAppendingPath(furniture.key).observeEventType(.Value, withBlock: { snapshot in
             var furniture = Furniture(snap: snapshot)
-            view.top = furniture.top!
-            view.left = furniture.left!
-            view.rotation = furniture.rotation!
+            view.top = furniture.top
+            view.left = furniture.left
+            view.rotation = furniture.rotation
         })
         
         view.moveHandler = { top, left in

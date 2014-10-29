@@ -78,15 +78,10 @@ class FurnitureButton : UIButton {
     
     init(furniture: Furniture) {
         super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 100, 50))
-        if let newTop = furniture.top {
-            top = newTop
-        }
-        if let newLeft = furniture.left {
-            left = newLeft
-        }
-        if let newRotation = furniture.rotation {
-            rotation = newRotation
-        }
+
+        top = furniture.top
+        left = furniture.left
+        rotation = furniture.left
         
         // TODO replace with image stuff
         setTitle(furniture.key, forState:.Normal)
