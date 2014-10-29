@@ -36,11 +36,17 @@ class ViewController: UIViewController {
     func createFurnitureView(furniture: Furniture) {
         let view = FurnitureButton(furniture: furniture)
 
+        // move the view from a remote update
         furnitureRef.childByAppendingPath(furniture.key).observeEventType(.Value, withBlock: { snapshot in
             var furniture = Furniture(snap: snapshot)
             view.top = furniture.top
             view.left = furniture.left
             view.rotation = furniture.rotation
+        })
+        
+        // delete the view from remote update
+        furnitureRef.childByAppendingPath(furniture.key).observeEventType(.ChildRemoved, withBlock: { snapshot in
+            view.delete()
         })
         
         view.moveHandler = { top, left in
