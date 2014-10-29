@@ -14,4 +14,8 @@
   background-color: $pink;
   border: 2px solid $salmon;
   border-radius: $border-radius;
+
+  &.error-hide {
+    display: none;
+  }
 }

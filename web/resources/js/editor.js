@@ -9,17 +9,64 @@ var furnitureTemplates = {
   plant: "<div class='editor-furniture editor-plant'></div>"
 };
 
+var $loggedInElements =  $(".mover-header > .logo," +
+                           ".mover-header > .title," +
+                           ".mover-header > .mover-sign-out," +
+                           ".editor");
+
+var $loggedOutElements = $(".buzzwords," +
+                           ".error," +
+                           ".welcome-hero");
+
+var updateUIForLogout = function(){
+  $loggedOutElements.removeClass("hide");
+  $loggedInElements.addClass("hide");
+};
+
+var updateUIForLogin = function(){
+  $loggedOutElements.addClass("hide");
+  $loggedInElements.removeClass("hide");
+};
 
 var editor = {
-  init: function(){
 
+  init: function(){
+    // SETUP LOGIN BUTTON
+    $(".google-signin").on("click", function(e){
+      rootRef.authWithOAuthPopup("google", function(error, authData){
+        if (error){
+          $(".error").removeClass("error-hide");
+        }
+        else {
+          updateUIForLogin();
+        }
+      });
+    });
+
+    // SETUP LOGOUT BUTTON
+    $(".mover-sign-out").on("click", function(e){
+      rootRef.unauth();
+    });
+
+    // SET AUTH LISTENER
+    rootRef.onAuth(function(authData){
+      if (authData){
+        updateUIForLogin();  // USER IS LOGGED IN
+      }
+      else {
+        updateUIForLogout(); // USER IS LOGGED OUT
+      }
+    });
+
+    // GET FURNITURE POSITIONS AND RENDER
     furnitureRef.once("value", function(snapshot){
       var state = snapshot.val();
       this.render(state);
     }.bind(this));
 
-    // SET LISTENERS ON NEW FURNITURE BUTTONS
+    // SET LISTENERS ON ADD FURNITURE BUTTONS
     $(".editor-new").on("click", function(e){
+
       // MAKE JQUERY OBJECT FOR PIECE OF FURNITURE
       var itemName = $(this).data("name");          // DESK, PLANT, etc.
       var $item = $(furnitureTemplates[itemName]);  // jQUERY OBJECT
@@ -36,7 +83,6 @@ var editor = {
       // MAKE DRAGGABLE WITH dragOptions AND APPEND TO DOM
       $item.data('id', itemID);
       $item.draggable(dragOptions);
-
       $(".editor").append($item);
     });
   },
