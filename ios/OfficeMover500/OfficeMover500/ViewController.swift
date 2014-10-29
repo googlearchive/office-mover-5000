@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         view.rotateHandler = { rotation in
             // TODO: rotate furniture
             println("[\(furniture.key)] should rotate \(rotation)")
-            view.rotateView(rotation)
+            view.rotation = rotation
         }
         
         view.deleteHandler = {

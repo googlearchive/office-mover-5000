@@ -18,25 +18,52 @@ class FurnitureButton : UIButton {
 
     // Calculated propeties
     var top:Int {
-        return Int(frame.origin.y)
+        get {
+            return Int(frame.origin.y)
+        }
+        set (newValue) {
+            if newValue < 0 {
+                frame.origin.y = 0
+            } else if newValue > RoomHeight - Int(frame.size.height) {
+                frame.origin.y = CGFloat(RoomHeight) - frame.size.height
+            } else {
+                frame.origin.y = CGFloat(newValue)
+            }
+        }
     }
     
     var left:Int {
-        return Int(frame.origin.x)
+        get {
+            return Int(frame.origin.x)
+        }
+        set (newValue) {
+            if newValue < 0 {
+                frame.origin.x = 0
+            } else if newValue > RoomWidth - Int(frame.size.width) {
+                frame.origin.x = CGFloat(RoomWidth) - frame.size.width
+            } else {
+                frame.origin.x = CGFloat(newValue)
+            }
+        }
     }
     
     var rotation:Int {
-        let radians = atan2f(Float(transform.b), Float(transform.a))
-        let degrees = radians * Float(180/M_PI)
-        switch (degrees) {
-        case -90:
-            return 90
-        case -180, 180:
-            return 180
-        case 90, -270:
-            return 270
-        default:
-            return 0
+        get {
+            let radians = atan2f(Float(transform.b), Float(transform.a))
+            let degrees = radians * Float(180/M_PI)
+            switch (degrees) {
+            case -90:
+                return 90
+            case -180, 180:
+                return 180
+            case 90, -270:
+                return 270
+            default:
+                return 0
+            }
+        }
+        set (newValue) {
+            transform = CGAffineTransformMakeRotation(CGFloat(newValue / 90) * CGFloat(M_PI / -2))
         }
     }
     
@@ -51,8 +78,15 @@ class FurnitureButton : UIButton {
     
     init(furniture: Furniture) {
         super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 100, 50))
-        setTop(furniture.top, left: furniture.left)
-        rotateView(furniture.rotation)
+        if let newTop = furniture.top {
+            top = newTop
+        }
+        if let newLeft = furniture.left {
+            left = newLeft
+        }
+        if let newRotation = furniture.rotation {
+            rotation = newRotation
+        }
         
         // TODO replace with image stuff
         setTitle(furniture.key, forState:.Normal)
@@ -66,22 +100,6 @@ class FurnitureButton : UIButton {
     }
     
     // -- Methods for updating the view
-    func setTop(top: Int?, left: Int?) {
-        if let x = left {
-            frame.origin.x = CGFloat(x)
-        }
-        if let y = top {
-            frame.origin.y = CGFloat(y)
-        }
-        frame.origin = boundLocToRoom(frame.origin)
-    }
-    
-    func rotateView(rotation: Int?) {
-        if let rot = rotation {
-            transform = CGAffineTransformMakeRotation(CGFloat(rot / 90) * CGFloat(M_PI / -2))
-        }
-    }
-    
     func deleteView() {
         removeFromSuperview()
     }
