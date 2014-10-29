@@ -1,5 +1,3 @@
-@import 'vars';
-
 .editor {
   position: relative;
   width: 600px;
@@ -8,7 +6,6 @@
   border: 10px solid $blue-sky;
 
  .editor-furniture {
-    position: absolute !important;
     border-radius: $border-radius;
     border: 1px solid $metal;
     background-color: $concrete;
