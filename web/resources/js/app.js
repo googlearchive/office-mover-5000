@@ -31,7 +31,6 @@ var app = {
     snapshot.forEach(function(childSnapshot) {
       new Furniture(childSnapshot);
     });
-    editor.init();
   }
 };
 
