@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         // load the furniture items from Firebase
         furnitureRef.observeEventType(.ChildAdded, withBlock: { snapshot in
             var furniture = Furniture(snap: snapshot)
@@ -29,6 +29,24 @@ class ViewController: UIViewController {
             self.createFurnitureView(furniture)
         })
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        roomView.layer.borderColor =
+            UIColor(red: CGFloat(214.0/255.0), green: CGFloat(235.0/255.0), blue: CGFloat(249.0/255.0), alpha: 1.0).CGColor
+        
+        roomView.layer.borderWidth = 4
+            
+        var nav = self.navigationController?.navigationBar
+        
+        nav?.barTintColor =
+            UIColor(red: CGFloat(22.0/255.0), green: CGFloat(148.0/255.0), blue: CGFloat(223.0/255.0), alpha: 1.0)
+        
+        nav?.barStyle = UIBarStyle.Default
+        nav?.tintColor = UIColor.whiteColor()
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
     }
     
     // This should take in a Furniture Model whatever that is.
