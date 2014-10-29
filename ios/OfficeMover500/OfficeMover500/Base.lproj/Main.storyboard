@@ -18,14 +18,19 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H65-Mr-WCT">
                                 <rect key="frame" x="0.0" y="-100" width="600" height="800"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="800" id="CJf-aH-cTO"/>
                                     <constraint firstAttribute="width" constant="600" id="EN3-vt-O2i"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="1"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderUIColor">
+                                        <color key="value" red="0.043137256056070328" green="0.47058826684951782" blue="0.92549026012420654" alpha="1" colorSpace="deviceRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="H65-Mr-WCT" secondAttribute="centerY" id="XKy-e2-AhY"/>
                             <constraint firstAttribute="centerX" secondItem="H65-Mr-WCT" secondAttribute="centerX" id="Y27-U7-P3W"/>
