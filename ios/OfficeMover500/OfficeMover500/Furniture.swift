@@ -11,6 +11,7 @@ import Foundation
 class Furniture {
     
     var key : String
+    var name: String
     var top : Int
     var left : Int
     //var zIndex: Int
@@ -21,6 +22,7 @@ class Furniture {
     init(key: String, json: Dictionary<String, AnyObject>) {
      
         self.key = key
+        self.name = json["name"] as String
         self.top = json["top"] as Int
         self.left = json["left"] as Int
         //self.zIndex = json["z-index"] as Int
