@@ -77,20 +77,30 @@ class FurnitureButton : UIButton {
     }
     
     init(furniture: Furniture) {
-        super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 100, 50))
+        super.init(frame: CGRectMake((CGFloat(RoomWidth)-100)/2, (CGFloat(RoomHeight)-100)/2, 10, 10))
+        
+        // Set initial properties
         if let newTop = furniture.top {
             top = newTop
         }
         if let newLeft = furniture.left {
             left = newLeft
         }
-        if let newRotation = furniture.rotation {
-            rotation = newRotation
-        }
         
-        // TODO replace with image stuff
+        
+        
+        // Setup image
+        if var type = furniture.type {
+            if type == "plant" {
+                type = "plant1"
+            }
+            let image = UIImage(named:"\(type).png")
+            setBackgroundImage(image, forState:.Normal)
+            frame.size = image!.size
+        }
         setTitle(furniture.key, forState:.Normal)
-        backgroundColor = UIColor.redColor()
+        
+        rotation = furniture.rotation!
         
         // Add dragability
         addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
