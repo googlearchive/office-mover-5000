@@ -1,4 +1,5 @@
 var utils  = require('./helpers/utils');
+var editor = require('./editor');
 
 
 /*
@@ -9,7 +10,7 @@ var utils  = require('./helpers/utils');
 
 var app = {
   init: function() {
-    console.log(utils.urls.root);
+    editor.init();
   }
 };
 
