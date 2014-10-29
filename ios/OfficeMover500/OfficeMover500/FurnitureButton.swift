@@ -86,7 +86,7 @@ class FurnitureButton : UIButton {
         frame.size = image!.size
         
         // Setup other properties
-        setTitle(furniture.key, forState:.Normal)
+        setTitle(furniture.name, forState:.Normal)
         top = furniture.top
         left = furniture.left
         rotation = furniture.left
