@@ -103,7 +103,9 @@ class FurnitureButton : UIButton {
     
     // -- Methods for updating the view
     func delete() {
-        removeFromSuperview()
+        if superview != nil {
+            removeFromSuperview()
+        }
     }
     
     
@@ -211,7 +213,7 @@ class FurnitureButton : UIButton {
             UIMenuItem(title: "Delete", action:Selector("triggerDelete:"))
         ]
         if type == "desk" {
-            menuController.menuItems?.insert(UIMenuItem(title: "Edit", action:Selector("triggerEdit:")), atIndex: 0)
+            menuController.menuItems?.insert(UIMenuItem(title: "Edit", action:Selector("triggerEdit:")), atIndex:0)
         }
         
         // Handle displaying and disappearing the menu
@@ -247,6 +249,6 @@ class FurnitureButton : UIButton {
     }
     
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        return action == Selector("triggerRotate:") || action == Selector("triggerDelete:")
+        return action == Selector("triggerRotate:") || action == Selector("triggerDelete:") || action == Selector("triggerEdit:")
     }
 }
