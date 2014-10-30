@@ -1,91 +1,94 @@
 .furniture {
   border-radius: $border-radius;
-  border: 1px solid $metal;
   background-color: $concrete;
   position: absolute !important;
 
   &.is-active {
-    border: 3px solid $azure;
+    border: 2px solid $azure;
     background-color: $bluish-gray;
+    box-shadow: 0px 3px 10px rgba($azure, .4);
+    box-sizing: border-box;
   }
 
   &.desk {
-    width: 115px;
-    height: 61.5px;
+    background: url('../images/desk.png') center center no-repeat;
+    background-size: 116px 62px;
+    width: 116px;
+    height: 62px;
   }
 
   &.plant {
-    background: url('../images/plant1.png') top left no-repeat;
+    background: url('../images/plant1.png') center center no-repeat;
     background-size: 50px 53px;
     width: 50px;
     height: 53px;
   }
 
   &.plant2 {
-    background: url('../images/plant2.png') top left no-repeat;
-    background-size: 50.5px 50.5px;
-    width: 50.5px;
-    height: 50.5px;
+    background: url('../images/plant2.png') center center no-repeat;
+    background-size: 50px 50px;
+    width: 50px;
+    height: 50px;
   }
 
   &.pingpong {
-    background: url('../images/pingpong.png') top left no-repeat;
-    background-size: 188px 122.5;
-    width: 188px;
-    height: 122.5px;
+    background: url('../images/pingpong.png') center center no-repeat;
+    background-size: 192px 125px;
+    width: 192px;
+    height: 125px;
   }
 
   &.ballpit {
-    background: url('../images/ballpit.png') top left no-repeat;
-    background-size: 113px 112.5;
+    background: url('../images/ballpit.png') center center no-repeat;
+    background-size: 113px 113px;
     width: 113px;
-    height: 112.5;
+    height: 113px;
   }
 
   &.pacman {
-    background: url('../images/pacman.png') top left no-repeat;
-    background-size: 97.5px 65.5;
-    width: 97.5px;
-    height: 65.5;
+    background: url('../images/pacman.png') center center no-repeat;
+    background-size: 100px 67px;
+    width: 100px;
+    height: 67px;
   }
 
   &.laptop {
-    background: url('../images/laptop.png') top left no-repeat;
-    background-size: 40.5px 29.5px;
-    width: 40.5px;
-    height: 29.5px;
+    background: url('../images/laptop.png') center center no-repeat;
+    background-size: 40px 29px;
+    width: 40px;
+    height: 29px;
   }
 
   &.nerfgun {
-    background: url('../images/nerfgun.png') top left no-repeat;
-    background-size: 40.5px 32.5px;
-    width: 40.5px;
-    height: 32.5px;
+    background: url('../images/nerfgun.png') center center no-repeat;
+    background-size: 40px 36px;
+    width: 40px;
+    height: 36px;
   }
 
   &.android {
-    background: url('../images/android.png') top left no-repeat;
-    background-size: 46.5px 51px;
-    width: 46.5px;
-    height: 51px;
+    background: url('../images/android.png') center center no-repeat;
+    background-size: 45px 50px;
+    width: 45px;
+    height: 50px;
   }
 
   &.dog_corgi {
-    background: url('../images/dog_corgi.png') top left no-repeat;
+    background: url('../images/dog_corgi.png') center center no-repeat;
     background-size: 32px 63px;
     width: 32px;
     height: 63px;
   }
 
-  &.dog_retriver {
-    background: url('../images/dog_retriver.png') top left no-repeat;
-    background-size: 40.5 49;
-    width: 40.5;
-    height: 49;
+  &.dog_retriever {
+    background: url('../images/dog_retriever.png') center center no-repeat;
+    background-size: 90px 49px;
+    width: 90px;
+    height: 49px;
   }
 
   &.redstapler {
-    background: url('../images/redstapler.png') top left no-repeat;
+    background: url('../images/redstapler.png') center center no-repeat;
     background-size: 32px 12px;
     width: 32px;
     height: 12px;
