@@ -1,6 +1,6 @@
 @import 'options';
 
-.error {
+.alert {
   position: relative;
   width: 300px;
   padding: 5px 10px;
@@ -15,7 +15,4 @@
   border: 2px solid $salmon;
   border-radius: $border-radius;
 
-  &.error-hide {
-    display: none;
-  }
 }

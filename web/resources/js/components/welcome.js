@@ -10,13 +10,13 @@ var rootRef = new Firebase(utils.urls.root);
 
 var welcome = {
 
-  $error: null,
+  $alert: null,
   $signInButtons: null,
 
   init: function(){
     var self = this;
-    
-    this.$error = $(".error");
+
+    this.$alert = $(".alert");
     this.$signInButtons = $(".welcome-hero-signin");
 
     // SETUP LOGIN BUTTON
@@ -25,10 +25,10 @@ var welcome = {
 
       rootRef.authWithOAuthPopup(provider, function(error, authData){
         if (error){
-          self.$error.removeClass("error-hide");
+          self.$alert.removeClass("is-hidden");
         }
         else {
-          self.$error.addClass("error-hide");
+          self.$alert.addClass("is-hidden");
         }
       });
     });

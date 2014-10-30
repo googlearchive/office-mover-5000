@@ -62,7 +62,7 @@
 	  $welcome: null,
 	  $app: null,
 	  $signInButtons: null,
-	  $error: null,
+	  $alert: null,
 	  $signOutButton: null,
 
 	  // HIDE / SHOW WELCOME SCREEN
@@ -88,7 +88,7 @@
 	    this.$welcome = $("#welcome");
 	    this.$app = $("#app");
 	    this.$signInButtons = $(".welcome-hero-signin");
-	    this.$error = $(".error");
+	    this.$alert = $(".alert");
 	    this.$signOutButton = $(".toolbar-sign-out");
 
 	    welcome.init();         // SET UP HOME PAGE
@@ -126,7 +126,7 @@
 
 	  logout: function(){
 	    // SETUP LOGOUT BUTTON
-	    $signOutButton.on("click", function(e){
+	    this.$signOutButton.on("click", function(e){
 	      rootRef.unauth();
 	    });
 	  }
@@ -279,13 +279,13 @@
 
 	var welcome = {
 
-	  $error: null,
+	  $alert: null,
 	  $signInButtons: null,
 
 	  init: function(){
 	    var self = this;
-	    
-	    this.$error = $(".error");
+
+	    this.$alert = $(".alert");
 	    this.$signInButtons = $(".welcome-hero-signin");
 
 	    // SETUP LOGIN BUTTON
@@ -294,10 +294,10 @@
 
 	      rootRef.authWithOAuthPopup(provider, function(error, authData){
 	        if (error){
-	          self.$error.removeClass("error-hide");
+	          self.$alert.removeClass("is-hidden");
 	        }
 	        else {
-	          self.$error.addClass("error-hide");
+	          self.$alert.addClass("is-hidden");
 	        }
 	      });
 	    });

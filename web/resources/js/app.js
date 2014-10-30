@@ -16,7 +16,7 @@ var app = {
   $welcome: null,
   $app: null,
   $signInButtons: null,
-  $error: null,
+  $alert: null,
   $signOutButton: null,
 
   // HIDE / SHOW WELCOME SCREEN
@@ -42,7 +42,7 @@ var app = {
     this.$welcome = $("#welcome");
     this.$app = $("#app");
     this.$signInButtons = $(".welcome-hero-signin");
-    this.$error = $(".error");
+    this.$alert = $(".alert");
     this.$signOutButton = $(".toolbar-sign-out");
 
     welcome.init();         // SET UP HOME PAGE
@@ -80,7 +80,7 @@ var app = {
 
   logout: function(){
     // SETUP LOGOUT BUTTON
-    $signOutButton.on("click", function(e){
+    this.$signOutButton.on("click", function(e){
       rootRef.unauth();
     });
   }
