@@ -62,7 +62,6 @@ public class OfficeMoverActivity extends Activity {
 
                 Log.v(TAG, "Thing changed " + existingThing);
 
-
                 addUpdateThingToLocalModel(key, existingThing);
             }
 

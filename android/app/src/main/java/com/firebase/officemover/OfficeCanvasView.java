@@ -63,6 +63,8 @@ public class OfficeCanvasView extends View {
         int pointerId;
         int actionIndex = event.getActionIndex();
 
+        // primitive throttling
+        // TODO: Make this less stupid
         synchronized (mOfficeThingPointer) {
             try {
                 mOfficeThingPointer.wait(10L);
@@ -211,14 +213,4 @@ public class OfficeCanvasView extends View {
     public void setThingChangedListener(OfficeMoverActivity.ThingChangeListener thingChangeListener) {
         this.mThingChangedListener = thingChangeListener;
     }
-
-
-    //TODO: Dynamically fill device with fixed aspect ratio
-//    // Fixes aspect ratio
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        int receivedWidth = MeasureSpec.getSize(widthMeasureSpec);
-//
-//        super.onMeasure(receivedWidth, (int)(receivedWidth / ASPECT_RATIO));
-//    }
 }

@@ -94,48 +94,40 @@ public class OfficeThing {
         this.rotation = rotation;
     }
 
-
     //TODO: make these based on the real model instead of the screen
     //TODO: Consider moving these somewhere else. It seems odd for a model object to know about context
+    private void checkSetDimensions(Context context) {
+        if(height == 0 || width == 0) {
+            String packageName = context.getPackageName();
+            int resourceId = context.getResources().getIdentifier(this.type, "drawable", packageName);
+
+            BitmapFactory.Options dimensions = new BitmapFactory.Options();
+            dimensions.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(context.getResources(), resourceId, dimensions);
+
+            //TODO: make this use the screen logical density instead of a fixed value for TVDPI
+            height = (int) ((dimensions.outHeight / 2D) * 1.33D);
+            width = (int) ((dimensions.outWidth / 2D) * 1.33D);
+        }
+    }
+
+
     public int getHeight(Context context) {
-        if (height != 0) {
+        checkSetDimensions(context);
+        if(rotation == 0 || rotation == 180) {
             return height;
+        } else {
+            return width;
         }
-
-        if (null == this.type) {
-            return 0;
-        }
-
-        String packageName = context.getPackageName();
-        int resourceId = context.getResources().getIdentifier(this.type, "drawable", packageName);
-
-        BitmapFactory.Options dimensions = new BitmapFactory.Options();
-        dimensions.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(context.getResources(), resourceId, dimensions);
-
-        //TODO: make this use the screen logical density instead of a fixed value for TVDPI
-        height = (int) ((dimensions.outHeight / 2D) * 1.33D);
-        return height;
     }
 
     public int getWidth(Context context) {
-        if (width != 0) {
+        checkSetDimensions(context);
+        if(rotation == 0 || rotation == 180) {
             return width;
+        } else {
+            return height;
         }
-        if (null == this.type) {
-            return 0;
-        }
-
-        String packageName = context.getPackageName();
-        int resourceId = context.getResources().getIdentifier(this.type, "drawable", packageName);
-
-        BitmapFactory.Options dimensions = new BitmapFactory.Options();
-        dimensions.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(context.getResources(), resourceId, dimensions);
-
-        //TODO: make this use the screen logical density instead of a fixed value for TVDPI
-        width = (int) ((dimensions.outWidth / 2D) * 1.33D);
-        return width;
     }
 
     //TODO: move somewhere else
