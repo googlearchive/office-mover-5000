@@ -50,7 +50,6 @@
 	var rootRef = new Firebase(Utils.urls.root);
 	var furnitureRef = new Firebase(Utils.urls.furniture);
 
-
 	/*
 	* Application Module
 	*
@@ -58,6 +57,24 @@
 	*/
 
 	var app = {
+
+	  // REGISTER ELEMENTS
+	  $welcome: null,
+	  $app: null,
+	  $signInButtons: null,
+	  $error: null,
+	  $signOutButton: null,
+
+	  // HIDE / SHOW WELCOME SCREEN
+	  showWelcomeScreen: function(){
+	    this.$welcome.removeClass("is-hidden");
+	    this.$app.addClass("is-hidden");
+	  },
+
+	  hideWelcomeScreen: function(){
+	    this.$welcome.addClass("is-hidden");
+	    this.$app.removeClass("is-hidden");
+	  },
 
 	  /*
 	  * Initalize the application
@@ -67,21 +84,53 @@
 
 	  init: function() {
 	    var self = this;
+	    // REGISTER ELEMENTS
+	    this.$welcome = $("#welcome");
+	    this.$app = $("#app");
+	    this.$signInButtons = $(".welcome-hero-signin");
+	    this.$error = $(".error");
+	    this.$signOutButton = $(".toolbar-sign-out");
 
-	    // SET UP HOME PAGE
-	    welcome.init();
-
-	    // RENDER FURNITURE
-	    furnitureRef.once("value", function(snapshot){
-	       self.createFurniture(snapshot, {});
-	    });
+	    welcome.init();         // SET UP HOME PAGE
+	    this.logout();          // SET UP LOGOUT FUNCTIONALITY
+	    this.setAuthListener(); // SET AUTH LISTENER
+	    this.renderFurniture(); // RENDER FURNITURE
 	  },
 
 	  createFurniture: function(snapshot) {
 	    snapshot.forEach(function(childSnapshot) {
 	      new Furniture(childSnapshot);
 	    });
+	  },
+
+	  setAuthListener: function(){
+	    var self = this;
+
+	    rootRef.onAuth(function(authData){
+	      if (authData) {
+	        self.hideWelcomeScreen();
+	      }
+	      else {
+	        self.showWelcomeScreen();
+	      }
+	    });
+	  },
+
+	  renderFurniture: function(){
+	    var self = this;
+
+	    furnitureRef.once("value", function(snapshot){
+	       self.createFurniture(snapshot, {});
+	    });
+	  },
+
+	  logout: function(){
+	    // SETUP LOGOUT BUTTON
+	    $signOutButton.on("click", function(e){
+	      rootRef.unauth();
+	    });
 	  }
+
 	};
 
 
@@ -227,54 +276,32 @@
 	* This is the module that sets up the welcome page and Google login
 	*/
 
-	var $welcome = $("#welcome");
-	var $app = $("#app");
-	var $signInButtons = $(".welcome-hero-signin");
-	var $error = $(".error");
-
-	var updateUIForLogout = function(){
-	  $welcome.removeClass("is-hidden");
-	  $app.addClass("is-hidden");
-	};
-
-	var updateUIForLogin = function(){
-	  $welcome.addClass("is-hidden");
-	  $app.removeClass("is-hidden");
-	};
 
 	var welcome = {
 
+	  $error: null,
+	  $signInButtons: null,
+
 	  init: function(){
+	    var self = this;
+	    
+	    this.$error = $(".error");
+	    this.$signInButtons = $(".welcome-hero-signin");
 
 	    // SETUP LOGIN BUTTON
-	    $signInButtons.on("click", function(e){
+	    this.$signInButtons.on("click", function(e){
 	      var provider = $(this).data("provider");
 
 	      rootRef.authWithOAuthPopup(provider, function(error, authData){
 	        if (error){
-	          $error.removeClass("error-hide");
+	          self.$error.removeClass("error-hide");
 	        }
 	        else {
-	          $error.addClass("error-hide");
-	          updateUIForLogin();
+	          self.$error.addClass("error-hide");
 	        }
 	      });
 	    });
 
-	    // SETUP LOGOUT BUTTON
-	    $(".toolbar-sign-out").on("click", function(e){
-	      rootRef.unauth();
-	    });
-
-	    // SET AUTH LISTENER
-	    rootRef.onAuth(function(authData){
-	      if (authData){
-	        updateUIForLogin();  // USER IS LOGGED IN
-	      }
-	      else {
-	        updateUIForLogout(); // USER IS LOGGED OUT
-	      }
-	    });
 	  }
 	};
 
