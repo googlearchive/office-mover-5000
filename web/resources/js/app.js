@@ -45,10 +45,10 @@ var app = {
     this.$alert = $(".alert");
     this.$signOutButton = $(".toolbar-sign-out");
 
-    welcome.init();         // SET UP HOME PAGE
-    this.logout();          // SET UP LOGOUT FUNCTIONALITY
-    this.setAuthListener(); // SET AUTH LISTENER
-    this.renderFurniture(); // RENDER FURNITURE
+    welcome.init();                 // SET UP HOME PAGE
+    this.logout();                  // SET UP LOGOUT FUNCTIONALITY
+    this.checkUserAuthentication(); // SET AUTH LISTENER
+    this.renderFurniture();         // RENDER FURNITURE
   },
 
   createFurniture: function(snapshot) {
@@ -57,7 +57,7 @@ var app = {
     });
   },
 
-  setAuthListener: function(){
+  checkUserAuthentication: function(){
     var self = this;
 
     rootRef.onAuth(function(authData){
