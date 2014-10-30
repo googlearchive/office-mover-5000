@@ -40,8 +40,8 @@ var app = {
     var $addFurniture = $('#add-furniture');
     var $addBackground = $('#select-background');
 
-    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture);
-    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds);
+    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture, 'furniture');
+    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'backgrounds');
   }
 };
 

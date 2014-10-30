@@ -86,8 +86,8 @@
 	    var $addFurniture = $('#add-furniture');
 	    var $addBackground = $('#select-background');
 
-	    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture);
-	    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds);
+	    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture, 'furniture');
+	    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'backgrounds');
 	  }
 	};
 
@@ -217,14 +217,18 @@
 	*
 	*/
 
-	var Dropdown = function($parent, data) {
+	var Dropdown = function($parent, data, type) {
 	  var ListTemplate = _.template($('#template-dropdown').html());
-	  var liTemplate = _.template('<li class="<%= name %>"><button><%= description %></button></li>');
+	  var liTemplate = _.template($('#template-dropdown-item').html());
 	  var buttonList = '';
 
 	  // LOOP THROUGH DATA & CREATE BUTTONS
 	  for(var i = 0, l = data.length; i < l; i++) {
-	    buttonList = buttonList + liTemplate(data[i]);
+	    buttonList = buttonList + liTemplate({
+	      name: data[i].name,
+	      description: data[i].description,
+	      type: type
+	    });
 	  }
 
 
