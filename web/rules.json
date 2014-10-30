@@ -16,7 +16,8 @@
         				"left": "data.child('left').val()",
         				"top": "data.child('left').val()",
         				"rotation": "data.child('left').val()",
-        				"time": "now + ''"
+        				"time": "now + ''",
+                        "uid": "$fid"
         			},
         			"errorResponse": "'/log/' + now"
         		}
