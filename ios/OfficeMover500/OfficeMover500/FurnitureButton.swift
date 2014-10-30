@@ -8,8 +8,13 @@
 
 import Foundation
 import UIKit
+import QuartzCore
 
-class FurnitureButton : UIButton {
+enum DragState {
+    case None, Maybe, Dragging
+}
+
+class FurnitureButton : UIButton, UIAlertViewDelegate {
     
     // -- Model state handlers
     var moveHandler: ((Int, Int) -> ())?
@@ -78,10 +83,9 @@ class FurnitureButton : UIButton {
     }
     
     // --- Handling UI state
-    var dragging = false
+    var dragging = DragState.None
     var menuShowing = false
     let type: String
-    var alert: UIAlertController?
     var startDown: CGPoint?
     private var menuListener: AnyObject?
     
@@ -115,6 +119,11 @@ class FurnitureButton : UIButton {
     
     // -- Methods for updating the view
     func delete() {
+        if menuShowing {
+            let menuController = UIMenuController.sharedMenuController()
+            menuController.setMenuVisible(false, animated: true)
+            menuShowing = false
+        }
         if superview != nil {
             removeFromSuperview()
         }
@@ -129,7 +138,7 @@ class FurnitureButton : UIButton {
         if let touch = event.touchesForView(button)?.anyObject() as? UITouch {
             let touchLoc = touch.locationInView(self.superview)
             if abs(startDown!.x - touchLoc.x) > 10 || abs(startDown!.y - touchLoc.y) > 10 {
-                dragging = true // To avoid triggering tap functionality
+                dragging = DragState.Dragging // To avoid triggering tap functionality
             }
             center = boundCenterLocToRoom(touchLoc)
             if let handler = moveHandler {
@@ -161,13 +170,14 @@ class FurnitureButton : UIButton {
     // --- Methods for popping the menu up
     func touchDown(button: UIButton, withEvent event: UIEvent) {
         startDown = center
+        dragging = .Maybe
+        superview?.bringSubviewToFront(self)
     }
     
     func touchUp(button: UIButton, withEvent event: UIEvent) {
         startDown = nil
-        if dragging {
-            println("Hi")
-            dragging = false // This always ends drag events
+        if dragging == .Dragging {
+            dragging = .None // This always ends drag events
             if !menuShowing {
                 // Don't show menu at the end of dragging if there wasn't a menu to begin with
                 return
@@ -192,23 +202,21 @@ class FurnitureButton : UIButton {
     }
     
     func triggerEdit(sender:AnyObject) {
-        // Show pop up to enter name
-        alert = UIAlertController(title: "Who sits here?", message: "Enter name below", preferredStyle: UIAlertControllerStyle.Alert)
-        alert!.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: completeEdit))
-        alert!.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-            textField.placeholder = "Name"
-        })
-        parentViewController()?.presentViewController(alert!, animated: true, completion: nil)
+        let alert = UIAlertView(title: "Who sits here?", message: "Enter name below", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK")
+        alert.alertViewStyle = UIAlertViewStyle.PlainTextInput;
+        alert.textFieldAtIndex(0)?.text = name
+        alert.textFieldAtIndex(0)?.placeholder = "Name"
+        alert.show()
     }
     
-    func completeEdit(alertAction:UIAlertAction!) {
-        // Popup for name finished, handle naming desk.
-        if let newName = (alert?.textFields?[0] as? UITextField)?.text {
-            name = newName
-            if let handler = editHandler {
-                handler(newName)
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 1 { // This is the ok button, and not the cancel button
+            if let newName = alertView.textFieldAtIndex(0)?.text {
+                name = newName
+                if let handler = editHandler {
+                    handler(newName)
+                }
             }
-            alert = nil
         }
     }
     
@@ -219,8 +227,9 @@ class FurnitureButton : UIButton {
         let menuController = UIMenuController.sharedMenuController()
         
         // Set new menu location
-        let targetRect = CGRectMake(0, 0, frame.size.width, 0)
-        menuController.setTargetRect(targetRect, inView:self)
+        if superview != nil {
+            menuController.setTargetRect(frame, inView:superview!)
+        }
         
         // Set menu items
         menuController.menuItems = [
@@ -251,7 +260,7 @@ class FurnitureButton : UIButton {
         
         menuListener = NSNotificationCenter.defaultCenter().addObserverForName(UIMenuControllerWillHideMenuNotification, object:nil, queue: nil, usingBlock: {
             notification in
-            if !self.dragging {
+            if self.dragging == .Dragging {
                 self.menuShowing = false
             }
             NSNotificationCenter.defaultCenter().removeObserver(self.menuListener!)

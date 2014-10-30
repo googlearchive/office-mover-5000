@@ -34,16 +34,11 @@ class ViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        roomView.layer.borderColor =
-            UIColor(red: CGFloat(214.0/255.0), green: CGFloat(235.0/255.0), blue: CGFloat(249.0/255.0), alpha: 1.0).CGColor
-        
+        roomView.layer.borderColor = UIColor(red: CGFloat(214.0/255.0), green: CGFloat(235.0/255.0), blue: CGFloat(249.0/255.0), alpha: 1.0).CGColor
         roomView.layer.borderWidth = 4
-            
+        
         var nav = self.navigationController?.navigationBar
-        
-        nav?.barTintColor =
-            UIColor(red: CGFloat(22.0/255.0), green: CGFloat(148.0/255.0), blue: CGFloat(223.0/255.0), alpha: 1.0)
-        
+        nav?.barTintColor = UIColor(red: CGFloat(22.0/255.0), green: CGFloat(148.0/255.0), blue: CGFloat(223.0/255.0), alpha: 1.0)
         nav?.barStyle = UIBarStyle.Default
         nav?.tintColor = UIColor.whiteColor()
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
@@ -78,7 +73,7 @@ class ViewController: UIViewController {
         
         view.rotateHandler = { rotation in
             view.rotation = rotation
-            self.rotateFurniture(furniture.key, rotation: rotation)
+            self.rotateFurniture(furniture.key, rotation: rotation, top: view.top, left: view.left)
         }
         
         view.deleteHandler = {
@@ -101,9 +96,11 @@ class ViewController: UIViewController {
         ])
     }
     
-    func rotateFurniture(key: String, rotation: Int) {
+    func rotateFurniture(key: String, rotation: Int, top: Int, left: Int) {
         self.furnitureRef.childByAppendingPath(key).updateChildValues([
-            "rotation": rotation
+            "rotation": rotation,
+            "top": top,
+            "left": left
         ])
     }
     
