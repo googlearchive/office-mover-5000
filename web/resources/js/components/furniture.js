@@ -38,17 +38,35 @@ var Furniture = function(snapshot, options) {
   this.ref  = new Firebase(utils.urls.furniture + this.id);
 
   this.ref.on("value", function(snap){
-    self.render(snap);
+
+    // UPDATE Furniture INSTANCE WITH MOST RECENT DATA
+    var state = snap.val();
+    _.extend(self, state);
+
+    // RENDER
+    self.render();
   });
 
-  this.render = function(snap){
+  this.render = function(){
 
-    var state = snap.val();
-    _.extend(this, state);
+    // REMOVE ELEMENT FROM DOM
+    this.element.detach();
 
-    // debugger;
-    this.element.remove();
-    this.createElement();
+    // SET CURRENT LOCATION
+    this.element.css({
+      "top": parseInt(this.top, 10),
+      "left": parseInt(this.left, 10)
+    });
+
+    if (this.locked){
+      this.element.addClass("is-active");
+    }
+    else {
+      this.element.removeClass("is-active");
+    }
+
+    // ADD TO DOM
+    this.officeSpace.append(this.element);
   };
 
   /*
@@ -56,7 +74,7 @@ var Furniture = function(snapshot, options) {
   *
   */
 
-  this.createElement = function() {
+  this.initElement = function() {
 
     //SET DRAG OPTIONS
     this.element.draggable({
@@ -77,23 +95,10 @@ var Furniture = function(snapshot, options) {
       }
     });
 
-    // SET CURRENT LOCATION
-    this.element
-    .addClass(this.type)
-    .css({
-      "top": parseInt(this.top, 10),
-      "left": parseInt(this.left, 10)
-    });
+    this.element.addClass(this.type);
 
-    if (this.locked){
-      this.element.addClass("is-active");
-    }
-    else {
-      this.element.removeClass("is-active");
-    }
-
-    // ADD TO DOM
-    this.officeSpace.append(this.element);
+    // RENDER 
+    this.render();
   };
 
 
@@ -102,7 +107,7 @@ var Furniture = function(snapshot, options) {
   *
   */
 
-  this.createElement();
+  this.initElement();
 };
 
 module.exports = Furniture;
