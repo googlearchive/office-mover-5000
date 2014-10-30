@@ -14,6 +14,8 @@ let RoomHeight = 800
 class RoomViewController: UIViewController {
     
     @IBOutlet weak var roomView: UIView!
+    @IBOutlet weak var addItemButton: UIBarButtonItem!
+    @IBOutlet weak var backgroundButton: UIBarButtonItem!
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -26,10 +28,11 @@ class RoomViewController: UIViewController {
         nav?.barStyle = UIBarStyle.Default
         nav?.tintColor = UIColor.whiteColor()
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-        
-        let addItemButton = UIBarButtonItem(barButtonSystemItem: .Add, target: nil, action: nil)
-        let backgroundButton = UIBarButtonItem(barButtonSystemItem: .Action, target: nil, action: nil)
-        
-        navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // uncomment this when we want to show the buttons to add things and such
+//        navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
     }
 }
