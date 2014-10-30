@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Main action bar -->
     <string name="app_name">Inetech Office Mover 5000</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="action_clear">Clear</string>
-    <string name="action_new_thing">New Thing</string>
+    <string name="action_new_thing">Add Thing</string>
+    <string name="action_carpet">Change Carpet</string>
+    <string name="action_sign_out">Sign Out</string>
+
+
+    <!-- Add stuff menu -->
     <string name="action_add_redstapler">Red Stapler</string>
     <string name="action_add_plant2">Plant 2</string>
     <string name="action_add_plant">Plant</string>

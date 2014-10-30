@@ -3,7 +3,6 @@ package com.firebase.officemover.model;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
 
 public class OfficeThing {
@@ -135,12 +134,10 @@ public class OfficeThing {
             return bitmap;
         }
 
-
         //TODO: better exception
         if (null == this.type) {
             throw new RuntimeException();
         }
-
 
 
         String packageName = context.getPackageName();
