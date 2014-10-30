@@ -6,8 +6,9 @@
   &.is-active {
     border: 2px solid $azure;
     background-color: $bluish-gray;
-    box-shadow: 0px 3px 10px rgba($azure, .4);
+    box-shadow: 0px 2px 12px rgba(darken($azure, 10%), .8);
     box-sizing: border-box;
+    opacity: .75
   }
 
   &.desk {
