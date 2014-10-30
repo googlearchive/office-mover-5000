@@ -34,7 +34,6 @@ class ViewController: RoomViewController {
 
         // move the view from a remote update
         currentFurnitureRef.observeEventType(.Value, withBlock: { snapshot in
-            
             // check if snapshot.value does not equal NSNull
             if snapshot.value as? NSNull != NSNull() {
                 var furniture = Furniture(snap: snapshot)
