@@ -10,8 +10,8 @@ import UIKit
 
 class ViewController: RoomViewController {
     
-    let ref = Firebase(url: "https://office-mover.firebaseio.com/")
-    let furnitureRef = Firebase(url: "https://office-mover.firebaseio.com/furniture")
+    let ref = Firebase(url: "https://mover-app-5000-demo.firebaseio.com/")
+    let furnitureRef = Firebase(url: "https://mover-app-5000-demo.firebaseio.com/furniture")
     var room = Room(json: nil)
     
     override func viewDidLoad() {
