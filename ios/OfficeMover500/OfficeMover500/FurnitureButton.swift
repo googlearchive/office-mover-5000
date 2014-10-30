@@ -108,6 +108,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         rotation = furniture.rotation
         top = furniture.top
         left = furniture.left
+        self.titleLabel?.font = UIFont(name: "Proxima Nova", size: 20)
         
         // Add touch events
         addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)

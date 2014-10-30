@@ -32,12 +32,18 @@ class RoomViewController: UIViewController {
         nav?.barTintColor = TopbarBlue
         nav?.barStyle = UIBarStyle.Default
         nav?.tintColor = UIColor.whiteColor()
-        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        var font: UIFont = UIFont(name: "Proxima Nova", size: 20)!
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
+        
+        let addItemButton = UIBarButtonItem(barButtonSystemItem: .Add, target: nil, action: nil)
+        let backgroundButton = UIBarButtonItem(barButtonSystemItem: .Action, target: nil, action: nil)
+        
+        //navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // uncomment this when we want to show the buttons to add things and such
-//        navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
+        // navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
     }
 }
