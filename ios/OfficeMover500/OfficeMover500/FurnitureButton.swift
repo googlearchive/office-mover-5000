@@ -137,6 +137,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
             let touchLoc = touch.locationInView(self.superview)
             if abs(startDown!.x - touchLoc.x) > 10 || abs(startDown!.y - touchLoc.y) > 10 {
                 dragging = DragState.Dragging // To avoid triggering tap functionality
+                showSeeThrough()
             }
             center = boundCenterLocToRoom(touchLoc)
             if let handler = moveHandler {
@@ -175,10 +176,12 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
     
     func touchUp(button: UIButton, withEvent event: UIEvent) {
         startDown = nil
+        hideSeeThrough()
         if dragging == .Dragging {
             dragging = .None // This always ends drag events
             if !menuShowing {
                 // Don't show menu at the end of dragging if there wasn't a menu to begin with
+                hideShadow()
                 return
             }
         }
@@ -230,6 +233,14 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
     
     func hideShadow() {
         layer.shadowOpacity = 0
+    }
+    
+    func showSeeThrough() {
+        layer.opacity = 0.5
+    }
+    
+    func hideSeeThrough() {
+        layer.opacity = 1
     }
     
     
