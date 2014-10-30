@@ -248,8 +248,6 @@
 
 	  this.createElement = function() {
 
-	    var isActive;
-
 	    //SET DRAG OPTIONS
 	    this.element.draggable({
 	      containment: self.officeSpace,
@@ -269,10 +267,6 @@
 	      }
 	    });
 
-	    if (this.locked){
-	      isActive = "is-active";
-	    }
-
 	    // SET CURRENT LOCATION
 	    this.element
 	    .addClass(this.type)
@@ -281,11 +275,11 @@
 	      "left": parseInt(this.left, 10)
 	    });
 
-	    if (isActive){
-	      this.element.addClass(isActive);
+	    if (this.locked){
+	      this.element.addClass("is-active");
 	    }
 	    else {
-	      this.element.removeClass(isActive);
+	      this.element.removeClass("is-active");
 	    }
 
 	    // ADD TO DOM
