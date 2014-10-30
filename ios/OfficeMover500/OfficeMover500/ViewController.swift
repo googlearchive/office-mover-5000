@@ -28,10 +28,12 @@ class ViewController: RoomViewController {
     // This should take in a Furniture Model whatever that is.
     // This creates a view as a button, and makes it draggable.
     func createFurnitureView(furniture: Furniture) {
-        let view = FurnitureButton(furniture: furniture)
+        let view = FurnitureView(furniture: furniture)
+        
+        let currentFurnitureRef = furnitureRef.childByAppendingPath(furniture.key)
 
         // move the view from a remote update
-        furnitureRef.childByAppendingPath(furniture.key).observeEventType(.Value, withBlock: { snapshot in
+        currentFurnitureRef.observeEventType(.Value, withBlock: { snapshot in
             
             // check if snapshot.value does not equal NSNull
             if snapshot.value as? NSNull != NSNull() {
@@ -44,55 +46,41 @@ class ViewController: RoomViewController {
         })
         
         // delete the view from remote update
-        furnitureRef.childByAppendingPath(furniture.key).observeEventType(.ChildRemoved, withBlock: { snapshot in
+        currentFurnitureRef.observeEventType(.ChildRemoved, withBlock: { snapshot in
             view.delete()
         })
         
+        
+        // When the furniture moves, update the Firebase
         view.moveHandler = { top, left in
-            self.moveFurniture(furniture.key, top: top, left: left)
+            currentFurnitureRef.updateChildValues([
+                "top": top,
+                "left": left
+            ])
         }
         
-        view.rotateHandler = { rotation in
-            view.rotation = rotation
-            self.rotateFurniture(furniture.key, rotation: rotation, top: view.top, left: view.left)
+        // When the furniture rotates, update the Firebase
+        view.rotateHandler = { top, left, rotation in
+            currentFurnitureRef.updateChildValues([
+                "top": top,
+                "left": left,
+                "rotation": rotation
+            ])
         }
         
+        // When the furniture is deleted, update the Firebase
         view.deleteHandler = {
             view.delete()
-            self.deleteFurniture(furniture)
+            currentFurnitureRef.removeValue()
         }
         
+        // For desks, when we edit the name on the desk, update the Firebase
         view.editHandler = { name in
-            self.editFurnitureName(furniture.key, name: name)
+            currentFurnitureRef.updateChildValues([
+                "name": name
+            ])
         }
         
         roomView.addSubview(view)
-    }
-    
-    // update the top and left to Firebase
-    func moveFurniture(key: String, top: Int, left: Int) {
-        self.furnitureRef.childByAppendingPath(key).updateChildValues([
-            "top": top,
-            "left": left
-        ])
-    }
-    
-    func rotateFurniture(key: String, rotation: Int, top: Int, left: Int) {
-        self.furnitureRef.childByAppendingPath(key).updateChildValues([
-            "rotation": rotation,
-            "top": top,
-            "left": left
-        ])
-    }
-    
-    // remove the furniture item in Firebase
-    func deleteFurniture(item: Furniture) {
-        self.furnitureRef.childByAppendingPath(item.key).removeValue()
-    }
-    
-    func editFurnitureName(key: String, name: String) {
-        self.furnitureRef.childByAppendingPath(key).updateChildValues([
-            "name": name
-        ])
     }
 }

@@ -26,5 +26,10 @@ class RoomViewController: UIViewController {
         nav?.barStyle = UIBarStyle.Default
         nav?.tintColor = UIColor.whiteColor()
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
+        let addItemButton = UIBarButtonItem(barButtonSystemItem: .Add, target: nil, action: nil)
+        let backgroundButton = UIBarButtonItem(barButtonSystemItem: .Action, target: nil, action: nil)
+        
+        navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
     }
 }
