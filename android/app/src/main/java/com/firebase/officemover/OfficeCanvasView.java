@@ -140,10 +140,18 @@ public class OfficeCanvasView extends View {
                     touchedThing = mOfficeThingPointer.get(pointerId);
 
                     if (null != touchedThing) {
-                        touchedThing.setX(xTouch, getContext());
-                        touchedThing.setY(yTouch, getContext());
-                        if(null != this.mThingChangedListener) {
-                            mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                        int newTop = yTouch - touchedThing.getHeight(getContext()) / 2;
+                        int newLeft = xTouch - touchedThing.getWidth(getContext()) / 2;
+                        int newBottom = yTouch + touchedThing.getHeight(getContext()) / 2;
+                        int newRight = xTouch + touchedThing.getWidth(getContext()) / 2;
+
+                        if(newTop >= 0 && newLeft >= 0 && newBottom <= 800 && newRight <= 600) {
+                            touchedThing.setX(xTouch, getContext());
+                            touchedThing.setY(yTouch, getContext());
+
+                            if(null != this.mThingChangedListener) {
+                                mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                            }
                         }
                     }
                 }
