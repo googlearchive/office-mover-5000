@@ -2,74 +2,50 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:icon="@drawable/icon_android"
         android:id="@+id/action_add_android"
-        android:showAsAction="never"
         android:title="@string/action_add_android"/>
 
     <item
-        android:icon="@drawable/icon_ballpit"
         android:id="@+id/action_add_ballpit"
-        android:showAsAction="never"
         android:title="@string/action_add_ballpit" />
 
     <item
-        android:icon="@drawable/icon_desk"
         android:id="@+id/action_add_desk"
-        android:showAsAction="never"
         android:title="@string/action_add_desk" />
 
     <item
-        android:icon="@drawable/icon_dog"
         android:id="@+id/action_add_dog_corgi"
-        android:showAsAction="never"
         android:title="@string/action_add_dog_corgi" />
 
     <item
-        android:icon="@drawable/icon_dog"
         android:id="@+id/action_add_dog_retriever"
-        android:showAsAction="never"
         android:title="@string/action_add_dog_retriever" />
 
     <item
-        android:icon="@drawable/icon_stapler"
         android:id="@+id/action_add_laptop"
-        android:showAsAction="never"
         android:title="@string/action_add_laptop" />
 
     <item
-        android:icon="@drawable/icon_nerf"
         android:id="@+id/action_add_nerfgun"
-        android:showAsAction="never"
         android:title="@string/action_add_nerfgun" />
 
     <item
-        android:icon="@drawable/icon_game"
         android:id="@+id/action_add_pacman"
-        android:showAsAction="never"
         android:title="@string/action_add_pacman" />
 
     <item
-        android:icon="@drawable/icon_pingpong"
         android:id="@+id/action_add_pingpong"
-        android:showAsAction="never"
         android:title="@string/action_add_pingpong" />
 
     <item
-        android:icon="@drawable/icon_plant"
         android:id="@+id/action_add_plant"
-        android:showAsAction="never"
         android:title="@string/action_add_plant" />
 
     <item
-        android:icon="@drawable/icon_plant"
         android:id="@+id/action_add_plant2"
-        android:showAsAction="never"
         android:title="@string/action_add_plant2" />
 
     <item
-        android:icon="@drawable/icon_stapler"
         android:id="@+id/action_add_redstapler"
-        android:showAsAction="never"
         android:title="@string/action_add_redstapler" />
 </menu>

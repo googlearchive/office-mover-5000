@@ -121,62 +121,102 @@ public class OfficeMoverActivity extends Activity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_new_thing:
-                View menuItemView = findViewById(R.id.action_new_thing);
-                PopupMenu popup = new PopupMenu(this, menuItemView);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.add_office_thing, popup.getMenu());
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int id = item.getItemId();
-                        switch (id) {
-                            //TODO: do this with less copy and paste
-                            case R.id.action_add_android:
-                                addOfficeThing("android");
-                                break;
-                            case R.id.action_add_ballpit:
-                                addOfficeThing("ballpit");
-                                break;
-                            case R.id.action_add_desk:
-                                addOfficeThing("desk");
-                                break;
-                            case R.id.action_add_dog_corgi:
-                                addOfficeThing("dog_corgi");
-                                break;
-                            case R.id.action_add_dog_retriever:
-                                addOfficeThing("dog_retriever");
-                                break;
-                            case R.id.action_add_laptop:
-                                addOfficeThing("laptop");
-                                break;
-                            case R.id.action_add_nerfgun:
-                                addOfficeThing("nerfgun");
-                                break;
-                            case R.id.action_add_pacman:
-                                addOfficeThing("pacman");
-                                break;
-                            case R.id.action_add_pingpong:
-                                addOfficeThing("pingpong");
-                                break;
-                            case R.id.action_add_plant:
-                                addOfficeThing("plant");
-                                break;
-                            case R.id.action_add_plant2:
-                                addOfficeThing("plant2");
-                                break;
-                            case R.id.action_add_redstapler:
-                                addOfficeThing("redstapler");
-                                break;
-                            default:
-                                throw new RuntimeException();
-                        }
-                        return true;
-                    }
-                });
-                popup.show();
+                renderNewThingPopup();
+                break;
+            case R.id.change_floor:
+                renderChangeCarpetPopup();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void renderNewThingPopup() {
+        View menuItemView = findViewById(R.id.action_new_thing);
+        PopupMenu popup = new PopupMenu(this, menuItemView);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.add_office_thing, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                switch (id) {
+                    //TODO: do this with less copy and paste
+                    case R.id.action_add_android:
+                        addOfficeThing("android");
+                        break;
+                    case R.id.action_add_ballpit:
+                        addOfficeThing("ballpit");
+                        break;
+                    case R.id.action_add_desk:
+                        addOfficeThing("desk");
+                        break;
+                    case R.id.action_add_dog_corgi:
+                        addOfficeThing("dog_corgi");
+                        break;
+                    case R.id.action_add_dog_retriever:
+                        addOfficeThing("dog_retriever");
+                        break;
+                    case R.id.action_add_laptop:
+                        addOfficeThing("laptop");
+                        break;
+                    case R.id.action_add_nerfgun:
+                        addOfficeThing("nerfgun");
+                        break;
+                    case R.id.action_add_pacman:
+                        addOfficeThing("pacman");
+                        break;
+                    case R.id.action_add_pingpong:
+                        addOfficeThing("pingpong");
+                        break;
+                    case R.id.action_add_plant:
+                        addOfficeThing("plant");
+                        break;
+                    case R.id.action_add_plant2:
+                        addOfficeThing("plant2");
+                        break;
+                    case R.id.action_add_redstapler:
+                        addOfficeThing("redstapler");
+                        break;
+                    default:
+                        throw new RuntimeException();
+                }
+                return true;
+            }
+        });
+        popup.show();
+    }
+    private void renderChangeCarpetPopup() {
+
+        View menuItemView = findViewById(R.id.change_floor);
+        PopupMenu popup = new PopupMenu(this, menuItemView);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.change_floor, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                switch (id) {
+                    //TODO: do this with less copy and paste
+                    //TODO: make this real time
+                    case R.id.action_floor_carpet:
+                        mOfficeCanvasView.setFloor("carpet");
+                        break;
+                    case R.id.action_floor_grid:
+                        mOfficeCanvasView.setFloor("grid");
+                        break;
+                    case R.id.action_floor_tile:
+                        mOfficeCanvasView.setFloor("tile");
+                        break;
+                    case R.id.action_floor_wood:
+                        mOfficeCanvasView.setFloor("wood");
+                        break;
+                    default:
+                        throw new RuntimeException();
+                }
+                return true;
+            }
+        });
+        popup.show();
     }
 
     /**

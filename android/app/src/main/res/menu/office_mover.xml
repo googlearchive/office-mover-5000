@@ -9,10 +9,10 @@
         android:showAsAction="ifRoom"
         android:title="@string/action_new_thing" />
     <item
-        android:id="@+id/action_carpet"
+        android:id="@+id/change_floor"
         android:icon="@drawable/icon_ballpit"
         android:showAsAction="ifRoom"
-        android:title="@string/action_carpet" />
+        android:title="@string/action_change_floor" />
     <item
         android:id="@+id/action_sign_out"
         android:showAsAction="ifRoom"
