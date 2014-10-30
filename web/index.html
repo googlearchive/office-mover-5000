@@ -9,14 +9,7 @@
 
   <body>
 
-      <header class="toolbar">
-        <ul class="toolbar-menu">
-          <li><button class="toolbar-icon-button" id="select-furniture">Select Furniture</button></li>
-          <li><button class="toolbar-icon-button" id="select-background">Select Background</button></li>
-        </ul>
-        <h1 class="toolbar-title">Office Mover</h1>
-        <button class="toolbar-sign-out">SIGN OUT</button>
-      </header>
+    <div id="welcome">
       <h3 class="buzzwords">
         <span>Synergy</span> <span>Thought Leadership</span> <span>TPS Reports</span>
       </h3>
@@ -25,18 +18,29 @@
       </div>
       <div class="welcome-hero">
         <img class="welcome-hero-logo" src="./resources/images/logo.png"></img>
-        <button class="google-signin">Sign in with Google</button>
+        <button class="welcome-hero-signin" data-provider="google">Sign in with Google</button>
       </div>
+    </div>
 
+    <div id="app" class="is-hidden">
+      <header class="toolbar">
+        <ul class="toolbar-menu">
+          <li><button class="toolbar-icon-button" id="select-furniture">Select Furniture</button></li>
+          <li><button class="toolbar-icon-button" id="select-background">Select Background</button></li>
+        </ul>
+        <h1 class="toolbar-title">Office Mover</h1>
+        <button class="toolbar-sign-out">SIGN OUT</button>
+      </header>
       <div id="office-space" class="editor">
         <!-- <button class="editor-new" data-name="desk">new desk</button> -->
         <!-- <button class="editor-new" data-name="plant">new plant</button> -->
       </div>
+    </div>
 
-      <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>
-      <script src="bower_components/jquery/jquery.js"></script>
-      <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-      <script src="bower_components/lodash/dist/lodash.js"></script>
-      <script src="resources/js/production.js"></script>
+    <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/lodash/dist/lodash.js"></script>
+    <script src="resources/js/production.js"></script>
   </body>
 </html>

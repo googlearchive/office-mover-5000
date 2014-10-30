@@ -10,9 +10,8 @@
     height: 400px;
   }
 
-  .google-signin {
+  .welcome-hero-signin {
     display: block;
-    background-color: $google-red;
     height: 40px;
 
     color: $white;
@@ -23,7 +22,11 @@
     padding: 10px 15px;
     margin: 0 auto;
 
-    border: 1px solid $google-red;
     border-radius: 3px;
+    
+    &[data-provider="google"]{
+      background-color: $google-red;
+      border: 1px solid $google-red;
+    }
   }
 }
