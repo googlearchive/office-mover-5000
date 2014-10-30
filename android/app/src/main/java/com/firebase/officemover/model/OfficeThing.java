@@ -106,7 +106,9 @@ public class OfficeThing {
         BitmapFactory.Options dimensions = new BitmapFactory.Options();
         dimensions.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(context.getResources(), resourceId, dimensions);
-        height = dimensions.outHeight;
+
+        //TODO: make this use the screen logical density instead of a fixed value for TVDPI
+        height = (int)((dimensions.outHeight / 2D) * 1.33D);
         return height;
     }
 
@@ -124,7 +126,9 @@ public class OfficeThing {
         BitmapFactory.Options dimensions = new BitmapFactory.Options();
         dimensions.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(context.getResources(), resourceId, dimensions);
-        width = dimensions.outWidth;
+
+        //TODO: make this use the screen logical density instead of a fixed value for TVDPI
+        width = (int)((dimensions.outWidth / 2D) * 1.33D);
         return width;
     }
 
