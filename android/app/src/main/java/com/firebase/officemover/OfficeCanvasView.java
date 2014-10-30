@@ -33,7 +33,7 @@ public class OfficeCanvasView extends View {
     }
 
     /**
-     * All available circles
+     * All available things
      */
     private OfficeLayout mOfficeLayout = new OfficeLayout();
     private SparseArray<OfficeThing> mOfficeThingPointer = new SparseArray<OfficeThing>();
@@ -53,8 +53,8 @@ public class OfficeCanvasView extends View {
         newThing.setType(type);
         newThing.setzIndex(mOfficeLayout.getHighestzIndex() + 1);
         newThing.setRotation(0);
-        newThing.setLeft(this.getWidth() / 2);
-        newThing.setTop(this.getHeight() / 2);
+        newThing.setLeft(screenToModel(this.getWidth()) / 2);
+        newThing.setTop(screenToModel(this.getHeight()) / 2);
 
 
         Log.w(TAG, "Added thing " + newThing);
@@ -64,40 +64,35 @@ public class OfficeCanvasView extends View {
         invalidate();
     }
 
-    /**
-     * Default constructor
-     *
-     * @param ct {@link android.content.Context}
-     */
+    public void addExistingThing(OfficeThing existingThing) {
+        if (null == existingThing) throw new IllegalArgumentException();
+
+
+        Log.w(TAG, "Added existing thing " + existingThing);
+        mOfficeLayout.add(existingThing);
+        Collections.sort(mOfficeLayout, new OfficeThingComprator());
+
+        invalidate();
+    }
+
+
     public OfficeCanvasView(final Context ct) {
         super(ct);
-
-        init(ct);
     }
 
     public OfficeCanvasView(final Context ct, final AttributeSet attrs) {
         super(ct, attrs);
-
-        init(ct);
     }
 
     public OfficeCanvasView(final Context ct, final AttributeSet attrs, final int defStyle) {
         super(ct, attrs, defStyle);
-
-        init(ct);
-    }
-
-    private void init(final Context ct) {
     }
 
     @Override
     public void onDraw(final Canvas canv) {
         for (OfficeThing thing : mOfficeLayout) {
             Bitmap thingBitmap = thing.getBitmap(getContext());
-            canv.drawBitmap(thingBitmap, thing.getLeft(), thing.getTop(), DEFAULT_PAINT);
-            Paint red = new Paint();
-            red.setColor(0xFFFF0000);
-            canv.drawCircle(100, 100, 100, red);
+            canv.drawBitmap(thingBitmap, modelToScreen(thing.getLeft()), modelToScreen(thing.getTop()), DEFAULT_PAINT);
         }
     }
 
@@ -111,18 +106,18 @@ public class OfficeCanvasView extends View {
         int pointerId;
         int actionIndex = event.getActionIndex();
 
-        // get touch event coordinates and make transparent circle from it
+        // get touch event coordinates and make transparent wrapper from it
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 // it's the first pointer, so clear all existing pointers data
                 mOfficeThingPointer.clear();
 
-                xTouch = (int) event.getX(0);
-                yTouch = (int) event.getY(0);
+                xTouch = screenToModel((int) event.getX(0));
+                yTouch = screenToModel((int) event.getY(0));
 
                 // check if we've touched inside something
                 touchedThing = getTouchedThing(xTouch, yTouch);
-                if(touchedThing == null) {
+                if (touchedThing == null) {
                     break;
                 }
                 touchedThing.setX(xTouch, getContext());
@@ -138,12 +133,12 @@ public class OfficeCanvasView extends View {
                 // It secondary pointers, so obtain their ids and check circles
                 pointerId = event.getPointerId(actionIndex);
 
-                xTouch = (int) event.getX(actionIndex);
-                yTouch = (int) event.getY(actionIndex);
+                xTouch = screenToModel((int) event.getX(actionIndex));
+                yTouch = screenToModel((int) event.getY(actionIndex));
 
-                // check if we've touched inside some circle
+                // check if we've touched inside something
                 touchedThing = getTouchedThing(xTouch, yTouch);
-                if(touchedThing == null) {
+                if (touchedThing == null) {
                     break;
                 }
 
@@ -155,14 +150,15 @@ public class OfficeCanvasView extends View {
                 break;
 
             case MotionEvent.ACTION_MOVE:
+                //TODO: keep thing from getting dragged outside the board
                 final int pointerCount = event.getPointerCount();
 
                 for (actionIndex = 0; actionIndex < pointerCount; actionIndex++) {
                     // Some pointer has moved, search it by pointer id
                     pointerId = event.getPointerId(actionIndex);
 
-                    xTouch = (int) event.getX(actionIndex);
-                    yTouch = (int) event.getY(actionIndex);
+                    xTouch = screenToModel((int) event.getX(actionIndex));
+                    yTouch = screenToModel((int) event.getY(actionIndex));
 
                     touchedThing = mOfficeThingPointer.get(pointerId);
 
@@ -176,8 +172,6 @@ public class OfficeCanvasView extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
-                Log.v(TAG, "Last drop at " + (mOfficeThingPointer.get(0).getLeft()) + " by " + (mOfficeThingPointer.get(0).getTop()));
-
                 mOfficeThingPointer.clear();
                 invalidate();
                 handled = true;
@@ -185,9 +179,6 @@ public class OfficeCanvasView extends View {
 
             case MotionEvent.ACTION_POINTER_UP:
                 pointerId = event.getPointerId(actionIndex);
-
-                Log.v(TAG, "Dropped at " + mOfficeThingPointer.get(pointerId).getLeft() + " by " + mOfficeThingPointer.get(pointerId).getTop());
-
                 mOfficeThingPointer.remove(pointerId);
                 invalidate();
                 handled = true;
@@ -205,7 +196,9 @@ public class OfficeCanvasView extends View {
         return super.onTouchEvent(event) || handled;
     }
 
-    private OfficeThing getTouchedThing(final int xTouch, final int yTouch) {
+    // Accepts model coords
+    private OfficeThing getTouchedThing(int xTouchModel, int yTouchModel) {
+
         OfficeThing touched = null;
 
         //TODO: move this into the office layout
@@ -223,14 +216,23 @@ public class OfficeCanvasView extends View {
             int bottom = thing.getTop() + thing.getHeight(getContext());
             int right = thing.getLeft() + thing.getWidth(getContext());
 
-
-            if(yTouch <= bottom && yTouch >= top && xTouch >= left && xTouch <= right) {
+            if (yTouchModel <= bottom && yTouchModel >= top && xTouchModel >= left && xTouchModel <= right) {
                 touched = thing;
                 break;
             }
         }
         return touched;
     }
+
+    //Coordinate conversion
+    private int modelToScreen(int coordinate) {
+        return (int) ((double) coordinate * (double) this.getHeight() / 800D);
+    }
+
+    private int screenToModel(int coordinate) {
+        return (int) ((double) coordinate * 800D / (double) this.getHeight());
+    }
+
 
     //TODO: Dynamically fill device with fixed aspect ratio
 //    // Fixes aspect ratio

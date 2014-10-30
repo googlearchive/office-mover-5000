@@ -8,10 +8,11 @@
     <string name="action_new_thing">New Thing</string>
     <string name="action_add_redstapler">Red Stapler</string>
     <string name="action_add_plant2">Plant 2</string>
-    <string name="action_add_plant1">Plant 1</string>
+    <string name="action_add_plant">Plant</string>
     <string name="action_add_pingpong">Ping Pong</string>
     <string name="action_add_pacman">Pacman</string>
     <string name="action_add_nerfgun">Nerf Gun</string>
+    <string name="action_add_laptop">Laptop</string>
     <string name="action_add_dog_retriever">Dog Retriever</string>
     <string name="action_add_dog_corgi">Dog Corgi</string>
     <string name="action_add_desk">Desk</string>

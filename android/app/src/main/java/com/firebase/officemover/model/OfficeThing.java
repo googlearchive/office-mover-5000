@@ -3,6 +3,8 @@ package com.firebase.officemover.model;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 
 public class OfficeThing {
 
@@ -12,11 +14,14 @@ public class OfficeThing {
     private String type;
     private String name;
     private int rotation;
+    private boolean locked;
 
     //Cache variables
     private int height;
     private int width;
     private Bitmap bitmap;
+
+
 
     @Override
     public String toString() {
@@ -24,6 +29,14 @@ public class OfficeThing {
     }
 
     public OfficeThing() {
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
     public int getTop() {
@@ -122,14 +135,22 @@ public class OfficeThing {
             return bitmap;
         }
 
+
         //TODO: better exception
         if (null == this.type) {
             throw new RuntimeException();
         }
 
+
+
         String packageName = context.getPackageName();
         int resourceId = context.getResources().getIdentifier(this.type, "drawable", packageName);
         bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
+
+        // rotate
+        Matrix matrix = new Matrix();
+        matrix.postRotate(rotation);
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
         return bitmap;
     }

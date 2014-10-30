@@ -26,6 +26,10 @@
         android:id="@+id/action_add_dog_retriever"
         android:showAsAction="never"
         android:title="@string/action_add_dog_retriever" />
+    <item
+        android:id="@+id/action_add_laptop"
+        android:showAsAction="never"
+        android:title="@string/action_add_laptop" />
 
     <item
         android:id="@+id/action_add_nerfgun"
@@ -43,9 +47,9 @@
         android:title="@string/action_add_pingpong" />
 
     <item
-        android:id="@+id/action_add_plant1"
+        android:id="@+id/action_add_plant"
         android:showAsAction="never"
-        android:title="@string/action_add_plant1" />
+        android:title="@string/action_add_plant" />
 
     <item
         android:id="@+id/action_add_plant2"
