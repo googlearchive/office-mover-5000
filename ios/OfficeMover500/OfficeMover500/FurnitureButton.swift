@@ -18,7 +18,7 @@ class FurnitureButton : UIButton, UIAlertViewDelegate {
     
     // -- Model state handlers
     var moveHandler: ((Int, Int) -> ())?
-    var rotateHandler: ((Int) -> ())?
+    var rotateHandler: ((Int, Int, Int) -> ())?
     var deleteHandler: (() -> ())?
     var editHandler: ((String) -> ())?
     
@@ -191,7 +191,7 @@ class FurnitureButton : UIButton, UIAlertViewDelegate {
     func triggerRotate(sender: AnyObject) {
         transform = CGAffineTransformRotate(transform, CGFloat(M_PI / -2))
         if let handler = rotateHandler {
-            handler(rotation)
+            handler(top, left, rotation)
         }
     }
     
