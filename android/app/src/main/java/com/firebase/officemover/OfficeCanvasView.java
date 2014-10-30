@@ -95,6 +95,9 @@ public class OfficeCanvasView extends View {
         for (OfficeThing thing : mOfficeLayout) {
             Bitmap thingBitmap = thing.getBitmap(getContext());
             canv.drawBitmap(thingBitmap, thing.getLeft(), thing.getTop(), DEFAULT_PAINT);
+            Paint red = new Paint();
+            red.setColor(0xFFFF0000);
+            canv.drawCircle(100, 100, 100, red);
         }
     }
 
@@ -173,14 +176,17 @@ public class OfficeCanvasView extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
+                Log.v(TAG, "Last drop at " + (mOfficeThingPointer.get(0).getLeft()) + " by " + (mOfficeThingPointer.get(0).getTop()));
+
                 mOfficeThingPointer.clear();
                 invalidate();
                 handled = true;
                 break;
 
             case MotionEvent.ACTION_POINTER_UP:
-                // not general pointer was up
                 pointerId = event.getPointerId(actionIndex);
+
+                Log.v(TAG, "Dropped at " + mOfficeThingPointer.get(pointerId).getLeft() + " by " + mOfficeThingPointer.get(pointerId).getTop());
 
                 mOfficeThingPointer.remove(pointerId);
                 invalidate();
@@ -225,4 +231,13 @@ public class OfficeCanvasView extends View {
         }
         return touched;
     }
+
+    //TODO: Dynamically fill device with fixed aspect ratio
+//    // Fixes aspect ratio
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        int receivedWidth = MeasureSpec.getSize(widthMeasureSpec);
+//
+//        super.onMeasure(receivedWidth, (int)(receivedWidth / ASPECT_RATIO));
+//    }
 }

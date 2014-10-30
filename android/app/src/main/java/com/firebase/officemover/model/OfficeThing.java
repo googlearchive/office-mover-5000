@@ -77,6 +77,7 @@ public class OfficeThing {
     }
 
 
+    //TODO: make these based on the real model instead of the screen
     //TODO: Consider moving these somewhere else. It seems odd for a model object to know about context
     public int getHeight(Context context) {
         if (height != 0) {
@@ -115,6 +116,7 @@ public class OfficeThing {
         return width;
     }
 
+    //TODO: move somewhere else
     public Bitmap getBitmap(Context context) {
         if (bitmap != null) {
             return bitmap;
@@ -138,5 +140,4 @@ public class OfficeThing {
     public void setY(int newY, Context context) {
         this.top = newY - (getHeight(context) / 2);
     }
-
 }
