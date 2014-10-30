@@ -37,6 +37,19 @@ var Furniture = function(snapshot, options) {
 
   this.ref  = new Firebase(utils.urls.furniture + this.id);
 
+  this.ref.on("value", function(snap){
+    self.render(snap);
+  });
+
+  this.render = function(snap){
+
+    var state = snap.val();
+    _.extend(this, state);
+
+    // debugger;
+    this.element.remove();
+    this.createElement();
+  };
 
   /*
   * Create Furniture Method
@@ -44,6 +57,8 @@ var Furniture = function(snapshot, options) {
   */
 
   this.createElement = function() {
+
+    var isActive;
 
     //SET DRAG OPTIONS
     this.element.draggable({
@@ -64,6 +79,10 @@ var Furniture = function(snapshot, options) {
       }
     });
 
+    if (this.locked){
+      isActive = "is-active";
+    }
+
     // SET CURRENT LOCATION
     this.element
     .addClass(this.type)
@@ -71,6 +90,13 @@ var Furniture = function(snapshot, options) {
       "top": parseInt(this.top, 10),
       "left": parseInt(this.left, 10)
     });
+
+    if (isActive){
+      this.element.addClass(isActive);
+    }
+    else {
+      this.element.removeClass(isActive);
+    }
 
     // ADD TO DOM
     this.officeSpace.append(this.element);

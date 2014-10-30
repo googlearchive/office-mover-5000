@@ -57,6 +57,10 @@ var app = {
     });
   },
 
+  removeFurniture: function(snapshot){
+    // TODO: add method to remove furniture
+  },
+
   checkUserAuthentication: function(){
     var self = this;
 
@@ -74,8 +78,16 @@ var app = {
     var self = this;
 
     furnitureRef.once("value", function(snapshot){
-       self.createFurniture(snapshot, {});
+      self.createFurniture(snapshot);
     });
+
+    // furnitureRef.on("child_added", function(snapshot){
+    //   self.createFurniture(snapshot);
+    // });
+
+    // furnitureRef.on("child_removed", function(snapshot){
+    //   self.removeFurniture(snapshot);
+    // });
   },
 
   logout: function(){

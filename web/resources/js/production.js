@@ -103,6 +103,10 @@
 	    });
 	  },
 
+	  removeFurniture: function(snapshot){
+	    // TODO: add method to remove furniture
+	  },
+
 	  checkUserAuthentication: function(){
 	    var self = this;
 
@@ -120,8 +124,16 @@
 	    var self = this;
 
 	    furnitureRef.once("value", function(snapshot){
-	       self.createFurniture(snapshot, {});
+	      self.createFurniture(snapshot);
 	    });
+
+	    // furnitureRef.on("child_added", function(snapshot){
+	    //   self.createFurniture(snapshot);
+	    // });
+
+	    // furnitureRef.on("child_removed", function(snapshot){
+	    //   self.removeFurniture(snapshot);
+	    // });
 	  },
 
 	  logout: function(){
@@ -215,6 +227,19 @@
 
 	  this.ref  = new Firebase(utils.urls.furniture + this.id);
 
+	  this.ref.on("value", function(snap){
+	    self.render(snap);
+	  });
+
+	  this.render = function(snap){
+
+	    var state = snap.val();
+	    _.extend(this, state);
+
+	    // debugger;
+	    this.element.remove();
+	    this.createElement();
+	  };
 
 	  /*
 	  * Create Furniture Method
@@ -222,6 +247,8 @@
 	  */
 
 	  this.createElement = function() {
+
+	    var isActive;
 
 	    //SET DRAG OPTIONS
 	    this.element.draggable({
@@ -242,6 +269,10 @@
 	      }
 	    });
 
+	    if (this.locked){
+	      isActive = "is-active";
+	    }
+
 	    // SET CURRENT LOCATION
 	    this.element
 	    .addClass(this.type)
@@ -249,6 +280,13 @@
 	      "top": parseInt(this.top, 10),
 	      "left": parseInt(this.left, 10)
 	    });
+
+	    if (isActive){
+	      this.element.addClass(isActive);
+	    }
+	    else {
+	      this.element.removeClass(isActive);
+	    }
 
 	    // ADD TO DOM
 	    this.officeSpace.append(this.element);
@@ -296,7 +334,6 @@
 
 	      rootRef.authWithOAuthPopup(provider, function(error, authData){
 	        if (error){
-	          console.log(error);
 	          self.$alert.removeClass("is-hidden");
 	        }
 	        else {
