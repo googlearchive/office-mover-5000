@@ -68,9 +68,7 @@
 	    var self = this;
 
 	    furnitureRef.once("value", function(snapshot){
-	       self.createFurniture(snapshot, {
-
-	       });
+	       self.createFurniture(snapshot);
 	    });
 	  },
 
