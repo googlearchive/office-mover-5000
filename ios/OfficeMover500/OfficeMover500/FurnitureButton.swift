@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 import QuartzCore
 
-enum DragState {
-    case None, Maybe, Dragging
+enum DragState: Int {
+    case None = 0, Maybe, Dragging
 }
 
 class FurnitureView : UIButton, UIAlertViewDelegate {
@@ -169,6 +169,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
     func touchDown(button: UIButton, withEvent event: UIEvent) {
         startDown = center
         dragging = .Maybe
+        showShadow()
         superview?.bringSubviewToFront(self)
     }
     
@@ -218,8 +219,23 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         }
     }
     
+    // --- Selected shadow
+    func showShadow() {
+        layer.shadowColor = TopbarBlue.CGColor
+        layer.shadowRadius = 4.0
+        layer.shadowOpacity = 0.9
+        layer.shadowOffset = CGSizeZero
+        layer.masksToBounds = false
+    }
+    
+    func hideShadow() {
+        layer.shadowOpacity = 0
+    }
+    
+    
     // --- Menu helper methods
     func showMenu() {
+        showShadow()
         menuShowing = true
         let menuController = UIMenuController.sharedMenuController()
         
@@ -254,11 +270,13 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         if menuListener != nil {
             NSNotificationCenter.defaultCenter().removeObserver(menuListener!)
         }
-        
         menuListener = NSNotificationCenter.defaultCenter().addObserverForName(UIMenuControllerWillHideMenuNotification, object:nil, queue: nil, usingBlock: {
             notification in
             if self.dragging == .Dragging {
                 self.menuShowing = false
+            }
+            if self.dragging == .None {
+                self.hideShadow()
             }
             NSNotificationCenter.defaultCenter().removeObserver(self.menuListener!)
         })
