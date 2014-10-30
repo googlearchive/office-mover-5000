@@ -51,6 +51,7 @@ class ViewController: RoomViewController {
         })
         
         
+        // When the furniture moves, update the Firebase
         view.moveHandler = { top, left in
             currentFurnitureRef.updateChildValues([
                 "top": top,
@@ -58,6 +59,7 @@ class ViewController: RoomViewController {
             ])
         }
         
+        // When the furniture rotates, update the Firebase
         view.rotateHandler = { top, left, rotation in
             currentFurnitureRef.updateChildValues([
                 "top": top,
@@ -66,11 +68,13 @@ class ViewController: RoomViewController {
             ])
         }
         
+        // When the furniture is deleted, update the Firebase
         view.deleteHandler = {
             view.delete()
             currentFurnitureRef.removeValue()
         }
         
+        // For desks, when we edit the name on the desk, update the Firebase
         view.editHandler = { name in
             currentFurnitureRef.updateChildValues([
                 "name": name
