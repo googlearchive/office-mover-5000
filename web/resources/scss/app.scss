@@ -1,12 +1,12 @@
 // BASE STYLES AND VARS
+@import 'options';
 @import 'base';
-@import 'vars';
 
 // LAYOUT
 @import 'layout';
 
 // MODULES
-@import 'modules/header';
+@import 'modules/toolbar';
 @import 'modules/editor';
 
 // STATE

@@ -2,7 +2,6 @@ var Utils  = require('./helpers/utils');
 var Furniture  = require('./components/furniture');
 var rootRef = new Firebase(Utils.urls.root);
 var furnitureRef = new Firebase(Utils.urls.furniture);
-var editor = require('./editor');
 
 
 /*
@@ -23,7 +22,9 @@ var app = {
     var self = this;
 
     furnitureRef.once("value", function(snapshot){
-       self.createFurniture(snapshot);
+       self.createFurniture(snapshot, {
+
+       });
     });
   },
 
@@ -31,7 +32,6 @@ var app = {
     snapshot.forEach(function(childSnapshot) {
       new Furniture(childSnapshot);
     });
-    editor.init();
   }
 };
 
