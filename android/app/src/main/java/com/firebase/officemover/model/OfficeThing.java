@@ -19,15 +19,22 @@ public class OfficeThing {
     private int height;
     private int width;
     private Bitmap bitmap;
+    private String key;
 
-
+    public OfficeThing() {
+    }
 
     @Override
     public String toString() {
-        return "OfficeThing:" + type + "{name:" + name + ",zIndex:" + zIndex + "}";
+        return "OfficeThing:" + type + "{name:" + name + ",X:" + left + ",Y:" + top + ",zIndex:" + zIndex + "}";
     }
 
-    public OfficeThing() {
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public boolean isLocked() {
@@ -59,7 +66,6 @@ public class OfficeThing {
     }
 
     public void setzIndex(int zIndex) {
-        if (zIndex <= 0) throw new IllegalArgumentException();
 
         this.zIndex = zIndex;
     }
@@ -108,7 +114,7 @@ public class OfficeThing {
         BitmapFactory.decodeResource(context.getResources(), resourceId, dimensions);
 
         //TODO: make this use the screen logical density instead of a fixed value for TVDPI
-        height = (int)((dimensions.outHeight / 2D) * 1.33D);
+        height = (int) ((dimensions.outHeight / 2D) * 1.33D);
         return height;
     }
 
@@ -128,7 +134,7 @@ public class OfficeThing {
         BitmapFactory.decodeResource(context.getResources(), resourceId, dimensions);
 
         //TODO: make this use the screen logical density instead of a fixed value for TVDPI
-        width = (int)((dimensions.outWidth / 2D) * 1.33D);
+        width = (int) ((dimensions.outWidth / 2D) * 1.33D);
         return width;
     }
 
@@ -156,10 +162,12 @@ public class OfficeThing {
         return bitmap;
     }
 
+    //TODO: These are probably broken because of display resolutions
     public void setX(int newX, Context context) {
-        this.left = newX - (getWidth(context) / 2);
+        this.setLeft(newX - (getWidth(context) / 2));
     }
+
     public void setY(int newY, Context context) {
-        this.top = newY - (getHeight(context) / 2);
+        this.setTop(newY - (getHeight(context) / 2));
     }
 }

@@ -13,67 +13,18 @@ import android.view.View;
 import com.firebase.officemover.model.OfficeLayout;
 import com.firebase.officemover.model.OfficeThing;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 public class OfficeCanvasView extends View {
 
     private static final String TAG = OfficeCanvasView.class.getSimpleName();
 
-    private final Paint DEFAULT_PAINT = new Paint();
-
-    private static class OfficeThingComprator implements Comparator<OfficeThing> {
-
-        @Override
-        public int compare(OfficeThing lhs, OfficeThing rhs) {
-            return lhs.getzIndex() - rhs.getzIndex();
-        }
-    }
+    private static final Paint DEFAULT_PAINT = new Paint();
 
     /**
      * All available things
      */
-    private OfficeLayout mOfficeLayout = new OfficeLayout();
     private SparseArray<OfficeThing> mOfficeThingPointer = new SparseArray<OfficeThing>();
-
-    public List<OfficeThing> getOfficeLayout() {
-        return mOfficeLayout;
-    }
-
-    public void setOfficeLayout(OfficeLayout officeLayout) {
-        this.mOfficeLayout = officeLayout;
-    }
-
-    public void addNewThing(String type) {
-        if (null == type) throw new IllegalArgumentException();
-
-        OfficeThing newThing = new OfficeThing();
-        newThing.setType(type);
-        newThing.setzIndex(mOfficeLayout.getHighestzIndex() + 1);
-        newThing.setRotation(0);
-        newThing.setLeft(screenToModel(this.getWidth()) / 2);
-        newThing.setTop(screenToModel(this.getHeight()) / 2);
-
-
-        Log.w(TAG, "Added thing " + newThing);
-        mOfficeLayout.add(newThing);
-        Collections.sort(mOfficeLayout, new OfficeThingComprator());
-
-        invalidate();
-    }
-
-    public void addExistingThing(OfficeThing existingThing) {
-        if (null == existingThing) throw new IllegalArgumentException();
-
-
-        Log.w(TAG, "Added existing thing " + existingThing);
-        mOfficeLayout.add(existingThing);
-        Collections.sort(mOfficeLayout, new OfficeThingComprator());
-
-        invalidate();
-    }
+    private OfficeLayout mOfficeLayout;
+    private OfficeMoverActivity.ThingChangeListener mThingChangedListener;
 
 
     public OfficeCanvasView(final Context ct) {
@@ -90,7 +41,13 @@ public class OfficeCanvasView extends View {
 
     @Override
     public void onDraw(final Canvas canv) {
-        for (OfficeThing thing : mOfficeLayout) {
+        if(null == mOfficeLayout) {
+            Log.w(TAG, "Tried to render empty office");
+            return;
+        }
+
+        // TODO: draw from bottom z-index to top z-index (use queries?)
+        for (OfficeThing thing : mOfficeLayout.values()) {
             Bitmap thingBitmap = thing.getBitmap(getContext());
             canv.drawBitmap(thingBitmap, modelToScreen(thing.getLeft()), modelToScreen(thing.getTop()), DEFAULT_PAINT);
         }
@@ -106,10 +63,19 @@ public class OfficeCanvasView extends View {
         int pointerId;
         int actionIndex = event.getActionIndex();
 
+        synchronized (mOfficeThingPointer) {
+            try {
+                mOfficeThingPointer.wait(10L);
+            } catch (InterruptedException e) {
+                //noop
+            }
+        }
+
         // get touch event coordinates and make transparent wrapper from it
         switch (event.getActionMasked()) {
+
             case MotionEvent.ACTION_DOWN:
-                // it's the first pointer, so clear all existing pointers data
+                // first pointer, clear all existing pointers data
                 mOfficeThingPointer.clear();
 
                 xTouch = screenToModel((int) event.getX(0));
@@ -120,11 +86,16 @@ public class OfficeCanvasView extends View {
                 if (touchedThing == null) {
                     break;
                 }
+
+                //TODO: decouple this from the local model
                 touchedThing.setX(xTouch, getContext());
                 touchedThing.setY(yTouch, getContext());
-                mOfficeThingPointer.put(event.getPointerId(0), touchedThing);
 
-                invalidate();
+                if(null != this.mThingChangedListener) {
+                    mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                }
+
+                mOfficeThingPointer.put(event.getPointerId(0), touchedThing);
                 handled = true;
                 break;
 
@@ -145,7 +116,11 @@ public class OfficeCanvasView extends View {
                 mOfficeThingPointer.put(pointerId, touchedThing);
                 touchedThing.setX(xTouch, getContext());
                 touchedThing.setY(yTouch, getContext());
-                invalidate();
+
+                if(null != this.mThingChangedListener) {
+                    mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                }
+
                 handled = true;
                 break;
 
@@ -165,9 +140,11 @@ public class OfficeCanvasView extends View {
                     if (null != touchedThing) {
                         touchedThing.setX(xTouch, getContext());
                         touchedThing.setY(yTouch, getContext());
+                        if(null != this.mThingChangedListener) {
+                            mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                        }
                     }
                 }
-                invalidate();
                 handled = true;
                 break;
 
@@ -187,30 +164,19 @@ public class OfficeCanvasView extends View {
             case MotionEvent.ACTION_CANCEL:
                 handled = true;
                 break;
-
-            default:
-                // do nothing
-                break;
         }
 
         return super.onTouchEvent(event) || handled;
     }
 
     // Accepts model coords
+    // TODO: handle rotation
     private OfficeThing getTouchedThing(int xTouchModel, int yTouchModel) {
 
         OfficeThing touched = null;
 
-        //TODO: move this into the office layout
-        List<OfficeThing> backwardsLayout = new ArrayList<OfficeThing>(mOfficeLayout);
-        Collections.sort(backwardsLayout, new Comparator<OfficeThing>() {
-            @Override
-            public int compare(OfficeThing lhs, OfficeThing rhs) {
-                return rhs.getzIndex() - lhs.getzIndex();
-            }
-        });
-
-        for (OfficeThing thing : backwardsLayout) {
+        //TODO: get the item with highest zindex, instead of a random one
+        for (OfficeThing thing : mOfficeLayout.values()) {
             int top = thing.getTop();
             int left = thing.getLeft();
             int bottom = thing.getTop() + thing.getHeight(getContext());
@@ -225,12 +191,25 @@ public class OfficeCanvasView extends View {
     }
 
     //Coordinate conversion
-    private int modelToScreen(int coordinate) {
+    //TODO: called from the activity too, consider moving elsewhere
+    public int modelToScreen(int coordinate) {
         return (int) ((double) coordinate * (double) this.getHeight() / 800D);
     }
 
-    private int screenToModel(int coordinate) {
+    public int screenToModel(int coordinate) {
         return (int) ((double) coordinate * 800D / (double) this.getHeight());
+    }
+
+    public OfficeLayout getOfficeLayout() {
+        return mOfficeLayout;
+    }
+
+    public void setOfficeLayout(OfficeLayout officeLayout) {
+        this.mOfficeLayout = officeLayout;
+    }
+
+    public void setThingChangedListener(OfficeMoverActivity.ThingChangeListener thingChangeListener) {
+        this.mThingChangedListener = thingChangeListener;
     }
 
 

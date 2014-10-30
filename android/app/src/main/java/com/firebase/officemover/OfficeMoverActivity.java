@@ -2,6 +2,7 @@ package com.firebase.officemover;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,12 +13,20 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.officemover.model.OfficeLayout;
 import com.firebase.officemover.model.OfficeThing;
 
 public class OfficeMoverActivity extends Activity {
+    private final static String TAG = OfficeMoverActivity.class.getSimpleName();
 
-    private OfficeCanvasView mOffice;
-    private View mOfficeLotView;
+    private OfficeLayout mOfficeLayout;
+    private OfficeCanvasView mOfficeCanvasView;
+    private Firebase mFirebaseRef;
+
+    public abstract class ThingChangeListener {
+        public abstract void thingChanged(String key, OfficeThing officeThing);
+    }
+    private ThingChangeListener mThingChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,42 +34,72 @@ public class OfficeMoverActivity extends Activity {
 
         setContentView(R.layout.activity_office_mover);
 
-        mOfficeLotView = findViewById(R.id.office_lot);
-
-        mOffice = (OfficeCanvasView)findViewById(R.id.office_canvas);
+        mOfficeLayout = new OfficeLayout();
+        mOfficeCanvasView = (OfficeCanvasView) findViewById(R.id.office_canvas);
+        mOfficeCanvasView.setOfficeLayout(mOfficeLayout);
 
         Firebase.setAndroidContext(this);
 
         // add an on child added listener for the table
-        Firebase myFirebaseRef = new Firebase("https://office-mover2.firebaseio.com/");
-        myFirebaseRef.child("furniture").addChildEventListener(new ChildEventListener() {
+        mFirebaseRef = new Firebase("https://office-mover2.firebaseio.com/");
+
+        mFirebaseRef.child("furniture").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                String key = dataSnapshot.getName();
                 OfficeThing existingThing = dataSnapshot.getValue(OfficeThing.class);
 
-                mOffice.addExistingThing(existingThing);
+                Log.v(TAG, "New thing " + existingThing);
+
+                addUpdateThingToLocalModel(key, existingThing);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                String key = dataSnapshot.getName();
+                OfficeThing existingThing = dataSnapshot.getValue(OfficeThing.class);
 
+                Log.v(TAG, "Thing changed " + existingThing);
+
+
+                addUpdateThingToLocalModel(key, existingThing);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.getName();
 
+                Log.v(TAG, "Thing removed " + key);
+
+                removeThingFromLocalModel(key);
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                String key = dataSnapshot.getName();
+                OfficeThing existingThing = dataSnapshot.getValue(OfficeThing.class);
 
+                Log.v(TAG, "Thing moved " + existingThing);
+
+                addUpdateThingToLocalModel(key, existingThing);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                Log.v(TAG, "Something canceled");
+                //TODO: handle this
+                throw new RuntimeException();
             }
         });
+
+        mThingChangeListener = new ThingChangeListener() {
+            @Override
+            public void thingChanged(String key, OfficeThing officeThing) {
+                updateOfficeThing(key, officeThing);
+            }
+        };
+        mOfficeCanvasView.setThingChangedListener(mThingChangeListener);
     }
 
     @Override
@@ -91,43 +130,43 @@ public class OfficeMoverActivity extends Activity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         int id = item.getItemId();
-                        switch(id) {
+                        switch (id) {
                             //TODO: do this with less copy and paste
                             case R.id.action_add_android:
-                                mOffice.addNewThing("android");
+                                addOfficeThing("android");
                                 break;
                             case R.id.action_add_ballpit:
-                                mOffice.addNewThing("ballpit");
+                                addOfficeThing("ballpit");
                                 break;
                             case R.id.action_add_desk:
-                                mOffice.addNewThing("desk");
+                                addOfficeThing("desk");
                                 break;
                             case R.id.action_add_dog_corgi:
-                                mOffice.addNewThing("dog_corgi");
+                                addOfficeThing("dog_corgi");
                                 break;
                             case R.id.action_add_dog_retriever:
-                                mOffice.addNewThing("dog_retriever");
+                                addOfficeThing("dog_retriever");
                                 break;
                             case R.id.action_add_laptop:
-                                mOffice.addNewThing("laptop");
+                                addOfficeThing("laptop");
                                 break;
                             case R.id.action_add_nerfgun:
-                                mOffice.addNewThing("nerfgun");
+                                addOfficeThing("nerfgun");
                                 break;
                             case R.id.action_add_pacman:
-                                mOffice.addNewThing("pacman");
+                                addOfficeThing("pacman");
                                 break;
                             case R.id.action_add_pingpong:
-                                mOffice.addNewThing("pingpong");
+                                addOfficeThing("pingpong");
                                 break;
                             case R.id.action_add_plant:
-                                mOffice.addNewThing("plant");
+                                addOfficeThing("plant");
                                 break;
                             case R.id.action_add_plant2:
-                                mOffice.addNewThing("plant2");
+                                addOfficeThing("plant2");
                                 break;
                             case R.id.action_add_redstapler:
-                                mOffice.addNewThing("redstapler");
+                                addOfficeThing("redstapler");
                                 break;
                             default:
                                 throw new RuntimeException();
@@ -140,4 +179,56 @@ public class OfficeMoverActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * Saves a new thing to Firebase, which is then picked up and displayed by
+     * the view
+     * @param thingType
+     */
+    private void addOfficeThing(String thingType) {
+        if (null == thingType) throw new IllegalArgumentException();
+
+        OfficeThing newThing = new OfficeThing();
+        newThing.setType(thingType);
+        newThing.setzIndex(mOfficeCanvasView.getOfficeLayout().getHighestzIndex() + 1);
+        newThing.setRotation(0);
+        newThing.setLeft(mOfficeCanvasView.screenToModel(mOfficeCanvasView.getWidth()) / 2);
+        newThing.setTop(mOfficeCanvasView.screenToModel(mOfficeCanvasView.getHeight()) / 2);
+
+        Log.w(TAG, "Added thing to firebase " + newThing);
+
+        Firebase newThingFirebaseRef = mFirebaseRef.child("furniture").push();
+        newThingFirebaseRef.setValue(newThing);
+    }
+
+    public void updateOfficeThing(String key, OfficeThing officeThing) {
+        if (null == key || null == officeThing) throw new IllegalArgumentException();
+
+        // re-apply the cached key, just in case
+        officeThing.setKey(key);
+
+        mFirebaseRef.child("furniture").child(key).setValue(officeThing);
+    }
+
+
+    /**
+     * Adds a thing to the local model used in rendering
+     * @param key
+     * @param officeThing
+     */
+    public void addUpdateThingToLocalModel(String key, OfficeThing officeThing) {
+        officeThing.setKey(key);
+        mOfficeLayout.put(key, officeThing);
+        mOfficeCanvasView.invalidate();
+    }
+
+    /**
+     * Removes a thing from the local model used in rendering
+     * @param key
+     */
+    public void removeThingFromLocalModel(String key) {
+        mOfficeLayout.remove(key);
+        mOfficeCanvasView.invalidate();
+    }
+
 }
