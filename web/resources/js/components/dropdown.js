@@ -8,6 +8,8 @@ var Dropdown = function($parent, data, type) {
   var liTemplate = _.template($('#template-dropdown-item').html());
   var buttonList = '';
 
+
+
   // LOOP THROUGH DATA & CREATE BUTTONS
   for(var i = 0, l = data.length; i < l; i++) {
     buttonList = buttonList + liTemplate({
@@ -21,6 +23,12 @@ var Dropdown = function($parent, data, type) {
   $parent.append(ListTemplate({
     items: buttonList
   }));
+
+
+  $parent.on('click', function(e) {
+    e.preventDefault();
+    $parent.find('.dropdown').toggleClass('is-visible');
+  });
 };
 
 module.exports = Dropdown;

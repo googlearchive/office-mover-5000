@@ -38,23 +38,23 @@
     </div>
 
 
-      <script id="template-dropdown" type="text/template">
-        <div class="dropdown">
-          <span class="dropdown-arrow"></span>
-          <ul class="dropdown-options">
-            <%= items %>
-          </ul>
-        </div>
-      </script>
+    <script id="template-dropdown" type="text/template">
+      <div class="dropdown">
+        <span class="dropdown-arrow"></span>
+        <ul class="dropdown-options">
+          <%= items %>
+        </ul>
+      </div>
+    </script>
 
-      <script id="template-dropdown-item" type="text/template">
-        <li data-type="<%= type %>" data-name="<%= name %>" class="<%= name %>">
-          <a href="#" class="dropdown-button">
-            <i class="dropdown-button-icon"></i>
-            <%= description %>
-          </a>
-        </li>
-      </script>
+    <script id="template-dropdown-item" type="text/template">
+      <li data-type="<%= type %>" data-name="<%= name %>" class="<%= name %>">
+        <a href="#" class="dropdown-button">
+          <i class="dropdown-button-icon"></i>
+          <%= description %>
+        </a>
+      </li>
+    </script>
 
     <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>
     <script src="bower_components/jquery/jquery.js"></script>

@@ -3,8 +3,10 @@
   top: 60px;
   background: $white;
   border-radius: 3px;
-  box-shadow: 0px 10px 100px rgba(0, 0, 0, .2);
+  box-shadow: 0px 5px 40px rgba(0, 0, 0, .4);
   width: 300px;
+  opacity: .9;
+  display: none;
 
   .dropdown-arrow {
     width: 0;
@@ -27,6 +29,19 @@
       display: block;
       margin: 0px;
       padding: 0px;
+
+      &:first-child {
+        .dropdown-button {
+          border-radius: 3px 3px 0px 0px;
+        }
+      }
+
+      &:last-child {
+        border-bottom: none;
+        .dropdown-button {
+          border-radius: 0px 0px 3px 3px;
+        }
+      }
     }
 
     .dropdown-button-icon {
@@ -46,7 +61,8 @@
       background: $white;
       line-height: 70px;
       font-size: 18px;
-      color: #2896DD;
+      color: $blue-green-gray;
+      text-decoration: none;
       display: block;
       text-align: left;
       padding: 0px 20px 0px 70px;
