@@ -1,0 +1,93 @@
+.furniture {
+  border-radius: $border-radius;
+  border: 1px solid $metal;
+  background-color: $concrete;
+  position: absolute !important;
+
+  &.is-active {
+    border: 3px solid $azure;
+    background-color: $bluish-gray;
+  }
+
+  &.desk {
+    width: 115px;
+    height: 61.5px;
+  }
+
+  &.plant {
+    background: url('../images/plant1.png') top left no-repeat;
+    background-size: 50px 53px;
+    width: 50px;
+    height: 53px;
+  }
+
+  &.plant2 {
+    background: url('../images/plant2.png') top left no-repeat;
+    background-size: 50.5px 50.5px;
+    width: 50.5px;
+    height: 50.5px;
+  }
+
+  &.pingpong {
+    background: url('../images/pingpong.png') top left no-repeat;
+    background-size: 188px 122.5;
+    width: 188px;
+    height: 122.5px;
+  }
+
+  &.ballpit {
+    background: url('../images/ballpit.png') top left no-repeat;
+    background-size: 113px 112.5;
+    width: 113px;
+    height: 112.5;
+  }
+
+  &.pacman {
+    background: url('../images/pacman.png') top left no-repeat;
+    background-size: 50px 53px;
+    width: 50px;
+    height: 53px;
+  }
+
+  &.laptop {
+    background: url('../images/laptop.png') top left no-repeat;
+    background-size: 40.5px 29.5px;
+    width: 40.5px;
+    height: 29.5px;
+  }
+
+  &.nerfgun {
+    background: url('../images/nerfgun.png') top left no-repeat;
+    background-size: 40.5px 32.5px;
+    width: 40.5px;
+    height: 32.5px;
+  }
+
+  &.android {
+    background: url('../images/android.png') top left no-repeat;
+    background-size: 50px 53px;
+    width: 50px;
+    height: 53px;
+  }
+
+  &.dog_corgi {
+    background: url('../images/dog_corgi.png') top left no-repeat;
+    background-size: 32px 63px;
+    width: 32px;
+    height: 63px;
+  }
+
+  &.dog_retriver {
+    background: url('../images/dog_retriver.png') top left no-repeat;
+    background-size: 40.5 49;
+    width: 40.5;
+    height: 49;
+  }
+
+  &.redstapler {
+    background: url('../images/redstapler.png') top left no-repeat;
+    background-size: 32px 12px;
+    width: 32px;
+    height: 12px;
+  }
+}

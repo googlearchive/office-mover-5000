@@ -19,7 +19,7 @@ var Furniture = function(snapshot, options) {
   */
 
   this.officeSpace = $('#office-space');
-  this.element = $("<div class='editor-furniture editor-desk'></div>");
+  this.element = $("<div class='furniture'></div>");
   this.id = snapshot.name();
   this.ref = snapshot.ref();
   this.type = data.type;
@@ -49,7 +49,7 @@ var Furniture = function(snapshot, options) {
     this.element.draggable({
       containment: self.officeSpace,
       start: function(event, ui){
-        self.element.addClass("is-editor-furniture-active");
+        self.element.addClass("is-active");
         self.ref.child("locked").set(true);
       },
 
@@ -59,13 +59,15 @@ var Furniture = function(snapshot, options) {
       },
 
       stop: function(event, ui){
-        self.element.removeClass("is-editor-furniture-active");
+        self.element.removeClass("is-active");
         self.ref.child("locked").set(false);
       }
     });
 
     // SET CURRENT LOCATION
-    this.element.css({
+    this.element
+    .addClass(this.type)
+    .css({
       "top": parseInt(this.top, 10),
       "left": parseInt(this.left, 10)
     });
