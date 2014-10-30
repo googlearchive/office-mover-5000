@@ -38,6 +38,6 @@ class RoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // uncomment this when we want to show the buttons to add things and such
-        // navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
+        navigationItem.leftBarButtonItems = [addItemButton] //, backgroundButton]
     }
 }

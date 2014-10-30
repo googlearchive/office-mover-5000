@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--Add Item Controller-->
         <scene sceneID="8IJ-2D-QSf">
             <objects>
-                <tableViewController id="Iv4-t6-v02" sceneMemberID="viewController">
+                <tableViewController id="Iv4-t6-v02" customClass="AddItemController" customModule="OfficeMover500" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1Yd-7M-E71">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -66,14 +66,14 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <barButtonItem systemItem="add" id="YPx-24-DjD">
+                <barButtonItem image="icon_add" id="YPx-24-DjD">
                     <connections>
                         <segue destination="Iv4-t6-v02" kind="popoverPresentation" popoverAnchorBarButtonItem="YPx-24-DjD" id="d6F-OU-wtz">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
                     </connections>
                 </barButtonItem>
-                <barButtonItem systemItem="edit" id="ep3-aJ-GKY"/>
+                <barButtonItem image="icon_backgrounds" id="ep3-aJ-GKY"/>
             </objects>
             <point key="canvasLocation" x="741" y="-8"/>
         </scene>
@@ -96,4 +96,8 @@
             <point key="canvasLocation" x="-71" y="-8"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon_add" width="32" height="32"/>
+        <image name="icon_backgrounds" width="40" height="32"/>
+    </resources>
 </document>
