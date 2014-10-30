@@ -31,12 +31,43 @@ public class OfficeMoverActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_new_thing) {
-            mOffice.addNewThing();
-            return true;
-        } else if(id == R.id.action_clear) {
-            mOffice.clearLayout();
-            return true;
+        switch (id) {
+            //TODO: do this with less copy and paste
+            case R.id.action_add_android:
+                mOffice.addNewThing("android");
+                break;
+            case R.id.action_add_ballpit:
+                mOffice.addNewThing("ballpit");
+                break;
+            case R.id.action_add_desk:
+                mOffice.addNewThing("desk");
+                break;
+            case R.id.action_add_dog_corgi:
+                mOffice.addNewThing("dog_corgi");
+                break;
+            case R.id.action_add_dog_retriever:
+                mOffice.addNewThing("dog_retriever");
+                break;
+            case R.id.action_add_nerfgun:
+                mOffice.addNewThing("nerfgun");
+                break;
+            case R.id.action_add_pacman:
+                mOffice.addNewThing("pacman");
+                break;
+            case R.id.action_add_pingpong:
+                mOffice.addNewThing("pingpong");
+                break;
+            case R.id.action_add_plant1:
+                mOffice.addNewThing("plant1");
+                break;
+            case R.id.action_add_plant2:
+                mOffice.addNewThing("plant2");
+                break;
+            case R.id.action_add_redstapler:
+                mOffice.addNewThing("redstapler");
+                break;
+            default:
+                throw new RuntimeException();
         }
         return super.onOptionsItemSelected(item);
     }

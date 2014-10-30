@@ -1,13 +1,60 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".OfficeMoverActivity" >
-    <item android:id="@+id/action_new_thing"
-        android:title="@string/action_new_thing"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
-    <item android:id="@+id/action_clear"
-        android:title="@string/action_clear"
-        android:orderInCategory="200"
-        android:showAsAction="never" />
+    tools:context=".OfficeMoverActivity">
+    <!-- TODO: add icons -->
+    <item
+        android:id="@+id/action_add_android"
+        android:showAsAction="never"
+        android:title="@string/action_add_android"/>
+
+    <item
+        android:id="@+id/action_add_ballpit"
+        android:showAsAction="never"
+        android:title="@string/action_add_ballpit" />
+
+    <item
+        android:id="@+id/action_add_desk"
+        android:showAsAction="never"
+        android:title="@string/action_add_desk" />
+
+    <item
+        android:id="@+id/action_add_dog_corgi"
+        android:showAsAction="never"
+        android:title="@string/action_add_dog_corgi" />
+
+    <item
+        android:id="@+id/action_add_dog_retriever"
+        android:showAsAction="never"
+        android:title="@string/action_add_dog_retriever" />
+
+    <item
+        android:id="@+id/action_add_nerfgun"
+        android:showAsAction="never"
+        android:title="@string/action_add_nerfgun" />
+
+    <item
+        android:id="@+id/action_add_pacman"
+        android:showAsAction="never"
+        android:title="@string/action_add_pacman" />
+
+    <item
+        android:id="@+id/action_add_pingpong"
+        android:showAsAction="never"
+        android:title="@string/action_add_pingpong" />
+
+    <item
+        android:id="@+id/action_add_plant1"
+        android:showAsAction="never"
+        android:title="@string/action_add_plant1" />
+
+    <item
+        android:id="@+id/action_add_plant2"
+        android:showAsAction="never"
+        android:title="@string/action_add_plant2" />
+
+    <item
+        android:id="@+id/action_add_redstapler"
+        android:showAsAction="never"
+        android:title="@string/action_add_redstapler" />
 
 </menu>

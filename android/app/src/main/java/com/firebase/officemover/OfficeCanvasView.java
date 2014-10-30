@@ -2,106 +2,64 @@ package com.firebase.officemover;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.firebase.officemover.model.OfficeLayout;
+import com.firebase.officemover.model.OfficeThing;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 public class OfficeCanvasView extends View {
 
     private static final String TAG = OfficeCanvasView.class.getSimpleName();
 
-    /**
-     * Main bitmap
-     */
-    private Bitmap mBitmap = null;
+    private final Paint DEFAULT_PAINT = new Paint();
 
-    private Rect mMeasuredRect;
-
-    /**
-     * Stores data about single circle
-     */
-    private static class CircleArea {
-        int radius;
-        int centerX;
-        int centerY;
-        int zIndex;
-        Paint paint;
-
-        CircleArea(int centerX, int centerY, int radius, int zIndex, Paint paint) {
-            this.radius = radius;
-            this.centerX = centerX;
-            this.centerY = centerY;
-            this.zIndex = zIndex;
-            this.paint = paint;
-        }
+    private static class OfficeThingComprator implements Comparator<OfficeThing> {
 
         @Override
-        public String toString() {
-            return "Circle[" + centerX + ", " + centerY + ", " + radius + "]";
+        public int compare(OfficeThing lhs, OfficeThing rhs) {
+            return lhs.getzIndex() - rhs.getzIndex();
         }
     }
-
-    private static class CircleAreaComprator implements Comparator<CircleArea> {
-
-        @Override
-        public int compare(CircleArea lhs, CircleArea rhs) {
-            return lhs.zIndex - rhs.zIndex;
-        }
-    }
-
-    private final Random mRando = new Random();
-    // Radius limit in pixels
-    private final static int RADIUS_LIMIT = 150;
 
     /**
      * All available circles
      */
-    private List<CircleArea> mOfficeLayout = new ArrayList<CircleArea>();
-    private SparseArray<CircleArea> mCirclePointer = new SparseArray<CircleArea>();
+    private OfficeLayout mOfficeLayout = new OfficeLayout();
+    private SparseArray<OfficeThing> mOfficeThingPointer = new SparseArray<OfficeThing>();
 
-    public List<CircleArea> getStuffLayout() {
+    public List<OfficeThing> getOfficeLayout() {
         return mOfficeLayout;
     }
 
-    public void setStuffLayout(List<CircleArea> mStuffLayout) {
-        this.mOfficeLayout = mStuffLayout;
+    public void setOfficeLayout(OfficeLayout officeLayout) {
+        this.mOfficeLayout = officeLayout;
     }
 
-    public void clearLayout() {
-        mOfficeLayout.clear();
-        invalidate();
-    }
+    public void addNewThing(String type) {
+        if (null == type) throw new IllegalArgumentException();
 
-    public void addNewThing() {
-        // Random color
-        Paint circlePaint = new Paint();
+        OfficeThing newThing = new OfficeThing();
+        newThing.setType(type);
+        newThing.setzIndex(mOfficeLayout.getHighestzIndex() + 1);
+        newThing.setRotation(0);
+        newThing.setLeft(this.getWidth() / 2);
+        newThing.setTop(this.getHeight() / 2);
 
-        circlePaint.setColor(0xFF000000 + mRando.nextInt(0xFFFFFF));
-        circlePaint.setStrokeWidth(40);
-        circlePaint.setStyle(Paint.Style.FILL);
 
-        int zIndex = 0;
-        if (mOfficeLayout.size() > 0) {
-            zIndex = mOfficeLayout.get(mOfficeLayout.size() - 1).zIndex + 1;
-        }
-
-        CircleArea newCircle = new CircleArea(this.getWidth() / 2, this.getHeight() / 2, mRando.nextInt(RADIUS_LIMIT) + RADIUS_LIMIT, zIndex, circlePaint);
-
-        Log.w(TAG, "Added circle " + newCircle);
-        mOfficeLayout.add(newCircle);
-        Collections.sort(mOfficeLayout, new CircleAreaComprator());
+        Log.w(TAG, "Added thing " + newThing);
+        mOfficeLayout.add(newThing);
+        Collections.sort(mOfficeLayout, new OfficeThingComprator());
 
         invalidate();
     }
@@ -134,17 +92,17 @@ public class OfficeCanvasView extends View {
 
     @Override
     public void onDraw(final Canvas canv) {
-        for (CircleArea circle : mOfficeLayout) {
-            canv.drawCircle(circle.centerX, circle.centerY, circle.radius, circle.paint);
+        for (OfficeThing thing : mOfficeLayout) {
+            Bitmap thingBitmap = thing.getBitmap(getContext());
+            canv.drawBitmap(thingBitmap, thing.getLeft(), thing.getTop(), DEFAULT_PAINT);
         }
     }
-
 
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
         boolean handled = false;
 
-        CircleArea touchedCircle;
+        OfficeThing touchedThing;
         int xTouch;
         int yTouch;
         int pointerId;
@@ -154,19 +112,19 @@ public class OfficeCanvasView extends View {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 // it's the first pointer, so clear all existing pointers data
-                clearCirclePointer();
+                mOfficeThingPointer.clear();
 
                 xTouch = (int) event.getX(0);
                 yTouch = (int) event.getY(0);
 
-                // check if we've touched inside some circle
-                touchedCircle = obtainTouchedCircle(xTouch, yTouch);
-                if(touchedCircle == null) {
+                // check if we've touched inside something
+                touchedThing = getTouchedThing(xTouch, yTouch);
+                if(touchedThing == null) {
                     break;
                 }
-                touchedCircle.centerX = xTouch;
-                touchedCircle.centerY = yTouch;
-                mCirclePointer.put(event.getPointerId(0), touchedCircle);
+                touchedThing.setX(xTouch, getContext());
+                touchedThing.setY(yTouch, getContext());
+                mOfficeThingPointer.put(event.getPointerId(0), touchedThing);
 
                 invalidate();
                 handled = true;
@@ -181,22 +139,20 @@ public class OfficeCanvasView extends View {
                 yTouch = (int) event.getY(actionIndex);
 
                 // check if we've touched inside some circle
-                touchedCircle = obtainTouchedCircle(xTouch, yTouch);
-                if(touchedCircle == null) {
+                touchedThing = getTouchedThing(xTouch, yTouch);
+                if(touchedThing == null) {
                     break;
                 }
 
-                mCirclePointer.put(pointerId, touchedCircle);
-                touchedCircle.centerX = xTouch;
-                touchedCircle.centerY = yTouch;
+                mOfficeThingPointer.put(pointerId, touchedThing);
+                touchedThing.setX(xTouch, getContext());
+                touchedThing.setY(yTouch, getContext());
                 invalidate();
                 handled = true;
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 final int pointerCount = event.getPointerCount();
-
-                Log.w(TAG, "Move");
 
                 for (actionIndex = 0; actionIndex < pointerCount; actionIndex++) {
                     // Some pointer has moved, search it by pointer id
@@ -205,11 +161,11 @@ public class OfficeCanvasView extends View {
                     xTouch = (int) event.getX(actionIndex);
                     yTouch = (int) event.getY(actionIndex);
 
-                    touchedCircle = mCirclePointer.get(pointerId);
+                    touchedThing = mOfficeThingPointer.get(pointerId);
 
-                    if (null != touchedCircle) {
-                        touchedCircle.centerX = xTouch;
-                        touchedCircle.centerY = yTouch;
+                    if (null != touchedThing) {
+                        touchedThing.setX(xTouch, getContext());
+                        touchedThing.setY(yTouch, getContext());
                     }
                 }
                 invalidate();
@@ -217,7 +173,7 @@ public class OfficeCanvasView extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
-                clearCirclePointer();
+                mOfficeThingPointer.clear();
                 invalidate();
                 handled = true;
                 break;
@@ -226,7 +182,7 @@ public class OfficeCanvasView extends View {
                 // not general pointer was up
                 pointerId = event.getPointerId(actionIndex);
 
-                mCirclePointer.remove(pointerId);
+                mOfficeThingPointer.remove(pointerId);
                 invalidate();
                 handled = true;
                 break;
@@ -243,64 +199,30 @@ public class OfficeCanvasView extends View {
         return super.onTouchEvent(event) || handled;
     }
 
-    /**
-     * Clears all CircleArea - pointer id relations
-     */
-    private void clearCirclePointer() {
-        Log.w(TAG, "clearCirclePointer");
+    private OfficeThing getTouchedThing(final int xTouch, final int yTouch) {
+        OfficeThing touched = null;
 
-        mCirclePointer.clear();
-    }
-
-    /**
-     * Search and creates new (if needed) circle based on touch area
-     *
-     * @param xTouch int x of touch
-     * @param yTouch int y of touch
-     * @return obtained {@link CircleArea}
-     */
-    private CircleArea obtainTouchedCircle(final int xTouch, final int yTouch) {
-        CircleArea touchedCircle = getTouchedCircle(xTouch, yTouch);
-
-        if (null != touchedCircle) {
-            touchedCircle.zIndex = mOfficeLayout.get(mOfficeLayout.size() - 1).zIndex + 1;
-            Collections.sort(mOfficeLayout, new CircleAreaComprator());
-        }
-
-        return touchedCircle;
-    }
-
-    /**
-     * Determines touched circle
-     *
-     * @param xTouch int x touch coordinate
-     * @param yTouch int y touch coordinate
-     * @return {@link CircleArea} touched circle or null if no circle has been touched
-     */
-    private CircleArea getTouchedCircle(final int xTouch, final int yTouch) {
-        CircleArea touched = null;
-
-        List<CircleArea> backwardsLayout = new ArrayList<CircleArea>(mOfficeLayout);
-        Collections.sort(backwardsLayout, new Comparator<CircleArea>() {
+        //TODO: move this into the office layout
+        List<OfficeThing> backwardsLayout = new ArrayList<OfficeThing>(mOfficeLayout);
+        Collections.sort(backwardsLayout, new Comparator<OfficeThing>() {
             @Override
-            public int compare(CircleArea lhs, CircleArea rhs) {
-                return rhs.zIndex - lhs.zIndex;
+            public int compare(OfficeThing lhs, OfficeThing rhs) {
+                return rhs.getzIndex() - lhs.getzIndex();
             }
         });
 
-        for (CircleArea circle : backwardsLayout) {
-            if ((circle.centerX - xTouch) * (circle.centerX - xTouch) + (circle.centerY - yTouch) * (circle.centerY - yTouch) <= circle.radius * circle.radius) {
-                touched = circle;
+        for (OfficeThing thing : backwardsLayout) {
+            int top = thing.getTop();
+            int left = thing.getLeft();
+            int bottom = thing.getTop() + thing.getHeight(getContext());
+            int right = thing.getLeft() + thing.getWidth(getContext());
+
+
+            if(yTouch <= bottom && yTouch >= top && xTouch >= left && xTouch <= right) {
+                touched = thing;
                 break;
             }
         }
         return touched;
-    }
-
-    @Override
-    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        mMeasuredRect = new Rect(0, 0, getMeasuredWidth(), getMeasuredHeight());
     }
 }

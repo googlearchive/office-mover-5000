@@ -5,7 +5,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/mover_logo_100dp"
+        android:icon="@drawable/mover_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
