@@ -1,4 +1,6 @@
 var Utils  = require('./helpers/utils');
+var data  = require('./helpers/data');
+var Dropdown = require('./components/dropdown');
 var Furniture  = require('./components/furniture');
 var rootRef = new Firebase(Utils.urls.root);
 var furnitureRef = new Firebase(Utils.urls.furniture);
@@ -24,12 +26,22 @@ var app = {
     furnitureRef.once("value", function(snapshot){
        self.createFurniture(snapshot);
     });
+
+    this.createDropdowns();
   },
 
   createFurniture: function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
       new Furniture(childSnapshot);
     });
+  },
+
+  createDropdowns: function() {
+    var $addFurniture = $('#add-furniture');
+    var $addBackground = $('#select-background');
+
+    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture);
+    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds);
   }
 };
 

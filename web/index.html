@@ -11,8 +11,8 @@
 
       <header class="toolbar">
         <ul class="toolbar-menu">
-          <li><button class="toolbar-icon-button" id="select-furniture">Select Furniture</button></li>
-          <li><button class="toolbar-icon-button" id="select-background">Select Background</button></li>
+          <li id="add-furniture"><button class="toolbar-icon-button" >Select Furniture</button></li>
+          <li id="select-background"><button class="toolbar-icon-button" >Select Background</button></li>
         </ul>
         <h1 class="toolbar-title">Office Mover</h1>
         <button class="toolbar-sign-out">SIGN OUT</button>
@@ -22,6 +22,16 @@
         <!-- <button class="editor-new" data-name="desk">new desk</button> -->
         <!-- <button class="editor-new" data-name="plant">new plant</button> -->
       </div>
+
+
+      <script id="template-dropdown" type="text/template">
+        <div class="dropdown">
+          <span class="dropdown-arrow"></div>
+          <ul>
+            <%= items %>
+          </ul>
+        </div>
+      </script>
 
       <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>
       <script src="bower_components/jquery/jquery.js"></script>

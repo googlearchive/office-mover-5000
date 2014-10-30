@@ -45,7 +45,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Utils  = __webpack_require__(1);
-	var Furniture  = __webpack_require__(2);
+	var data  = __webpack_require__(2);
+	var Dropdown = __webpack_require__(3);
+	var Furniture  = __webpack_require__(4);
 	var rootRef = new Firebase(Utils.urls.root);
 	var furnitureRef = new Firebase(Utils.urls.furniture);
 
@@ -70,12 +72,22 @@
 	    furnitureRef.once("value", function(snapshot){
 	       self.createFurniture(snapshot);
 	    });
+
+	    this.createDropdowns();
 	  },
 
 	  createFurniture: function(snapshot) {
 	    snapshot.forEach(function(childSnapshot) {
 	      new Furniture(childSnapshot);
 	    });
+	  },
+
+	  createDropdowns: function() {
+	    var $addFurniture = $('#add-furniture');
+	    var $addBackground = $('#select-background');
+
+	    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture);
+	    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds);
 	  }
 	};
 
@@ -120,6 +132,111 @@
 
 /***/ },
 /* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var data = {
+	  backgrounds: [
+	    {
+	      name: 'carpet',
+	      description: 'Casino Carpet'
+	    },
+	    {
+	      name: 'grid',
+	      description: 'Grid Pattern'
+	    },
+	    {
+	      name: 'wood',
+	      description: 'Hardwood Floor'
+	    },
+	    {
+	      name: 'tile',
+	      description: 'Tile Flooring'
+	    }
+	  ],
+
+	  furniture: [
+	    {
+	      name: 'android',
+	      description: 'Android Toy'
+	    },
+	    {
+	      name: 'ballpit',
+	      description: 'Ball Pit Pool'
+	    },
+	    {
+	      name: 'desk',
+	      description: 'Office Desk'
+	    },
+	    {
+	      name: 'dog_corgi',
+	      description: 'Dog (Corgi)'
+	    },
+	    {
+	      name: 'dog_retriever',
+	      description: 'Dog (Retriever)'
+	    },
+	    {
+	      name: 'laptop',
+	      description: 'Laptop'
+	    },
+	    {
+	      name: 'nerfgun',
+	      description: 'Nerfgun Pistol'
+	    },
+	    {
+	      name: 'pacman',
+	      description: 'Pacman Arcade'
+	    },
+	    {
+	      name: 'pingpong',
+	      description: 'Ping Pong Table'
+	    },
+	    {
+	      name: 'plant1',
+	      description: 'Plant (Shrub)'
+	    },
+	    {
+	      name: 'plant2',
+	      description: 'Plant (Succulent)'
+	    },
+	    {
+	      name: 'redstapler',
+	      description: 'Red Stapler'
+	    }
+	  ]
+	};
+
+	module.exports = data;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	* Dropdown Menu Module
+	*
+	*/
+
+	var Dropdown = function($parent, data) {
+	  var ListTemplate = _.template($('#template-dropdown').html());
+	  var liTemplate = _.template('<li class="<%= name %>"><button><%= description %></button></li>');
+	  var buttonList = '';
+
+	  // LOOP THROUGH DATA & CREATE BUTTONS
+	  for(var i = 0, l = data.length; i < l; i++) {
+	    buttonList = buttonList + liTemplate(data[i]);
+	  }
+
+
+	  $parent.append(ListTemplate({
+	    items: buttonList
+	  }));
+	};
+
+	module.exports = Dropdown;
+
+/***/ },
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var utils  = __webpack_require__(1);
