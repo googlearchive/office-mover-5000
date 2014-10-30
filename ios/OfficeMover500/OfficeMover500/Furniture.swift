@@ -20,7 +20,6 @@ class Furniture {
     var locked : Bool
 
     init(key: String, json: Dictionary<String, AnyObject>) {
-     
         self.key = key
         self.name = json["name"] as String
         self.top = json["top"] as Int
@@ -29,7 +28,6 @@ class Furniture {
         self.rotation = json["rotation"] as Int
         self.type = json["type"] as String
         self.locked = json["locked"] as Bool
-        
     }
     
     

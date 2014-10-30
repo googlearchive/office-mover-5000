@@ -160,7 +160,7 @@
 	*
 	*/
 
-	var root = 'https://office-mover.firebaseio.com/';
+	var root = 'https://mover-app-5000-demo.firebaseio.com/';
 
 	var utils = {
 	  urls: {
@@ -197,7 +197,7 @@
 	  */
 
 	  this.officeSpace = $('#office-space');
-	  this.element = $("<div class='editor-furniture editor-desk'></div>");
+	  this.element = $("<div class='furniture'></div>");
 	  this.id = snapshot.name();
 	  this.ref = snapshot.ref();
 	  this.type = data.type;
@@ -227,7 +227,7 @@
 	    this.element.draggable({
 	      containment: self.officeSpace,
 	      start: function(event, ui){
-	        self.element.addClass("is-editor-furniture-active");
+	        self.element.addClass("is-active");
 	        self.ref.child("locked").set(true);
 	      },
 
@@ -237,13 +237,15 @@
 	      },
 
 	      stop: function(event, ui){
-	        self.element.removeClass("is-editor-furniture-active");
+	        self.element.removeClass("is-active");
 	        self.ref.child("locked").set(false);
 	      }
 	    });
 
 	    // SET CURRENT LOCATION
-	    this.element.css({
+	    this.element
+	    .addClass(this.type)
+	    .css({
 	      "top": parseInt(this.top, 10),
 	      "left": parseInt(this.left, 10)
 	    });
@@ -294,6 +296,7 @@
 
 	      rootRef.authWithOAuthPopup(provider, function(error, authData){
 	        if (error){
+	          console.log(error);
 	          self.$alert.removeClass("is-hidden");
 	        }
 	        else {

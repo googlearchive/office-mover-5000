@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9RZ-A7-6QH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9RZ-A7-6QH">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
+        <!--Table View Controller-->
+        <scene sceneID="8IJ-2D-QSf">
+            <objects>
+                <tableViewController id="Iv4-t6-v02" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1Yd-7M-E71">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="lTP-5V-KYi">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lTP-5V-KYi" id="4dw-gz-F4W">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Iv4-t6-v02" id="MW8-U3-Sbb"/>
+                            <outlet property="delegate" destination="Iv4-t6-v02" id="ILB-Iv-n3U"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O5k-YH-Fp7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="711" y="-705"/>
+        </scene>
         <!--Office Mover 5000-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -22,12 +49,6 @@
                                     <constraint firstAttribute="height" constant="800" id="CJf-aH-cTO"/>
                                     <constraint firstAttribute="width" constant="600" id="EN3-vt-O2i"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="2"/>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="layer.borderUIColor">
-                                        <color key="value" red="0.83921568627450982" green="0.92156862745098034" blue="0.97647058823529409" alpha="1" colorSpace="deviceRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -39,10 +60,20 @@
                     <navigationItem key="navigationItem" title="Office Mover 5000" id="b7u-bo-S1M"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="addItemButton" destination="YPx-24-DjD" id="ET4-UG-AVH"/>
+                        <outlet property="backgroundButton" destination="ep3-aJ-GKY" id="JMP-EN-66w"/>
                         <outlet property="roomView" destination="H65-Mr-WCT" id="rpl-Q4-vmj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <barButtonItem systemItem="add" id="YPx-24-DjD">
+                    <connections>
+                        <segue destination="Iv4-t6-v02" kind="popoverPresentation" popoverAnchorBarButtonItem="YPx-24-DjD" id="d6F-OU-wtz">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem systemItem="edit" id="ep3-aJ-GKY"/>
             </objects>
             <point key="canvasLocation" x="741" y="-8"/>
         </scene>

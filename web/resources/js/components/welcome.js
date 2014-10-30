@@ -25,6 +25,7 @@ var welcome = {
 
       rootRef.authWithOAuthPopup(provider, function(error, authData){
         if (error){
+          console.log(error);
           self.$alert.removeClass("is-hidden");
         }
         else {

@@ -5,26 +5,4 @@
   margin: 50px auto;
   padding: 0px;
   border: 10px solid $blue-sky;
-
-  .editor-furniture {
-    border-radius: $border-radius;
-    border: 1px solid $metal;
-    background-color: $concrete;
-    position: absolute !important;
-
-    &.is-editor-furniture-active {
-      border: 3px solid $azure;
-      background-color: $bluish-gray;
-    }
-
-    &.editor-desk {
-      width: 150px;
-      height: 75px;
-    }
-
-    &.editor-plant {
-      width: 50px;
-      height: 50px;
-    }
-  }
 }

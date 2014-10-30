@@ -8,12 +8,17 @@
 
 import Foundation
 import UIKit
+import QuartzCore
 
-class FurnitureButton : UIButton {
+enum DragState: Int {
+    case None = 0, Maybe, Dragging
+}
+
+class FurnitureView : UIButton, UIAlertViewDelegate {
     
     // -- Model state handlers
     var moveHandler: ((Int, Int) -> ())?
-    var rotateHandler: ((Int) -> ())?
+    var rotateHandler: ((Int, Int, Int) -> ())?
     var deleteHandler: (() -> ())?
     var editHandler: ((String) -> ())?
     
@@ -78,10 +83,9 @@ class FurnitureButton : UIButton {
     }
     
     // --- Handling UI state
-    var dragging = false
+    var dragging = DragState.None
     var menuShowing = false
     let type: String
-    var alert: UIAlertController?
     var startDown: CGPoint?
     private var menuListener: AnyObject?
     
@@ -104,24 +108,28 @@ class FurnitureButton : UIButton {
         rotation = furniture.rotation
         top = furniture.top
         left = furniture.left
+        self.titleLabel?.font = UIFont(name: "Proxima Nova", size: 20)
         
-        // Add dragability
+        // Add touch events
         addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
-        
-        // Add tap menu
         addTarget(self, action:Selector("touchDown:withEvent:"), forControlEvents:.TouchDown)
         addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside)
     }
     
     // -- Methods for updating the view
     func delete() {
+        if menuShowing {
+            let menuController = UIMenuController.sharedMenuController()
+            menuController.setMenuVisible(false, animated: true)
+            menuShowing = false
+        }
         if superview != nil {
             removeFromSuperview()
         }
     }
     
     
-    // --- Methods for dragging
+    // --- Methods for handling touch events
     func dragged(button: UIButton, withEvent event: UIEvent) {
         temporarilyHideMenu() // Hide the menu while dragging
         
@@ -129,7 +137,8 @@ class FurnitureButton : UIButton {
         if let touch = event.touchesForView(button)?.anyObject() as? UITouch {
             let touchLoc = touch.locationInView(self.superview)
             if abs(startDown!.x - touchLoc.x) > 10 || abs(startDown!.y - touchLoc.y) > 10 {
-                dragging = true // To avoid triggering tap functionality
+                dragging = DragState.Dragging // To avoid triggering tap functionality
+                showSeeThrough()
             }
             center = boundCenterLocToRoom(touchLoc)
             if let handler = moveHandler {
@@ -138,6 +147,7 @@ class FurnitureButton : UIButton {
         }
     }
     
+    // helper to bound location to the room based on the center loc.
     func boundCenterLocToRoom(centerLoc: CGPoint) -> CGPoint {
         var pt = CGPointMake(centerLoc.x, centerLoc.y)
         
@@ -158,18 +168,21 @@ class FurnitureButton : UIButton {
         return pt
     }
     
-    // --- Methods for popping the menu up
     func touchDown(button: UIButton, withEvent event: UIEvent) {
         startDown = center
+        dragging = .Maybe
+        showShadow()
+        superview?.bringSubviewToFront(self)
     }
     
     func touchUp(button: UIButton, withEvent event: UIEvent) {
         startDown = nil
-        if dragging {
-            println("Hi")
-            dragging = false // This always ends drag events
+        hideSeeThrough()
+        if dragging == .Dragging {
+            dragging = .None // This always ends drag events
             if !menuShowing {
                 // Don't show menu at the end of dragging if there wasn't a menu to begin with
+                hideShadow()
                 return
             }
         }
@@ -181,7 +194,7 @@ class FurnitureButton : UIButton {
     func triggerRotate(sender: AnyObject) {
         transform = CGAffineTransformRotate(transform, CGFloat(M_PI / -2))
         if let handler = rotateHandler {
-            handler(rotation)
+            handler(top, left, rotation)
         }
     }
     
@@ -192,35 +205,56 @@ class FurnitureButton : UIButton {
     }
     
     func triggerEdit(sender:AnyObject) {
-        // Show pop up to enter name
-        alert = UIAlertController(title: "Who sits here?", message: "Enter name below", preferredStyle: UIAlertControllerStyle.Alert)
-        alert!.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: completeEdit))
-        alert!.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-            textField.placeholder = "Name"
-        })
-        parentViewController()?.presentViewController(alert!, animated: true, completion: nil)
+        let alert = UIAlertView(title: "Who sits here?", message: "Enter name below", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK")
+        alert.alertViewStyle = UIAlertViewStyle.PlainTextInput;
+        alert.textFieldAtIndex(0)?.text = name
+        alert.textFieldAtIndex(0)?.placeholder = "Name"
+        alert.show()
     }
     
-    func completeEdit(alertAction:UIAlertAction!) {
-        // Popup for name finished, handle naming desk.
-        if let newName = (alert?.textFields?[0] as? UITextField)?.text {
-            name = newName
-            if let handler = editHandler {
-                handler(newName)
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 1 { // This is the ok button, and not the cancel button
+            if let newName = alertView.textFieldAtIndex(0)?.text {
+                name = newName
+                if let handler = editHandler {
+                    handler(newName)
+                }
             }
-            alert = nil
         }
     }
     
-    // --- Menu helper methods
+    // --- Selected shadow
+    func showShadow() {
+        layer.shadowColor = TopbarBlue.CGColor
+        layer.shadowRadius = 4.0
+        layer.shadowOpacity = 0.9
+        layer.shadowOffset = CGSizeZero
+        layer.masksToBounds = false
+    }
     
+    func hideShadow() {
+        layer.shadowOpacity = 0
+    }
+    
+    func showSeeThrough() {
+        layer.opacity = 0.5
+    }
+    
+    func hideSeeThrough() {
+        layer.opacity = 1
+    }
+    
+    
+    // --- Menu helper methods
     func showMenu() {
+        showShadow()
         menuShowing = true
         let menuController = UIMenuController.sharedMenuController()
         
         // Set new menu location
-        let targetRect = CGRectMake(0, 0, frame.size.width, 0)
-        menuController.setTargetRect(targetRect, inView:self)
+        if superview != nil {
+            menuController.setTargetRect(frame, inView:superview!)
+        }
         
         // Set menu items
         menuController.menuItems = [
@@ -248,37 +282,26 @@ class FurnitureButton : UIButton {
         if menuListener != nil {
             NSNotificationCenter.defaultCenter().removeObserver(menuListener!)
         }
-        
         menuListener = NSNotificationCenter.defaultCenter().addObserverForName(UIMenuControllerWillHideMenuNotification, object:nil, queue: nil, usingBlock: {
             notification in
-            if !self.dragging {
+            if self.dragging == .Dragging {
                 self.menuShowing = false
+            }
+            if self.dragging == .None {
+                self.hideShadow()
             }
             NSNotificationCenter.defaultCenter().removeObserver(self.menuListener!)
         })
     }
-    
-    // UIResponder override methods
+}
+
+// UIResponder override methods
+extension FurnitureView {
     override func canBecomeFirstResponder() -> Bool {
         return true
     }
     
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
         return action == Selector("triggerRotate:") || action == Selector("triggerDelete:") || action == Selector("triggerEdit:")
-    }
-}
-
-extension FurnitureButton {
-    func parentViewController() -> UIViewController? {
-        var parentResponder: UIResponder? = self
-        while true {
-            if parentResponder == nil {
-                return nil
-            }
-            parentResponder = parentResponder!.nextResponder()
-            if parentResponder is UIViewController {
-                return (parentResponder as UIViewController)
-            }
-        }
     }
 }
