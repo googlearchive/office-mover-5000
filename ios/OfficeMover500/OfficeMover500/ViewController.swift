@@ -28,7 +28,7 @@ class ViewController: RoomViewController {
     // This should take in a Furniture Model whatever that is.
     // This creates a view as a button, and makes it draggable.
     func createFurnitureView(furniture: Furniture) {
-        let view = FurnitureButton(furniture: furniture)
+        let view = FurnitureView(furniture: furniture)
         
         let currentFurnitureRef = furnitureRef.childByAppendingPath(furniture.key)
 

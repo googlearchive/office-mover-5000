@@ -14,7 +14,7 @@ enum DragState {
     case None, Maybe, Dragging
 }
 
-class FurnitureButton : UIButton, UIAlertViewDelegate {
+class FurnitureView : UIButton, UIAlertViewDelegate {
     
     // -- Model state handlers
     var moveHandler: ((Int, Int) -> ())?
@@ -109,10 +109,8 @@ class FurnitureButton : UIButton, UIAlertViewDelegate {
         top = furniture.top
         left = furniture.left
         
-        // Add dragability
+        // Add touch events
         addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
-        
-        // Add tap menu
         addTarget(self, action:Selector("touchDown:withEvent:"), forControlEvents:.TouchDown)
         addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside)
     }
@@ -130,7 +128,7 @@ class FurnitureButton : UIButton, UIAlertViewDelegate {
     }
     
     
-    // --- Methods for dragging
+    // --- Methods for handling touch events
     func dragged(button: UIButton, withEvent event: UIEvent) {
         temporarilyHideMenu() // Hide the menu while dragging
         
@@ -147,6 +145,7 @@ class FurnitureButton : UIButton, UIAlertViewDelegate {
         }
     }
     
+    // helper to bound location to the room based on the center loc.
     func boundCenterLocToRoom(centerLoc: CGPoint) -> CGPoint {
         var pt = CGPointMake(centerLoc.x, centerLoc.y)
         
@@ -167,7 +166,6 @@ class FurnitureButton : UIButton, UIAlertViewDelegate {
         return pt
     }
     
-    // --- Methods for popping the menu up
     func touchDown(button: UIButton, withEvent event: UIEvent) {
         startDown = center
         dragging = .Maybe
@@ -221,7 +219,6 @@ class FurnitureButton : UIButton, UIAlertViewDelegate {
     }
     
     // --- Menu helper methods
-    
     func showMenu() {
         menuShowing = true
         let menuController = UIMenuController.sharedMenuController()
@@ -266,28 +263,15 @@ class FurnitureButton : UIButton, UIAlertViewDelegate {
             NSNotificationCenter.defaultCenter().removeObserver(self.menuListener!)
         })
     }
-    
-    // UIResponder override methods
+}
+
+// UIResponder override methods
+extension FurnitureView {
     override func canBecomeFirstResponder() -> Bool {
         return true
     }
     
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
         return action == Selector("triggerRotate:") || action == Selector("triggerDelete:") || action == Selector("triggerEdit:")
-    }
-}
-
-extension FurnitureButton {
-    func parentViewController() -> UIViewController? {
-        var parentResponder: UIResponder? = self
-        while true {
-            if parentResponder == nil {
-                return nil
-            }
-            parentResponder = parentResponder!.nextResponder()
-            if parentResponder is UIViewController {
-                return (parentResponder as UIViewController)
-            }
-        }
     }
 }
