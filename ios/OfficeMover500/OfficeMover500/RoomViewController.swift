@@ -8,9 +8,7 @@
 
 import UIKit
 
-
-
-class RoomViewController: UIViewController {
+class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewItemDelegate {
     
     @IBOutlet weak var roomView: UIView!
     @IBOutlet weak var addItemButton: UIBarButtonItem!
@@ -29,15 +27,14 @@ class RoomViewController: UIViewController {
         var font: UIFont = UIFont(name: "Proxima Nova", size: 20)!
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
         
-        let addItemButton = UIBarButtonItem(barButtonSystemItem: .Add, target: nil, action: nil)
-        let backgroundButton = UIBarButtonItem(barButtonSystemItem: .Action, target: nil, action: nil)
-        
-        //navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
+        navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // uncomment this when we want to show the buttons to add things and such
-        navigationItem.leftBarButtonItems = [addItemButton] //, backgroundButton]
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "addItemPopoverSegue" {
+            if let popoverController = segue.destinationViewController as? AddItemController {
+                popoverController.delegate = self
+            }
+        }
     }
 }

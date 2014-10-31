@@ -66,14 +66,14 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <barButtonItem image="icon_add" id="YPx-24-DjD">
+                <barButtonItem image="add" id="YPx-24-DjD">
                     <connections>
-                        <segue destination="Iv4-t6-v02" kind="popoverPresentation" popoverAnchorBarButtonItem="YPx-24-DjD" id="d6F-OU-wtz">
+                        <segue destination="Iv4-t6-v02" kind="popoverPresentation" identifier="addItemPopoverSegue" popoverAnchorBarButtonItem="YPx-24-DjD" id="d6F-OU-wtz">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
                     </connections>
                 </barButtonItem>
-                <barButtonItem image="icon_backgrounds" id="ep3-aJ-GKY"/>
+                <barButtonItem image="backgrounds" id="ep3-aJ-GKY"/>
             </objects>
             <point key="canvasLocation" x="741" y="-8"/>
         </scene>
@@ -97,7 +97,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_add" width="32" height="32"/>
-        <image name="icon_backgrounds" width="40" height="32"/>
+        <image name="add" width="22" height="22"/>
+        <image name="backgrounds" width="29" height="22"/>
     </resources>
 </document>
