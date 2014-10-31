@@ -13,7 +13,7 @@ var Furniture = function(snapshot, options) {
   var self = this;
   var data = snapshot.val();
   var element = "<div class='furniture'></div>";
-  var tooltip = "<div class='tooltip'>" +
+  var tooltip = "<div class='tooltip is-hidden'>" +
                   "<button class='edit is-hidden'>Edit</button>" +
                   "<button class='rotate'>Rotate</button>" +
                   "<button class='delete'>Delete</button>" +
@@ -25,7 +25,7 @@ var Furniture = function(snapshot, options) {
   */
 
   this.officeSpace = $('#office-space');
-  this.element = $(element + tooltip);
+  this.element = $(element);
   this.id = snapshot.name();
   this.ref = snapshot.ref();
   this.type = data.type;
@@ -34,6 +34,7 @@ var Furniture = function(snapshot, options) {
   this.top = data.top;
   this.left = data.left;
   this.name = data.name;
+
 
 
   /*
@@ -102,14 +103,21 @@ var Furniture = function(snapshot, options) {
       }
     });
 
-    // SET IMAGE FOR ELEMENT
+    // SET IMAGE FOR ELEMENT AND INIT TOOLTIP
     this.element.addClass(this.type);
+    this.element.append($(tooltip));
 
     this.element.on("click", function(e){
-      // delegate the event to the body
-      e.preventDefault();
-      console.log("clicked")
-      // $(this).append("<a href='#' title="\<button\>LOL\<button\>"></a>");
+
+      var $el = $(e.target);
+      var $tooltip = $el.children(".tooltip");
+      var $edit = $tooltip.children(".edit");
+
+      $tooltip.toggleClass("is-hidden");
+
+      if (self.type === "desk") {
+        $edit.removeClass("is-hidden");
+      }
     });
 
     // RENDER 
