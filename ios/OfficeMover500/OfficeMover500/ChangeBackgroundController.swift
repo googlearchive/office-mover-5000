@@ -8,7 +8,8 @@
 import UIKit
 
 @objc protocol ChangeBackgroundDelegate {
-    func changeBackground(type: String)
+    func setBackground(type: String)
+    optional func changeBackground(type: String)
     func dismissPopover()
 }
 
@@ -42,7 +43,8 @@ class ChangeBackgroundController : UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var type = Floors[indexPath.row].1
         
-        delegate?.changeBackground(type)
+        delegate?.setBackground(type)
+        delegate?.changeBackground?(type)
         delegate?.dismissPopover()
     }
 }
