@@ -17,7 +17,7 @@
         Oops, there was a problem signing you in. Please try signing in again.
       </div>
       <div class="welcome-hero">
-        <img class="welcome-hero-logo" src="./resources/images/logo.png" />
+        <img class="welcome-hero-logo" src="./resources/images/logos/logo.png" />
         <button class="welcome-hero-signin" data-provider="google">Sign in with Google</button>
       </div>
     </div>
@@ -48,8 +48,8 @@
     </script>
 
     <script id="template-dropdown-item" type="text/template">
-      <li data-type="<%= type %>" data-name="<%= name %>" class="<%= name %>">
-        <a href="#" class="dropdown-button">
+      <li>
+        <a href="#"  data-type="<%= type %>" data-name="<%= name %>" class="dropdown-button <%= name %>">
           <i class="dropdown-button-icon"></i>
           <%= description %>
         </a>

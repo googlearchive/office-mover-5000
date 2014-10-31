@@ -102,18 +102,37 @@
 	    this.renderFurniture();         // RENDER FURNITURE
 	  },
 
+	  changeBackground: function(snapshot) {
+	    snapshot.forEach(function(childSnapshot) {
+	      new Furniture(childSnapshot);
+	    });
+	  },
+
 	  createFurniture: function(snapshot) {
 	    snapshot.forEach(function(childSnapshot) {
 	      new Furniture(childSnapshot);
 	    });
 	  },
 
+
+
 	  createDropdowns: function() {
 	    var $addFurniture = $('#add-furniture');
 	    var $addBackground = $('#select-background');
 
 	    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture, 'furniture');
-	    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'backgrounds');
+	    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'background');
+
+	    $('.dropdown').on('click', '.dropdown-button', function(e) {
+	      e.preventDefault();
+	      var button = $(e.currentTarget);
+	      var type = button.data('type');
+
+	      switch(type) {
+	        case 'furniture': self.createFurniture(); break;
+	        case 'background': self.changeBackground(); break;
+	      }
+	    });
 	  },
 
 	  checkUserAuthentication: function(){
