@@ -424,13 +424,16 @@
 
 	  this.render = function(){
 
+	    var rotation = "rotate(" + (this.rotation * -1) + "deg)";  // CCW ROTATION
+
 	    // REMOVE ELEMENT FROM DOM
 	    this.element.detach();
 
 	    // SET CURRENT LOCATION
 	    this.element.css({
 	      "top": parseInt(this.top, 10),
-	      "left": parseInt(this.left, 10)
+	      "left": parseInt(this.left, 10),
+	      "transform": rotation
 	    });
 
 	    // SET ACTIVE STATE
@@ -449,7 +452,8 @@
 	    console.log("EDIT");
 	  };
 	  this.rotate = function(){
-	    console.log("ROTATE");
+	    this.ref.child("rotation").set(this.rotation + 90);
+	    this.render();
 	  };
 	  this.delete = function(){
 	    console.log("DELETE");
