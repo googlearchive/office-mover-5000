@@ -3,7 +3,6 @@
 *
 */
 
-
 var userProfile = {
   template: _.template($('#template-profile').html()),
   container: $('#profile'),
@@ -22,7 +21,6 @@ var userProfile = {
 
     this.container.html('').addClass('is-visible').append($profile);
   }
-
 };
 
 module.exports = userProfile;

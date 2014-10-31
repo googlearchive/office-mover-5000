@@ -331,7 +331,6 @@
 	*
 	*/
 
-
 	var userProfile = {
 	  template: _.template($('#template-profile').html()),
 	  container: $('#profile'),
@@ -350,7 +349,6 @@
 
 	    this.container.html('').addClass('is-visible').append($profile);
 	  }
-
 	};
 
 	module.exports = userProfile;
