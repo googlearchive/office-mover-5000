@@ -1,5 +1,3 @@
-@import 'options';
-
 .welcome-hero {
   position: relative;
   width: 100%;
@@ -13,17 +11,14 @@
   .welcome-hero-signin {
     display: block;
     height: 40px;
-
     color: $white;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 100;
-
     padding: 10px 15px;
     margin: 0 auto;
-
     border-radius: 3px;
-    
+
     &[data-provider="google"]{
       background-color: $google-red;
       border: 1px solid $google-red;

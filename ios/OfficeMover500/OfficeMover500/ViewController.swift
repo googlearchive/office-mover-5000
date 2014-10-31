@@ -8,10 +8,12 @@
 
 import UIKit
 
+let OfficeMoverFirebaseUrl = "https://mover-app-5000-demo.firebaseio.com"
+
 class ViewController: RoomViewController {
     
-    let ref = Firebase(url: "https://mover-app-5000-demo.firebaseio.com/")
-    let furnitureRef = Firebase(url: "https://mover-app-5000-demo.firebaseio.com/furniture")
+    let ref = Firebase(url: OfficeMoverFirebaseUrl)
+    let furnitureRef = Firebase(url: "\(OfficeMoverFirebaseUrl)/furniture")
     var room = Room(json: nil)
     
     override func viewDidLoad() {
@@ -34,7 +36,6 @@ class ViewController: RoomViewController {
 
         // move the view from a remote update
         currentFurnitureRef.observeEventType(.Value, withBlock: { snapshot in
-            
             // check if snapshot.value does not equal NSNull
             if snapshot.value as? NSNull != NSNull() {
                 var furniture = Furniture(snap: snapshot)
@@ -82,5 +83,11 @@ class ViewController: RoomViewController {
         }
         
         roomView.addSubview(view)
+    }
+    
+    func addNewItem(type: String) {
+        let itemRef = furnitureRef.childByAutoId()
+        let furniture = Furniture(key: itemRef.name, type: type)
+        itemRef.setValue(furniture.toJson())
     }
 }

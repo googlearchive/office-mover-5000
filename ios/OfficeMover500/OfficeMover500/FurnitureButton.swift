@@ -141,9 +141,6 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
                 showSeeThrough()
             }
             center = boundCenterLocToRoom(touchLoc)
-            if let handler = moveHandler {
-                handler(top, left)
-            }
         }
     }
     
@@ -173,12 +170,14 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         dragging = .Maybe
         showShadow()
         superview?.bringSubviewToFront(self)
+        NSTimer.scheduledTimerWithTimeInterval(0.04, target:self, selector: Selector("debouncedMove:"), userInfo: nil, repeats:true)
     }
     
     func touchUp(button: UIButton, withEvent event: UIEvent) {
         startDown = nil
         hideSeeThrough()
         if dragging == .Dragging {
+            triggerMove()
             dragging = .None // This always ends drag events
             if !menuShowing {
                 // Don't show menu at the end of dragging if there wasn't a menu to begin with
@@ -186,13 +185,30 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
                 return
             }
         }
+        dragging = .None // This always ends drag events
         
         showMenu()
+    }
+    
+    // --- Updates for move
+    func debouncedMove(timer: NSTimer) {
+        if dragging == .None {
+            timer.invalidate()
+        } else {
+            triggerMove()
+        }
+    }
+    
+    func triggerMove() {
+        if let handler = moveHandler {
+            handler(top, left)
+        }
     }
     
     // --- Edit buttons were clicked
     func triggerRotate(sender: AnyObject) {
         transform = CGAffineTransformRotate(transform, CGFloat(M_PI / -2))
+        hideShadow()
         if let handler = rotateHandler {
             handler(top, left, rotation)
         }
@@ -213,6 +229,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        hideShadow()
         if buttonIndex == 1 { // This is the ok button, and not the cancel button
             if let newName = alertView.textFieldAtIndex(0)?.text {
                 name = newName
@@ -287,7 +304,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
             if self.dragging == .Dragging {
                 self.menuShowing = false
             }
-            if self.dragging == .None {
+            if self.dragging == .None || self.dragging == .Maybe {
                 self.hideShadow()
             }
             NSNotificationCenter.defaultCenter().removeObserver(self.menuListener!)
