@@ -4,9 +4,9 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>ProximaNova-Light.ttf</string>
 		<string>ProximaNova-Sbold.ttf</string>
 		<string>ProximaNova-Reg.ttf</string>
+		<string>ProximaNova-Light.ttf</string>
 		<string>ProximaNova-Bold.ttf</string>
 		<string>ProximaNova-Black.ttf</string>
 		<string>ProximaNova-Xblod.ttf</string>
