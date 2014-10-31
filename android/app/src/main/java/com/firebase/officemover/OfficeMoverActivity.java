@@ -124,6 +124,9 @@ public class OfficeMoverActivity extends Activity {
             case R.id.change_floor:
                 renderChangeCarpetPopup();
                 break;
+            case R.id.action_sign_out:
+
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

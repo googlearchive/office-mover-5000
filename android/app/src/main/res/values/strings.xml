@@ -2,30 +2,34 @@
 <resources>
 
     <!-- Main action bar -->
-    <string name="app_name">Office Mover</string>
+    <string name="app_name">Inetech Office Mover 5000</string>
     <string name="action_settings">Settings</string>
     <string name="action_new_thing">Add Thing</string>
     <string name="action_change_floor">Change Carpet</string>
     <string name="action_sign_out">Sign Out</string>
-
+    <string name="company_name">Inetech</string>
+    <string name="app_name_without_company">Office Mover 5000</string>
 
     <!-- Add stuff menu -->
     <string name="action_add_redstapler">Red Stapler</string>
-    <string name="action_add_plant2">Plant (Succulent)</string>
-    <string name="action_add_plant">Plant (Shrub)</string>
-    <string name="action_add_pingpong">Ping Pong Table</string>
-    <string name="action_add_pacman">Pacman Arcade</string>
-    <string name="action_add_nerfgun">Nerfgun Pistol</string>
+    <string name="action_add_plant2">Plant 2</string>
+    <string name="action_add_plant">Plant</string>
+    <string name="action_add_pingpong">Ping Pong</string>
+    <string name="action_add_pacman">Pacman</string>
+    <string name="action_add_nerfgun">Nerf Gun</string>
     <string name="action_add_laptop">Laptop</string>
-    <string name="action_add_dog_retriever">Dog (Retriever)</string>
-    <string name="action_add_dog_corgi">Dog (Corgi)</string>
-    <string name="action_add_desk">Office Desk</string>
-    <string name="action_add_ballpit">Ball Pit Pool</string>
-    <string name="action_add_android">Android Toy</string>
+    <string name="action_add_dog_retriever">Dog Retriever</string>
+    <string name="action_add_dog_corgi">Dog Corgi</string>
+    <string name="action_add_desk">Desk</string>
+    <string name="action_add_ballpit">Ballpit</string>
+    <string name="action_add_android">Android</string>
 
     <!-- floor menu -->
     <string name="action_floor_tile">Tile Flooring</string>
     <string name="action_floor_carpet">Casino Carpet</string>
     <string name="action_floor_wood">Hardwood Floor</string>
     <string name="action_floor_grid">Grid Pattern</string>
+
+    <!-- Login -->
+    <string name="login_with_google">Login with Google</string>
 </resources>
