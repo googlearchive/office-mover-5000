@@ -110,10 +110,9 @@ var Furniture = function(snapshot, options) {
 
   this.initListeners = function(){
     // SET CLICK HANDLER TO CREATE TOOLTIP
-    this.element.on("click", function(e){
-
+    this.nameEl.on("click", function(e){
       var $el = $(e.target);
-      var $tooltip = $el.children(".tooltip");
+      var $tooltip = $el.next(".tooltip");
       var $edit = $tooltip.children("[data-tooltip-action='edit']");
 
       $tooltip.toggleClass("is-hidden");
