@@ -46,9 +46,10 @@
 
 	var Utils  = __webpack_require__(1);
 	var data  = __webpack_require__(2);
-	var Dropdown = __webpack_require__(3);
-	var Furniture  = __webpack_require__(4);
-	var welcome = __webpack_require__(5);
+	var userProfile = __webpack_require__(3);
+	var Dropdown = __webpack_require__(4);
+	var Furniture  = __webpack_require__(5);
+	var welcome = __webpack_require__(6);
 	var rootRef = new Firebase(Utils.urls.root);
 	var furnitureRef = new Firebase(Utils.urls.furniture);
 	var backgroundRef = new Firebase(Utils.urls.background);
@@ -98,6 +99,7 @@
 	      if (authData) {
 	        self.hideWelcomeScreen();
 	        self.renderFurniture();
+	        userProfile.init(authData);
 	      }
 	      else {
 	        self.showWelcomeScreen();
@@ -325,6 +327,40 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
+	* User Profile Module
+	*
+	*/
+
+
+	var userProfile = {
+	  template: _.template($('#template-profile').html()),
+	  container: $('#profile'),
+
+	  init: function(data) {
+	    var hasData = (data && data.google && data.google.cachedUserProfile);
+
+	    if(data && data.google && data.google.cachedUserProfile) {
+	      this.data = data.google.cachedUserProfile;
+	      this.render();
+	    }
+	  },
+
+	  render: function() {
+	    var $profile = this.template(this.data);
+	    console.log(this.data);
+	    this.container.append($profile);
+	    this.container.addClass('is-visible');
+	  }
+
+	};
+
+	module.exports = userProfile;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
 	* Dropdown Menu Module
 	*
 	*/
@@ -364,7 +400,7 @@
 	module.exports = Dropdown;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var utils  = __webpack_require__(1);
@@ -516,7 +552,7 @@
 	module.exports = Furniture;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var utils  = __webpack_require__(1);

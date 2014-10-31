@@ -36,6 +36,8 @@
         <!-- <button class="editor-new" data-name="desk">new desk</button> -->
         <!-- <button class="editor-new" data-name="plant">new plant</button> -->
       </div>
+
+      <div id="profile" class="user-profile animated bounceInUp"></div>
     </div>
 
 
@@ -58,6 +60,12 @@
         </a>
       </li>
     </script>
+
+    <script id="template-profile" type="text/template">
+      <img src="<%= picture %>">
+      <h2><%= name %></h2>
+    </script>
+
 
     <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>
     <script src="bower_components/jquery/jquery.js"></script>
