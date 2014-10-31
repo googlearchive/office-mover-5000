@@ -8,8 +8,6 @@ var Dropdown = function($parent, data, type) {
   var liTemplate = _.template($('#template-dropdown-item').html());
   var buttonList = '';
 
-
-
   // LOOP THROUGH DATA & CREATE BUTTONS
   for(var i = 0, l = data.length; i < l; i++) {
     buttonList = buttonList + liTemplate({
@@ -21,15 +19,19 @@ var Dropdown = function($parent, data, type) {
     });
   }
 
+  // ADD DROPDOWN TO DOM
+  $parent.append(ListTemplate({items: buttonList}));
 
-  $parent.append(ListTemplate({
-    items: buttonList
-  }));
-
-
+  //TOGGLE MENU OPEN/CLOSE
   $parent.on('click', function(e) {
     e.preventDefault();
-    $parent.find('.dropdown').toggleClass('is-visible');
+    $parent.find('.dropdown, .dropdown-overlay').toggleClass('is-visible');
+  });
+
+  // CLOSE MENU WHEN CLICKING OVERLAY
+  $parent.on('click', '.dropdown-overlay', function(e) {
+    e.stopPropagation();
+    $parent.find('.dropdown, .dropdown-overlay').removeClass('is-visible');
   });
 };
 
