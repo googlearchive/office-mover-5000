@@ -8,9 +8,11 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.util.Log;
 
 public class OfficeThing {
 
+    private static final String TAG = OfficeThing.class.getSimpleName();
     private int top;
     private int left;
     private int zIndex;
@@ -96,12 +98,20 @@ public class OfficeThing {
     }
 
     public void setRotation(int rotation) {
+        if(rotation > 360) {
+            rotation = rotation - 360;
+        }
         this.rotation = rotation;
+        this.bitmap = null;
+        this.glowingBitmap = null;
     }
 
     //TODO: make these based on the real model instead of the screen
     //TODO: Consider moving these somewhere else. It seems odd for a model object to know about context
     private void checkSetDimensions(Context context) {
+        if(type == null) {
+            return;
+        }
         if(height == 0 || width == 0) {
             String packageName = context.getPackageName();
             int resourceId = context.getResources().getIdentifier(this.type, "drawable", packageName);
@@ -115,7 +125,6 @@ public class OfficeThing {
             width = (int) ((dimensions.outWidth / 2D) * 1.33D);
         }
     }
-
 
     public int getHeight(Context context) {
         checkSetDimensions(context);
@@ -143,21 +152,23 @@ public class OfficeThing {
 
         //TODO: better exception
         if (null == this.type) {
-            throw new RuntimeException();
+            Log.w(TAG, "Empty bitmap for "+this);
+            return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         }
 
 
         String packageName = context.getPackageName();
         int resourceId = context.getResources().getIdentifier(this.type, "drawable", packageName);
         bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
+        int resourceWidth = bitmap.getWidth();
+        int resourceHeight = bitmap.getHeight();
 
-        // rotate
+        // rotate counter clockwise
         Matrix matrix = new Matrix();
-        matrix.postRotate(rotation);
+        matrix.postRotate(-rotation);
+        matrix.postScale(0.9F, 0.9F); //TODO: figure out why this hack makes android match web
 
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, resourceWidth, resourceHeight, matrix, true);
 
         return bitmap;
     }

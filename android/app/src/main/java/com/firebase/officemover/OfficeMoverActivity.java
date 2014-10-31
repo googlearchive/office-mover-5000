@@ -69,7 +69,6 @@ public class OfficeMoverActivity extends Activity {
 
                 addUpdateThingToLocalModel(key, existingThing);
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 String key = dataSnapshot.getName();
