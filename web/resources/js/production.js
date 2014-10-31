@@ -454,7 +454,6 @@
 
 	  this.rotate = function(){
 	    this.ref.child("rotation").set(this.rotation + 90);
-	    this.render();
 	  };
 
 	  this.delete = function(){
