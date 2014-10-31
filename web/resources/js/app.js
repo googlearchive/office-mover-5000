@@ -70,6 +70,10 @@ var app = {
     });
   },
 
+  removeFurniture: function(snapshot){
+    // TODO: add method to remove furniture
+  },
+
   checkUserAuthentication: function(){
     var self = this;
 
@@ -92,6 +96,14 @@ var app = {
         new Furniture(childSnapshot);
       });
     });
+
+    // furnitureRef.on("child_added", function(snapshot){
+    //   self.createFurniture(snapshot);
+    // });
+
+    // furnitureRef.on("child_removed", function(snapshot){
+    //   self.removeFurniture(snapshot);
+    // });
   },
 
   logout: function(){

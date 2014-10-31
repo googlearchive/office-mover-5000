@@ -116,6 +116,10 @@
 	    });
 	  },
 
+	  removeFurniture: function(snapshot){
+	    // TODO: add method to remove furniture
+	  },
+
 	  checkUserAuthentication: function(){
 	    var self = this;
 
@@ -138,6 +142,14 @@
 	        new Furniture(childSnapshot);
 	      });
 	    });
+
+	    // furnitureRef.on("child_added", function(snapshot){
+	    //   self.createFurniture(snapshot);
+	    // });
+
+	    // furnitureRef.on("child_removed", function(snapshot){
+	    //   self.removeFurniture(snapshot);
+	    // });
 	  },
 
 	  logout: function(){
@@ -377,13 +389,44 @@
 
 	  this.ref  = new Firebase(utils.urls.furniture + this.id);
 
+	  this.ref.on("value", function(snap){
+
+	    // UPDATE Furniture INSTANCE WITH MOST RECENT DATA
+	    var state = snap.val();
+	    _.extend(self, state);
+
+	    // RENDER
+	    self.render();
+	  });
+
+	  this.render = function(){
+
+	    // REMOVE ELEMENT FROM DOM
+	    this.element.detach();
+
+	    // SET CURRENT LOCATION
+	    this.element.css({
+	      "top": parseInt(this.top, 10),
+	      "left": parseInt(this.left, 10)
+	    });
+
+	    if (this.locked){
+	      this.element.addClass("is-active");
+	    }
+	    else {
+	      this.element.removeClass("is-active");
+	    }
+
+	    // ADD TO DOM
+	    this.officeSpace.append(this.element);
+	  };
 
 	  /*
 	  * Create Furniture Method
 	  *
 	  */
 
-	  this.createElement = function() {
+	  this.initElement = function() {
 
 	    //SET DRAG OPTIONS
 	    this.element.draggable({
@@ -404,16 +447,10 @@
 	      }
 	    });
 
-	    // SET CURRENT LOCATION
-	    this.element
-	    .addClass(this.type)
-	    .css({
-	      "top": parseInt(this.top, 10),
-	      "left": parseInt(this.left, 10)
-	    });
+	    this.element.addClass(this.type);
 
-	    // ADD TO DOM
-	    this.officeSpace.append(this.element);
+	    // RENDER 
+	    this.render();
 	  };
 
 
@@ -422,7 +459,7 @@
 	  *
 	  */
 
-	  this.createElement();
+	  this.initElement();
 	};
 
 	module.exports = Furniture;
@@ -458,7 +495,6 @@
 
 	      rootRef.authWithOAuthPopup(provider, function(error, authData){
 	        if (error){
-	          console.log(error);
 	          self.$alert.removeClass("is-hidden");
 	        }
 	        else {
