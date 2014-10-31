@@ -51,6 +51,7 @@
 	var welcome = __webpack_require__(5);
 	var rootRef = new Firebase(Utils.urls.root);
 	var furnitureRef = new Firebase(Utils.urls.furniture);
+	var backgroundRef = new Firebase(Utils.urls.background);
 
 	/*
 	* Application Module

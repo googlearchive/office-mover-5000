@@ -5,6 +5,7 @@ var Furniture  = require('./components/furniture');
 var welcome = require('./components/welcome');
 var rootRef = new Firebase(Utils.urls.root);
 var furnitureRef = new Firebase(Utils.urls.furniture);
+var backgroundRef = new Firebase(Utils.urls.background);
 
 /*
 * Application Module
