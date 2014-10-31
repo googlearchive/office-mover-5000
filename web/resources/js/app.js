@@ -33,6 +33,7 @@ var app = {
     this.$welcome = $("#welcome");
     this.$app = $("#app");
     this.$officeSpace = $("#office-space");
+    this.$officeSpaceWrapper = $("#office-space-wrapper");
     this.$signInButtons = $(".welcome-hero-signin");
     this.$alert = $(".alert");
     this.$signOutButton = $(".toolbar-sign-out");
@@ -91,7 +92,7 @@ var app = {
       var value = snapshot.val();
       var pattern = value ? 'background-' + value : '';
 
-      self.$officeSpace.removeClass().addClass('editor ' +  pattern);
+      self.$officeSpaceWrapper.removeClass().addClass('l-canvas-wrapper l-center-canvas ' +  pattern);
     });
   },
 

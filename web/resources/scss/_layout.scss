@@ -1,3 +1,20 @@
-.l-container {
-  height: 1000px;
+.l-canvas {
+  position: relative;
+  width: 600px;
+  height: 800px;
+  padding: 0px;
+}
+.l-canvas-buffer {
+  position: relative;
+  width: 600px;
+  height: 800px;
+  padding: 50px;
+}
+.l-canvas-wrapper {
+  position: relative;
+  width: 700px;
+  height: 900px;
+}
+.l-center-canvas {
+  margin: 50px auto;
 }
