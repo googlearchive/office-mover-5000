@@ -37,15 +37,13 @@ var Furniture = function(snapshot, options) {
 
   this.ref  = new Firebase(utils.urls.furniture + this.id);
 
-  this.ref.on("value", function(snap){
 
-    // UPDATE Furniture INSTANCE WITH MOST RECENT DATA
-    var state = snap.val();
-    _.extend(self, state);
 
-    // RENDER
-    self.render();
-  });
+
+  /*
+  * Render Furniture to DOM
+  *
+  */
 
   this.render = function(){
 
@@ -69,8 +67,9 @@ var Furniture = function(snapshot, options) {
     this.officeSpace.append(this.element);
   };
 
+
   /*
-  * Create Furniture Method
+  * Initialize furniture module
   *
   */
 
@@ -97,9 +96,44 @@ var Furniture = function(snapshot, options) {
 
     this.element.addClass(this.type);
 
-    // RENDER 
+    // RENDER
     this.render();
   };
+
+
+
+  /*
+  * Destroy element
+  *
+  */
+
+  this.destroy = function() {
+    this.element.remove();
+  };
+
+
+  /*
+  * Listen for updates
+  *
+  */
+
+  this.ref.on("value", function(snap){
+    var value = snap.val();
+
+    if(value === null) {
+      self.ref.off();
+      self.element.addClass('animated fadeOut');
+
+      setTimeout(function() {
+        self.destroy();
+      }, 2000);
+    }
+    else {
+      _.extend(self, value);
+      self.render();
+    }
+  });
+
 
 
   /*

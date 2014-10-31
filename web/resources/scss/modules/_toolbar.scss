@@ -11,7 +11,7 @@
     line-height: 40px;
     margin: 0px;
     padding: 0px;
-
+    font-size: 26px;
   }
 
   .toolbar-menu {
@@ -25,17 +25,34 @@
 
     > li {
       padding: 0px;
-      margin: 0px 20px 0px 0px;
+      margin: 0px 10px 0px 0px;
       display: inline-block;
     }
 
     .toolbar-icon-button {
       border: none;
-      background: none;
       height: 40px;
       width: 40px;
       color: $white;
-      background: $white;
+      text-indent: -3000px;
+      overflow: hidden;
+      outline: none;
+
+      &.icon-add {
+        background-size: 26px 26px;
+      }
+
+      &.icon-background {
+        background-size: 32px 26px;
+      }
+
+      &:hover, &:focus {
+
+      }
+
+      &:active, &.is-active {
+        background-color: $deep-ocean;
+      }
     }
   }
 
@@ -48,7 +65,7 @@
     border-radius: 3px;
     height: 40px;
     padding: 0px 20px;
-    font-size: $basefont - 2;
+    font-size: $basefont - 1;
     background-color: $deep-ocean;
     color: $white;
   }

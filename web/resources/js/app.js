@@ -1,8 +1,11 @@
 var Utils  = require('./helpers/utils');
+var data  = require('./helpers/data');
+var Dropdown = require('./components/dropdown');
 var Furniture  = require('./components/furniture');
 var welcome = require('./components/welcome');
 var rootRef = new Firebase(Utils.urls.root);
 var furnitureRef = new Firebase(Utils.urls.furniture);
+var backgroundRef = new Firebase(Utils.urls.background);
 
 /*
 * Application Module
@@ -11,24 +14,12 @@ var furnitureRef = new Firebase(Utils.urls.furniture);
 */
 
 var app = {
-
-  // REGISTER ELEMENTS
   $welcome: null,
   $app: null,
   $signInButtons: null,
   $alert: null,
   $signOutButton: null,
 
-  // HIDE / SHOW WELCOME SCREEN
-  showWelcomeScreen: function(){
-    this.$welcome.removeClass("is-hidden");
-    this.$app.addClass("is-hidden");
-  },
-
-  hideWelcomeScreen: function(){
-    this.$welcome.addClass("is-hidden");
-    this.$app.removeClass("is-hidden");
-  },
 
   /*
   * Initalize the application
@@ -37,7 +28,6 @@ var app = {
   */
 
   init: function() {
-    var self = this;
     // REGISTER ELEMENTS
     this.$welcome = $("#welcome");
     this.$app = $("#app");
@@ -45,16 +35,32 @@ var app = {
     this.$alert = $(".alert");
     this.$signOutButton = $(".toolbar-sign-out");
 
-    welcome.init();                 // SET UP HOME PAGE
-    this.logout();                  // SET UP LOGOUT FUNCTIONALITY
-    this.checkUserAuthentication(); // SET AUTH LISTENER
-    this.renderFurniture();         // RENDER FURNITURE
+    //INITIALIZE APP
+    welcome.init();
+    this.checkUserAuthentication();
+    this.createDropdowns();
+    this.logout();
   },
 
-  createFurniture: function(snapshot) {
+  addFurniture: function(type) {
+    furnitureRef.push({
+      top: 400,
+      left: 300,
+      type: type,
+      rotation: 0,
+      locked: false,
+      name: ""
+    });
+  },
+
+  changeBackground: function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
       new Furniture(childSnapshot);
     });
+  },
+
+  createFurniture: function(snapshot) {
+    new Furniture(snapshot);
   },
 
   removeFurniture: function(snapshot){
@@ -67,6 +73,7 @@ var app = {
     rootRef.onAuth(function(authData){
       if (authData) {
         self.hideWelcomeScreen();
+        self.renderFurniture();
       }
       else {
         self.showWelcomeScreen();
@@ -74,16 +81,40 @@ var app = {
     });
   },
 
+  createDropdowns: function() {
+    var self = this;
+    var $addFurniture = $('#add-furniture');
+    var $addBackground = $('#select-background');
+
+    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture, 'furniture');
+    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'background');
+
+    $('.dropdown').on('click', '.dropdown-button', function(e) {
+      e.preventDefault();
+      var button = $(e.currentTarget);
+      var type = button.data('type');
+      var name = button.data('name');
+
+      switch(type) {
+        case 'furniture': self.addFurniture(name); break;
+        case 'background': self.changeBackground(name); break;
+      }
+    });
+  },
+
+
   renderFurniture: function(){
     var self = this;
 
     furnitureRef.once("value", function(snapshot){
-      self.createFurniture(snapshot);
+      snapshot.forEach(function(childSnapshot) {
+        new Furniture(childSnapshot);
+      });
     });
 
-    // furnitureRef.on("child_added", function(snapshot){
-    //   self.createFurniture(snapshot);
-    // });
+    furnitureRef.on("child_added", function(snapshot){
+      self.createFurniture(snapshot);
+    });
 
     // furnitureRef.on("child_removed", function(snapshot){
     //   self.removeFurniture(snapshot);
@@ -91,12 +122,20 @@ var app = {
   },
 
   logout: function(){
-    // SETUP LOGOUT BUTTON
     this.$signOutButton.on("click", function(e){
       rootRef.unauth();
     });
-  }
+  },
 
+  showWelcomeScreen: function(){
+    this.$welcome.removeClass("is-hidden");
+    this.$app.addClass("is-hidden");
+  },
+
+  hideWelcomeScreen: function(){
+    this.$welcome.addClass("is-hidden");
+    this.$app.removeClass("is-hidden");
+  }
 };
 
 

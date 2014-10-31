@@ -45,10 +45,13 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var Utils  = __webpack_require__(1);
-	var Furniture  = __webpack_require__(2);
-	var welcome = __webpack_require__(3);
+	var data  = __webpack_require__(2);
+	var Dropdown = __webpack_require__(3);
+	var Furniture  = __webpack_require__(4);
+	var welcome = __webpack_require__(5);
 	var rootRef = new Firebase(Utils.urls.root);
 	var furnitureRef = new Firebase(Utils.urls.furniture);
+	var backgroundRef = new Firebase(Utils.urls.background);
 
 	/*
 	* Application Module
@@ -57,24 +60,12 @@
 	*/
 
 	var app = {
-
-	  // REGISTER ELEMENTS
 	  $welcome: null,
 	  $app: null,
 	  $signInButtons: null,
 	  $alert: null,
 	  $signOutButton: null,
 
-	  // HIDE / SHOW WELCOME SCREEN
-	  showWelcomeScreen: function(){
-	    this.$welcome.removeClass("is-hidden");
-	    this.$app.addClass("is-hidden");
-	  },
-
-	  hideWelcomeScreen: function(){
-	    this.$welcome.addClass("is-hidden");
-	    this.$app.removeClass("is-hidden");
-	  },
 
 	  /*
 	  * Initalize the application
@@ -83,7 +74,6 @@
 	  */
 
 	  init: function() {
-	    var self = this;
 	    // REGISTER ELEMENTS
 	    this.$welcome = $("#welcome");
 	    this.$app = $("#app");
@@ -91,16 +81,32 @@
 	    this.$alert = $(".alert");
 	    this.$signOutButton = $(".toolbar-sign-out");
 
-	    welcome.init();                 // SET UP HOME PAGE
-	    this.logout();                  // SET UP LOGOUT FUNCTIONALITY
-	    this.checkUserAuthentication(); // SET AUTH LISTENER
-	    this.renderFurniture();         // RENDER FURNITURE
+	    //INITIALIZE APP
+	    welcome.init();
+	    this.checkUserAuthentication();
+	    this.createDropdowns();
+	    this.logout();
 	  },
 
-	  createFurniture: function(snapshot) {
+	  addFurniture: function(type) {
+	    furnitureRef.push({
+	      top: 400,
+	      left: 300,
+	      type: type,
+	      rotation: 0,
+	      locked: false,
+	      name: ""
+	    });
+	  },
+
+	  changeBackground: function(snapshot) {
 	    snapshot.forEach(function(childSnapshot) {
 	      new Furniture(childSnapshot);
 	    });
+	  },
+
+	  createFurniture: function(snapshot) {
+	    new Furniture(snapshot);
 	  },
 
 	  removeFurniture: function(snapshot){
@@ -113,6 +119,7 @@
 	    rootRef.onAuth(function(authData){
 	      if (authData) {
 	        self.hideWelcomeScreen();
+	        self.renderFurniture();
 	      }
 	      else {
 	        self.showWelcomeScreen();
@@ -120,16 +127,40 @@
 	    });
 	  },
 
+	  createDropdowns: function() {
+	    var self = this;
+	    var $addFurniture = $('#add-furniture');
+	    var $addBackground = $('#select-background');
+
+	    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture, 'furniture');
+	    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'background');
+
+	    $('.dropdown').on('click', '.dropdown-button', function(e) {
+	      e.preventDefault();
+	      var button = $(e.currentTarget);
+	      var type = button.data('type');
+	      var name = button.data('name');
+
+	      switch(type) {
+	        case 'furniture': self.addFurniture(name); break;
+	        case 'background': self.changeBackground(name); break;
+	      }
+	    });
+	  },
+
+
 	  renderFurniture: function(){
 	    var self = this;
 
 	    furnitureRef.once("value", function(snapshot){
-	      self.createFurniture(snapshot);
+	      snapshot.forEach(function(childSnapshot) {
+	        new Furniture(childSnapshot);
+	      });
 	    });
 
-	    // furnitureRef.on("child_added", function(snapshot){
-	    //   self.createFurniture(snapshot);
-	    // });
+	    furnitureRef.on("child_added", function(snapshot){
+	      self.createFurniture(snapshot);
+	    });
 
 	    // furnitureRef.on("child_removed", function(snapshot){
 	    //   self.removeFurniture(snapshot);
@@ -137,12 +168,20 @@
 	  },
 
 	  logout: function(){
-	    // SETUP LOGOUT BUTTON
 	    this.$signOutButton.on("click", function(e){
 	      rootRef.unauth();
 	    });
-	  }
+	  },
 
+	  showWelcomeScreen: function(){
+	    this.$welcome.removeClass("is-hidden");
+	    this.$app.addClass("is-hidden");
+	  },
+
+	  hideWelcomeScreen: function(){
+	    this.$welcome.addClass("is-hidden");
+	    this.$app.removeClass("is-hidden");
+	  }
 	};
 
 
@@ -188,6 +227,143 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var data = {
+	  backgrounds: [
+	    {
+	      name: 'carpet',
+	      description: 'Casino Carpet',
+	      background: 'background-preview-carpet'
+	    },
+	    {
+	      name: 'grid',
+	      description: 'Grid Pattern',
+	      background: 'background-preview-grid'
+	    },
+	    {
+	      name: 'wood',
+	      description: 'Hardwood Floor',
+	      background: 'background-preview-wood'
+	    },
+	    {
+	      name: 'tile',
+	      description: 'Tile Flooring',
+	      background: 'background-preview-tile'
+	    }
+	  ],
+
+	  furniture: [
+	    {
+	      name: 'android',
+	      description: 'Android Toy',
+	      icon: 'icon-android'
+	    },
+	    {
+	      name: 'ballpit',
+	      description: 'Ball Pit Pool',
+	      icon: 'icon-ballpit'
+	    },
+	    {
+	      name: 'desk',
+	      description: 'Office Desk',
+	      icon: 'icon-desk'
+	    },
+	    {
+	      name: 'dog_corgi',
+	      description: 'Dog (Corgi)',
+	      icon: 'icon-dog'
+	    },
+	    {
+	      name: 'dog_retriever',
+	      description: 'Dog (Retriever)',
+	      icon: 'icon-dog'
+	    },
+	    {
+	      name: 'laptop',
+	      description: 'Laptop',
+	      icon: 'icon-laptop'
+	    },
+	    {
+	      name: 'nerfgun',
+	      description: 'Nerfgun Pistol',
+	      icon: 'icon-nerfgun'
+	    },
+	    {
+	      name: 'pacman',
+	      description: 'Pacman Arcade',
+	      icon: 'icon-game'
+	    },
+	    {
+	      name: 'pingpong',
+	      description: 'Ping Pong Table',
+	      icon: 'icon-pingpong'
+	    },
+	    {
+	      name: 'plant1',
+	      description: 'Plant (Shrub)',
+	      icon: 'icon-plant'
+	    },
+	    {
+	      name: 'plant2',
+	      description: 'Plant (Succulent)',
+	      icon: 'icon-plant'
+	    },
+	    {
+	      name: 'redstapler',
+	      description: 'Red Stapler',
+	      icon: 'icon-stapler'
+	    }
+	  ]
+	};
+
+	module.exports = data;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	* Dropdown Menu Module
+	*
+	*/
+
+	var Dropdown = function($parent, data, type) {
+	  var ListTemplate = _.template($('#template-dropdown').html());
+	  var liTemplate = _.template($('#template-dropdown-item').html());
+	  var buttonList = '';
+
+	  // LOOP THROUGH DATA & CREATE BUTTONS
+	  for(var i = 0, l = data.length; i < l; i++) {
+	    buttonList = buttonList + liTemplate({
+	      name: data[i].name,
+	      description: data[i].description,
+	      background: data[i].background,
+	      icon: data[i].icon,
+	      type: type
+	    });
+	  }
+
+	  // ADD DROPDOWN TO DOM
+	  $parent.append(ListTemplate({items: buttonList}));
+
+	  //TOGGLE MENU OPEN/CLOSE
+	  $parent.on('click', function(e) {
+	    e.preventDefault();
+	    $parent.find('.dropdown, .dropdown-overlay').toggleClass('is-visible');
+	  });
+
+	  // CLOSE MENU WHEN CLICKING OVERLAY
+	  $parent.on('click', '.dropdown-overlay', function(e) {
+	    e.stopPropagation();
+	    $parent.find('.dropdown, .dropdown-overlay').removeClass('is-visible');
+	  });
+	};
+
+	module.exports = Dropdown;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var utils  = __webpack_require__(1);
 	var furnitureRef = new Firebase(utils.urls.furniture);
 
@@ -227,15 +403,13 @@
 
 	  this.ref  = new Firebase(utils.urls.furniture + this.id);
 
-	  this.ref.on("value", function(snap){
 
-	    // UPDATE Furniture INSTANCE WITH MOST RECENT DATA
-	    var state = snap.val();
-	    _.extend(self, state);
 
-	    // RENDER
-	    self.render();
-	  });
+
+	  /*
+	  * Render Furniture to DOM
+	  *
+	  */
 
 	  this.render = function(){
 
@@ -259,8 +433,9 @@
 	    this.officeSpace.append(this.element);
 	  };
 
+
 	  /*
-	  * Create Furniture Method
+	  * Initialize furniture module
 	  *
 	  */
 
@@ -287,9 +462,44 @@
 
 	    this.element.addClass(this.type);
 
-	    // RENDER 
+	    // RENDER
 	    this.render();
 	  };
+
+
+
+	  /*
+	  * Destroy element
+	  *
+	  */
+
+	  this.destroy = function() {
+	    this.element.remove();
+	  };
+
+
+	  /*
+	  * Listen for updates
+	  *
+	  */
+
+	  this.ref.on("value", function(snap){
+	    var value = snap.val();
+
+	    if(value === null) {
+	      self.ref.off();
+	      self.element.addClass('animated fadeOut');
+
+	      setTimeout(function() {
+	        self.destroy();
+	      }, 2000);
+	    }
+	    else {
+	      _.extend(self, value);
+	      self.render();
+	    }
+	  });
+
 
 
 	  /*
@@ -303,7 +513,7 @@
 	module.exports = Furniture;
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var utils  = __webpack_require__(1);
