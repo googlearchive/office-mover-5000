@@ -347,9 +347,8 @@
 
 	  render: function() {
 	    var $profile = this.template(this.data);
-	    console.log(this.data);
-	    this.container.append($profile);
-	    this.container.addClass('is-visible');
+
+	    this.container.html('').addClass('is-visible').append($profile);
 	  }
 
 	};
