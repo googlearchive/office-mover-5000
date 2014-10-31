@@ -88,7 +88,14 @@
 	  },
 
 	  addFurniture: function(type) {
-	    furnitureRef.push();
+	    furnitureRef.push({
+	      top: 400,
+	      left: 300,
+	      type: type,
+	      rotation: 0,
+	      locked: false,
+	      name: ""
+	    });
 	  },
 
 	  changeBackground: function(snapshot) {
