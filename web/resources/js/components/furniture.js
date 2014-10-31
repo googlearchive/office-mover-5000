@@ -56,6 +56,7 @@ var Furniture = function(snapshot, options) {
   this.render = function(){
 
     var rotation = "rotate(" + (this.rotation * -1) + "deg)";  // CCW ROTATION
+    var antiRotation = "rotate(" + (this.rotation) + "deg)";  // CCW ROTATION
 
     // REMOVE ELEMENT FROM DOM
     this.element.detach();
@@ -65,6 +66,10 @@ var Furniture = function(snapshot, options) {
       "top": parseInt(this.top, 10),
       "left": parseInt(this.left, 10),
       "transform": rotation
+    });
+
+    this.tooltip.css({
+      "transform": antiRotation
     });
 
     // SET ACTIVE STATE
