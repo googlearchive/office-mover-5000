@@ -8,8 +8,7 @@ var furnitureRef = new Firebase(utils.urls.furniture);
 * a normal class with the "new" keyword.
 */
 
-var Furniture = function(snapshot, options) {
-  options = options || {};
+var Furniture = function(snapshot, app) {
   var self = this;
   var data = snapshot.val();
   var elementTemplate = _.template($('#template-furniture-item').html());
@@ -24,7 +23,7 @@ var Furniture = function(snapshot, options) {
   this.element = $(element);
   this.tooltip = this.element.children(".tooltip");
   this.nameEl = this.element.children(".furniture-name");
-
+  this.app = app;
   this.id = snapshot.name();
   this.ref = snapshot.ref();
   this.type = data.type;
@@ -33,6 +32,7 @@ var Furniture = function(snapshot, options) {
   this.top = data.top;
   this.left = data.left;
   this.name = data.name;
+  this.zIndex = data.zIndex;
 
 
   /*
@@ -62,9 +62,10 @@ var Furniture = function(snapshot, options) {
     this.element.css({
       "top": parseInt(this.top, 10),
       "left": parseInt(this.left, 10),
+      "zIndex": parseInt(this.zIndex, 10),
       "transform": rotateCCW
     });
-    
+
     this.tooltip.css({
       "transform": rotateCW
     });
@@ -152,7 +153,7 @@ var Furniture = function(snapshot, options) {
     this.element.draggable({
       containment: self.officeSpace,
       start: function(event, ui){
-        self.element.addClass("is-active");
+        self.element.addClass("is-active is-top");
         self.ref.child("locked").set(true);
       },
 
@@ -162,8 +163,13 @@ var Furniture = function(snapshot, options) {
       },
 
       stop: function(event, ui){
-        self.element.removeClass("is-active");
+        var zIndex = self.app.maxZIndex + 1;
+
+        self.element.removeClass("is-active is-top");
         self.ref.child("locked").set(false);
+        self.ref.child("zIndex").set(zIndex);
+
+        self.app.maxZIndex = zIndex;
       }
     });
 
