@@ -12,13 +12,8 @@ var Furniture = function(snapshot, options) {
   options = options || {};
   var self = this;
   var data = snapshot.val();
-  var element = "<div class='furniture'></div>";
-  var tooltip = "<div class='tooltip is-hidden'>" +
-                  "<button class='tooltip-button is-hidden' data-tooltip-action='edit'>Edit</button>" +
-                  "<button class='tooltip-button' data-tooltip-action='rotate'>Rotate</button>" +
-                  "<button class='tooltip-button' data-tooltip-action='delete'>Delete</button>" +
-                "</div>";
-  var name    = "<span class='furniture-name'></span>";
+  var elementTemplate = _.template($('#template-furniture-item').html());
+  var element = elementTemplate().trim();
 
   /*
   * Register Furniture Values
@@ -27,10 +22,8 @@ var Furniture = function(snapshot, options) {
 
   this.officeSpace = $('#office-space');
   this.element = $(element);
-  this.tooltip = $(tooltip);
-  this.nameEl = $(name);
-  this.$tooltipButtons = null;
-  this.$name = null;
+  this.tooltip = this.element.children(".tooltip");
+  this.nameEl = this.element.children(".furniture-name");
 
   this.id = snapshot.name();
   this.ref = snapshot.ref();
@@ -59,11 +52,8 @@ var Furniture = function(snapshot, options) {
 
   this.render = function(){
 
-    var rotation = "rotate(" + (this.rotation * -1) + "deg)";  // CCW ROTATION
-    var antiRotation = "rotate(" + (this.rotation) + "deg)";   // CCW ROTATION
-
-    // REMOVE ELEMENT FROM DOM
-    this.element.detach();
+    var rotateCCW = "rotate(" + (this.rotation * -1) + "deg)";  // CCW ROTATION
+    var rotateCW = "rotate(" + (this.rotation) + "deg)";   // CCW ROTATION
 
     // SET NAME ON DESK
     this.nameEl.text(this.name);
@@ -72,13 +62,11 @@ var Furniture = function(snapshot, options) {
     this.element.css({
       "top": parseInt(this.top, 10),
       "left": parseInt(this.left, 10),
-      "transform": rotation
+      "transform": rotateCCW
     });
+    
     this.tooltip.css({
-      "transform": antiRotation
-    });
-    this.nameEl.css({
-      "transform": antiRotation
+      "transform": rotateCW
     });
 
     // SET ACTIVE STATE
@@ -93,51 +81,34 @@ var Furniture = function(snapshot, options) {
     this.officeSpace.append(this.element);
   };
 
+  /*
+  * Edit name on desk
+  */
+
   this.editName = function(){
     var name = window.prompt("Who sits here?", this.name);
     this.ref.child("name").set(name);
   };
 
+  /*
+  * Rotate furniture
+  */
   this.rotate = function(){
     this.ref.child("rotation").set(this.rotation + 90);
   };
 
+  /*
+  * Delete furniture and remove from screen
+  */
   this.delete = function(){
     this.ref.remove();
   };
 
   /*
-  * Initialize furniture module
-  *
+  * Initialize click listeners
   */
 
-  this.initElement = function() {
-
-    this.$tooltipButtons = $(".tooltip-button");
-
-    //SET DRAG OPTIONS
-    this.element.draggable({
-      containment: self.officeSpace,
-      start: function(event, ui){
-        self.element.addClass("is-active");
-        self.ref.child("locked").set(true);
-      },
-
-      drag: function(event, ui){
-        self.ref.child("left").set(ui.position.left);
-        self.ref.child("top").set(ui.position.top);
-      },
-
-      stop: function(event, ui){
-        self.element.removeClass("is-active");
-        self.ref.child("locked").set(false);
-      }
-    });
-
-    // SET IMAGE FOR ELEMENT AND INIT TOOLTIP
-    this.element.addClass(this.type);
-    this.element.append(this.tooltip, this.nameEl);
-
+  this.initListeners = function(){
     // SET CLICK HANDLER TO CREATE TOOLTIP
     this.element.on("click", function(e){
 
@@ -161,8 +132,38 @@ var Furniture = function(snapshot, options) {
         case "rotate": self.rotate(); break;
         case "delete": self.delete(); break;
       }
-
     });
+  };
+
+  /*
+  * Initialize furniture module
+  *
+  */
+
+  this.initElement = function() {
+
+    //SET DRAG OPTIONS
+    this.element.draggable({
+      containment: self.officeSpace,
+      start: function(event, ui){
+        self.element.addClass("is-active");
+        self.ref.child("locked").set(true);
+      },
+
+      drag: function(event, ui){
+        self.ref.child("left").set(ui.position.left);
+        self.ref.child("top").set(ui.position.top);
+      },
+
+      stop: function(event, ui){
+        self.element.removeClass("is-active");
+        self.ref.child("locked").set(false);
+      }
+    });
+
+    // SET IMAGE FOR ELEMENT AND INIT TOOLTIP
+    this.element.addClass(this.type);
+    this.initListeners();
 
     // RENDER
     this.render();
@@ -172,7 +173,6 @@ var Furniture = function(snapshot, options) {
 
   /*
   * Destroy element
-  *
   */
 
   this.destroy = function() {
@@ -181,14 +181,12 @@ var Furniture = function(snapshot, options) {
 
   /*
   * Create Furniture Element
-  *
   */
 
   this.initElement();
 
   /*
   * Listen for updates
-  *
   */
 
   this.ref.on("value", function(snap){
