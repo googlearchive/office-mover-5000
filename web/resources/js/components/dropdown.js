@@ -15,6 +15,8 @@ var Dropdown = function($parent, data, type) {
     buttonList = buttonList + liTemplate({
       name: data[i].name,
       description: data[i].description,
+      background: data[i].background,
+      icon: data[i].icon,
       type: type
     });
   }

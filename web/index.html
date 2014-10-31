@@ -25,8 +25,8 @@
     <div id="app" class="is-hidden">
       <header class="toolbar">
         <ul class="toolbar-menu">
-          <li id="add-furniture"><button class="toolbar-icon-button" >Select Furniture</button></li>
-          <li id="select-background"><button class="toolbar-icon-button" >Select Background</button></li>
+          <li id="add-furniture"><button class="toolbar-icon-button icon-add" >Select Furniture</button></li>
+          <li id="select-background"><button class="toolbar-icon-button icon-background" >Select Background</button></li>
         </ul>
         <h1 class="toolbar-title">Office Mover</h1>
         <button class="toolbar-sign-out">SIGN OUT</button>
@@ -38,10 +38,11 @@
     </div>
 
 
+    <!-- TEMPLATE -->
     <script id="template-dropdown" type="text/template">
       <div class="dropdown">
         <span class="dropdown-arrow"></span>
-        <ul class="dropdown-options">
+        <ul class="dropdown-items">
           <%= items %>
         </ul>
       </div>
@@ -49,8 +50,8 @@
 
     <script id="template-dropdown-item" type="text/template">
       <li>
-        <a href="#"  data-type="<%= type %>" data-name="<%= name %>" class="dropdown-button <%= name %>">
-          <i class="dropdown-button-icon"></i>
+        <a href="#"  data-type="<%= type %>" data-name="<%= name %>" class="dropdown-button button-type-<%= type %>">
+          <i class="dropdown-button-icon <%= type %> <%= background %> <%= icon %>"></i>
           <%= description %>
         </a>
       </li>

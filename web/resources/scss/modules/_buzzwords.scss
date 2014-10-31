@@ -1,7 +1,3 @@
-@import 'options';
-
-$height: 20px;
-
 .buzzwords {
   position: relative;
   width: 100%;
@@ -9,7 +5,7 @@ $height: 20px;
   padding: 10px;
   margin: 0 auto;
 
-  line-height: $height;
+  line-height: 20px;
   text-align: center;
   z-index: 1;
 
