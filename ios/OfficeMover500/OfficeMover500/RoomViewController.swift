@@ -8,11 +8,13 @@
 
 import UIKit
 
-class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewItemDelegate {
+class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewItemDelegate, ChangeBackgroundDelegate {
     
     @IBOutlet weak var roomView: UIView!
     @IBOutlet weak var addItemButton: UIBarButtonItem!
     @IBOutlet weak var backgroundButton: UIBarButtonItem!
+    
+    var popoverController: UIPopoverController?
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -31,10 +33,28 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "addItemPopoverSegue" {
-            if let popoverController = segue.destinationViewController as? AddItemController {
-                popoverController.delegate = self
+        if let popoverSegue = segue as? UIStoryboardPopoverSegue {
+            self.popoverController = popoverSegue.popoverController
+            if segue.identifier == "addItemPopoverSegue" {
+                if let popoverController = segue.destinationViewController as? AddItemController {
+                    popoverController.delegate = self
+                }
+            } else if segue.identifier == "changeBackgroundPopoverSegue" {
+                if let popoverController = segue.destinationViewController as? ChangeBackgroundController {
+                    popoverController.delegate = self
+                }
             }
+        }
+    }
+    
+    func dismissPopover() {
+        popoverController?.dismissPopoverAnimated(true)
+        popoverController = nil
+    }
+    
+    func changeBackground(type: String) {
+        if let image = UIImage(named:"\(type).png") {
+            roomView.backgroundColor = UIColor(patternImage: image)
         }
     }
 }

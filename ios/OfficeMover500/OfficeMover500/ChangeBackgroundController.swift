@@ -7,16 +7,21 @@
 //
 import UIKit
 
+@objc protocol ChangeBackgroundDelegate {
+    func changeBackground(type: String)
+    func dismissPopover()
+}
+
 class ChangeBackgroundController : UITableViewController {
     
-    var delegate: AddNewItemDelegate?
+    var delegate: ChangeBackgroundDelegate?
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Items.count
+        return Floors.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -26,21 +31,18 @@ class ChangeBackgroundController : UITableViewController {
         }
         
         // Definitely populated now
-        cell.textLabel.text = Items[indexPath.row].0
-        cell.name = Items[indexPath.row].1
-        let imageName = Items[indexPath.row].1
+        cell.textLabel.text = Floors[indexPath.row].0
+        cell.name = Floors[indexPath.row].1
+        let imageName = Floors[indexPath.row].1
         cell.imageView.image = UIImage(named: "\(imageName)_unselected.png")
         
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var type = Items[indexPath.row].1
-        if let multiType = ItemTypes[type] {
-            type = multiType[Int(arc4random_uniform(UInt32(multiType.count)))]
-        }
+        var type = Floors[indexPath.row].1
         
-        delegate?.addNewItem?(type)
-        dismissViewControllerAnimated(true, completion: nil)
+        delegate?.changeBackground(type)
+        delegate?.dismissPopover()
     }
 }
