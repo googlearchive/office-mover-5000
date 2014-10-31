@@ -1,5 +1,5 @@
 //
-//  AddItemController.swift
+//  ChangeBackgroundController.swift
 //  OfficeMover500
 //
 //  Created by Katherine Fang on 10/30/14.
@@ -7,14 +7,10 @@
 //
 import UIKit
 
-@objc protocol AddNewItemDelegate {
-    optional func addNewItem(type: String)
-}
-
-class AddItemController : UITableViewController {
+class ChangeBackgroundController : UITableViewController {
     
     var delegate: AddNewItemDelegate?
- 
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -37,7 +33,7 @@ class AddItemController : UITableViewController {
         
         return cell
     }
-
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var type = Items[indexPath.row].1
         if let multiType = ItemTypes[type] {

@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class AddItemCell : UITableViewCell {
+class PopoverMenuItemCell : UITableViewCell {
     
     var name: String?
     
@@ -20,7 +20,9 @@ class AddItemCell : UITableViewCell {
         
         if let imageName = name {
             let selected = highlighted ? "_selected.png" : "_unselected.png"
-            imageView.image = UIImage(named: "\(imageName)\(selected)")
+            if let image = UIImage(named: "\(imageName)\(selected)") {
+                imageView.image = image
+            }
         }
     }
 }
