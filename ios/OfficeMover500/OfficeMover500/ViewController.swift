@@ -14,16 +14,24 @@ class ViewController: RoomViewController {
     
     let ref = Firebase(url: OfficeMoverFirebaseUrl)
     let furnitureRef = Firebase(url: "\(OfficeMoverFirebaseUrl)/furniture")
+    let backgroundRef = Firebase(url: "\(OfficeMoverFirebaseUrl)/background")
     var room = Room(json: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // load the furniture items from Firebase
-        furnitureRef.observeEventType(.ChildAdded, withBlock: { snapshot in
+        // Load the furniture items from Firebase
+        furnitureRef.observeEventType(.ChildAdded, withBlock: { [unowned self] snapshot in
             var furniture = Furniture(snap: snapshot)
             self.room.addFurniture(furniture)
             self.createFurnitureView(furniture)
+        })
+        
+        // Observe bacakground changes
+        backgroundRef.observeEventType(.Value, withBlock: { [unowned self] snapshot in
+            if let background = snapshot.value as? String {
+                self.setBackground(background)
+            }
         })
     }
     
@@ -89,5 +97,9 @@ class ViewController: RoomViewController {
         let itemRef = furnitureRef.childByAutoId()
         let furniture = Furniture(key: itemRef.name, type: type)
         itemRef.setValue(furniture.toJson())
+    }
+    
+    func changeBackground(type: String) {
+        backgroundRef.setValue(type)
     }
 }

@@ -9,6 +9,7 @@ import UIKit
 
 @objc protocol AddNewItemDelegate {
     optional func addNewItem(type: String)
+    func dismissPopover()
 }
 
 class AddItemController : UITableViewController {
@@ -45,6 +46,6 @@ class AddItemController : UITableViewController {
         }
         
         delegate?.addNewItem?(type)
-        dismissViewControllerAnimated(true, completion: nil)
+        delegate?.dismissPopover()
     }
 }

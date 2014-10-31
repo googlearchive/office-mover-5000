@@ -37,3 +37,10 @@ let ItemTypes = [
     "plant": ["plant1", "plant2"],
     "stapler": ["redstapler"]
 ]
+
+let Floors = [
+    ("Carpet", "carpet"),
+    ("Grid", "grid"),
+    ("Tile", "tile"),
+    ("Wood", "wood"),
+]
