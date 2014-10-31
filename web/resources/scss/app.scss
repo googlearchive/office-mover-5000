@@ -1,25 +1,20 @@
-body {
-  background: red;
-}
+// BASE STYLES AND VARS
+@import 'options';
+@import 'base';
 
-.editor {
+// LAYOUT
+@import 'layout';
+@import 'theme';
 
-  .editor-furniture {
-    position: absolute !important;
+// MODULES
+@import 'modules/toolbar';
+@import 'modules/editor';
+@import 'modules/buzzwords';
+@import 'modules/alert';
+@import 'modules/welcome-hero';
+@import 'modules/furniture';
+@import 'modules/dropdown';
+@import 'modules/icons';
 
-    &.editor-desk {
-      width: 300px;
-      height: 150px;
-      padding: 5px;
-      border: 1px solid black;
-    }
-
-    &.editor-plant {
-      width: 50px;
-      height: 50px;
-      padding: 5px;
-      border: 1px solid black;
-    }
-  }
-}
-
+// STATE
+@import 'state';

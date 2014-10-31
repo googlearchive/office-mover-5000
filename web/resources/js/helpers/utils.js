@@ -3,11 +3,13 @@
 *
 */
 
+var root = 'https://mover-app-5000-demo.firebaseio.com/';
+
 var utils = {
   urls: {
-    root: 'https://office-mover.firebaseio.com/',
-    furniture: this.root + 'furniture/',
-    background: this.root + 'background/'
+    root: root,
+    furniture: root + 'furniture/',
+    background: root + 'background/'
   }
 };
 

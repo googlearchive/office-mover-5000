@@ -1,0 +1,29 @@
+{
+    "rules": {
+        ".read": true,
+        ".write": true,
+        "furniture": {
+        	"$fid": {
+        		".trigger": {
+        			"method": "'POST'",
+        			"target": "'http://fb-office-mover-5000.appspot.com/sync'",
+        			//"target": "'http://localhost:8080/sync'",
+        			"criteria": "true",
+        			"headers": {
+        				"Content-Type": "'application/json'"
+        			},
+        			"body": {
+        				"left": "data.child('left').val()",
+        				"top": "data.child('left').val()",
+        				"rotation": "data.child('left').val()",
+        				"time": "now + ''",
+                        "name": "data.child('name').val()",
+                        "type": "data.child('type').val()",
+                        "uid": "$fid"
+        			},
+        			"errorResponse": "'/log/' + now"
+        		}
+        	}
+        }
+    }
+}

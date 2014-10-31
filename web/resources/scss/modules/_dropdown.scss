@@ -1,0 +1,120 @@
+.dropdown-overlay {
+  position: fixed;
+  z-index: 999;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  display: none;
+}
+
+.dropdown {
+  position: absolute;
+  top: 60px;
+  z-index: 1000;
+  background: $white;
+  border-radius: 3px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, .4);
+  width: 300px;
+  opacity: .95;
+  display: none;
+
+  .dropdown-arrow {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid $white;
+    position: absolute;
+    top: -10px;
+    left: 12px;
+  }
+
+
+  .dropdown-items {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+
+    li {
+      border-bottom: 1px solid $concrete;
+      display: block;
+      margin: 0px;
+      padding: 0px;
+
+      &:first-child {
+        .dropdown-button {
+          border-radius: 3px 3px 0px 0px;
+        }
+      }
+
+      &:last-child {
+        border-bottom: none;
+        .dropdown-button {
+          border-radius: 0px 0px 3px 3px;
+        }
+      }
+    }
+
+    .dropdown-button-icon {
+      display: block;
+      position: absolute;
+      z-index: 1;
+
+      &.furniture {
+        width: 30px;
+        height: 30px;
+        border-radius: 200px;
+        background-color: $blue-green-gray;
+        background-size: 30px 30px;
+        left: 20px;
+        top: 20px;
+      }
+
+      &.background {
+        border-radius: 3px 0px 0px 3px;
+        width: 100px;
+        height: 70px;
+        background-size: 150px 90px;
+        left: 0px;
+        top: 0px;
+      }
+    }
+
+    .dropdown-button {
+      border: none;
+      background: $white;
+      line-height: 70px;
+      font-size: 18px;
+      font-weight: 100;
+      color: $blue-green-gray;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+      padding: 0px 20px 0px 20px;
+      position: relative;
+
+      &.button-type-furniture {
+        padding: 0px 20px 0px 70px;
+      }
+
+      &.button-type-background {
+        padding: 0px 20px 0px 120px;
+      }
+
+      &:hover, &:focus {
+        background: $bluish-gray;
+        color: $dark-blue-green;
+
+        .furniture {
+          background-color: $dark-blue-green;
+        }
+      }
+
+      &:active {
+        color: $dark-blue-green;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,72 @@
+.toolbar {
+  padding: 10px;
+  height: 40px;
+  background-color: $azure;
+  position: relative;
+
+  .toolbar-title {
+    color: $white;
+    font-weight: 100;
+    text-align: center;
+    line-height: 40px;
+    margin: 0px;
+    padding: 0px;
+    font-size: 26px;
+  }
+
+  .toolbar-menu {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 1000;
+
+    > li {
+      padding: 0px;
+      margin: 0px 10px 0px 0px;
+      display: inline-block;
+    }
+
+    .toolbar-icon-button {
+      border: none;
+      height: 40px;
+      width: 40px;
+      color: $white;
+      text-indent: -3000px;
+      overflow: hidden;
+      outline: none;
+
+      &.icon-add {
+        background-size: 26px 26px;
+      }
+
+      &.icon-background {
+        background-size: 32px 26px;
+      }
+
+      &:hover, &:focus {
+
+      }
+
+      &:active, &.is-active {
+        background-color: $deep-ocean;
+      }
+    }
+  }
+
+  .toolbar-sign-out {
+    font-weight: 100;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    border-radius: 3px;
+    height: 40px;
+    padding: 0px 20px;
+    font-size: $basefont - 1;
+    background-color: $deep-ocean;
+    color: $white;
+  }
+}

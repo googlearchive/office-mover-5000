@@ -3,24 +3,66 @@
   <head>
     <title>Office Mover 5000</title>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
+    <link rel="stylesheet" href="bower_components/animate.css/animate.css">
     <link rel="stylesheet" href="resources/css/app.css">
   </head>
 
   <body>
 
+    <div id="welcome">
+      <h3 class="buzzwords">
+        <span>Synergy</span> <span>Thought Leadership</span> <span>TPS Reports</span>
+      </h3>
+      <div class="alert is-hidden">
+        Oops, there was a problem signing you in. Please try signing in again.
+      </div>
+      <div class="welcome-hero">
+        <img class="welcome-hero-logo" src="./resources/images/logos/logo.png" />
+        <button class="welcome-hero-signin" data-provider="google">Sign in with Google</button>
+      </div>
+    </div>
 
-      <h1 class="logo">Office Mover</h1>
-
-
-      <div class="editor">
+    <div id="app" class="is-hidden animated fadeIn">
+      <header class="toolbar">
+        <ul class="toolbar-menu">
+          <li id="add-furniture"><button class="toolbar-icon-button icon-add" >Select Furniture</button></li>
+          <li id="select-background"><button class="toolbar-icon-button icon-background" >Select Background</button></li>
+        </ul>
+        <h1 class="toolbar-title">Office Mover</h1>
+        <button class="toolbar-sign-out">SIGN OUT</button>
+      </header>
+      <div id="office-space" class="editor">
         <!-- <button class="editor-new" data-name="desk">new desk</button> -->
         <!-- <button class="editor-new" data-name="plant">new plant</button> -->
       </div>
+    </div>
 
-      <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>
-      <script src="bower_components/jquery/jquery.js"></script>
-      <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-      <script src="bower_components/lodash/dist/lodash.js"></script>
-      <script src="resources/js/production.js"></script>
+
+    <!-- TEMPLATE -->
+    <script id="template-dropdown" type="text/template">
+      <div class="dropdown">
+        <span class="dropdown-arrow"></span>
+        <ul class="dropdown-items">
+          <%= items %>
+        </ul>
+      </div>
+      <div class="dropdown-overlay"></div>
+    </script>
+
+    <script id="template-dropdown-item" type="text/template">
+      <li>
+        <a href="#"  data-type="<%= type %>" data-name="<%= name %>" class="dropdown-button button-type-<%= type %>">
+          <i class="dropdown-button-icon <%= type %> <%= background %> <%= icon %>"></i>
+          <%= description %>
+        </a>
+      </li>
+    </script>
+
+    <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/lodash/dist/lodash.js"></script>
+    <script src="resources/js/production.js"></script>
   </body>
 </html>
