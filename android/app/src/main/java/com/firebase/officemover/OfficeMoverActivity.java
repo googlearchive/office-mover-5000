@@ -26,7 +26,6 @@ public class OfficeMoverActivity extends Activity {
     public abstract class ThingChangeListener {
         public abstract void thingChanged(String key, OfficeThing officeThing);
     }
-    private ThingChangeListener mThingChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,13 +91,12 @@ public class OfficeMoverActivity extends Activity {
             }
         });
 
-        mThingChangeListener = new ThingChangeListener() {
+        mOfficeCanvasView.setThingChangedListener(new ThingChangeListener() {
             @Override
             public void thingChanged(String key, OfficeThing officeThing) {
                 updateOfficeThing(key, officeThing);
             }
-        };
-        mOfficeCanvasView.setThingChangedListener(mThingChangeListener);
+        });
     }
 
     @Override

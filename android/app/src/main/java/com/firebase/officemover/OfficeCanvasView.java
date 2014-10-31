@@ -23,6 +23,7 @@ public class OfficeCanvasView extends View {
      * All available things
      */
     private final SparseArray<OfficeThing> mOfficeThingPointer = new SparseArray<OfficeThing>();
+    private String mSelectedThingKey;
     private OfficeLayout mOfficeLayout;
     private OfficeMoverActivity.ThingChangeListener mThingChangedListener;
 
@@ -49,6 +50,12 @@ public class OfficeCanvasView extends View {
         // TODO: draw from bottom z-index to top z-index (use queries?)
         for (OfficeThing thing : mOfficeLayout.values()) {
             Bitmap thingBitmap = thing.getBitmap(getContext());
+
+            // If it's the selected thing, make it GLOW!
+            if(thing.getKey().equals(mSelectedThingKey)) {
+                thingBitmap = thing.getGlowingBitmap(getContext());
+            }
+
             canv.drawBitmap(thingBitmap, modelToScreen(thing.getLeft()), modelToScreen(thing.getTop()), DEFAULT_PAINT);
         }
     }
@@ -65,7 +72,7 @@ public class OfficeCanvasView extends View {
         int actionIndex = event.getActionIndex();
 
         // primitive throttling
-        // TODO: Make this less stupid
+        // TODO: Make this less stupid. Use a timer for updates to firebase model every 40ms
         synchronized (mOfficeThingPointer) {
             try {
                 mOfficeThingPointer.wait(10L);
@@ -87,6 +94,8 @@ public class OfficeCanvasView extends View {
                 // check if we've touched inside something
                 touchedThing = getTouchedThing(xTouch, yTouch);
                 if (touchedThing == null) {
+                    Log.v(TAG, "Deselected " + mSelectedThingKey);
+                    mSelectedThingKey = null;
                     break;
                 }
 
@@ -99,6 +108,8 @@ public class OfficeCanvasView extends View {
                 }
 
                 mOfficeThingPointer.put(event.getPointerId(0), touchedThing);
+                mSelectedThingKey = touchedThing.getKey();
+                Log.v(TAG, "Selected " + touchedThing);
                 handled = true;
                 break;
 
@@ -234,4 +245,5 @@ public class OfficeCanvasView extends View {
         }
         invalidate();
     }
+
 }

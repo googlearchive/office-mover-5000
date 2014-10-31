@@ -5,12 +5,12 @@
 
     <item
         android:id="@+id/action_new_thing"
-        android:icon="@drawable/icon_android"
+        android:icon="@drawable/add"
         android:showAsAction="ifRoom"
         android:title="@string/action_new_thing" />
     <item
         android:id="@+id/change_floor"
-        android:icon="@drawable/icon_ballpit"
+        android:icon="@drawable/backgrounds"
         android:showAsAction="ifRoom"
         android:title="@string/action_change_floor" />
     <item

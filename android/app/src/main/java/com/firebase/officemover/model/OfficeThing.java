@@ -3,7 +3,11 @@ package com.firebase.officemover.model;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
 
 public class OfficeThing {
 
@@ -19,6 +23,7 @@ public class OfficeThing {
     private int height;
     private int width;
     private Bitmap bitmap;
+    private Bitmap glowingBitmap;
     private String key;
 
     public OfficeThing() {
@@ -161,5 +166,34 @@ public class OfficeThing {
 
     public void setY(int newY, Context context) {
         this.setTop(newY - (getHeight(context) / 2));
+    }
+
+    public Bitmap getGlowingBitmap(Context context) {
+        if (glowingBitmap != null) {
+            return glowingBitmap;
+        }
+
+        if(bitmap == null) {
+            bitmap = getBitmap(context);
+        }
+
+        Bitmap glowingBitmap = Bitmap.createBitmap(bitmap.getWidth() + 150, bitmap.getHeight() + 150, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(glowingBitmap);
+        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+
+        Paint blurPaint = new Paint();
+        blurPaint.setMaskFilter(new BlurMaskFilter(15, BlurMaskFilter.Blur.NORMAL));
+        int[] offsetXY = new int[2];
+        Bitmap bmAlpha = bitmap.extractAlpha(blurPaint, offsetXY);
+
+        Paint glowPaint = new Paint();
+        glowPaint.setColor(0xFF2896DD);
+        canvas.drawBitmap(bmAlpha, offsetXY[0], offsetXY[1], glowPaint);
+        bmAlpha.recycle();
+
+        canvas.drawBitmap(bitmap, 0, 0, null);
+
+        return glowingBitmap;
     }
 }
