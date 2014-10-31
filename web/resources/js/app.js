@@ -151,7 +151,6 @@ var app = {
     var value = snapshot.val();
 
     if(hasChildren) {
-
       var maxItem = _.max(value, function(item) { return item.zIndex; });
       this.maxZIndex = maxItem.zIndex;
     }
