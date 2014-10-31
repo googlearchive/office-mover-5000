@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Firebase. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class Furniture {
     
@@ -30,6 +30,24 @@ class Furniture {
         self.locked = json["locked"] as Bool
     }
     
+    // Use this when adding one locally
+    // You'll need to set top / left appropriately.
+    init(key: String, type: String) {
+        self.key = key
+        self.name = ""
+        self.rotation = 0
+        self.type = type
+        self.locked = false
+        
+        // This is a huge hack to get the right top / left location of the object
+        if let image = UIImage(named:"\(type).png") {
+            self.top = RoomHeight/2 - Int(image.size.width)/2
+            self.left = RoomWidth/2 - Int(image.size.width)/2
+        } else {
+            self.top = RoomHeight/2
+            self.left = RoomHeight/2
+        }
+    }
     
     convenience init(snap: FDataSnapshot) {
         
@@ -48,6 +66,7 @@ class Furniture {
             "top" : self.top,
             "left" : self.left,
             //"z-index" : self.zIndex,
+            "name" : self.name,
             "rotation" : self.rotation,
             "type" : self.type,
             "locked" : self.locked

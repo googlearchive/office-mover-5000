@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 import QuartzCore
 
-enum DragState {
-    case None, Maybe, Dragging
+enum DragState: Int {
+    case None = 0, Maybe, Dragging
 }
 
 class FurnitureView : UIButton, UIAlertViewDelegate {
@@ -108,6 +108,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         rotation = furniture.rotation
         top = furniture.top
         left = furniture.left
+        self.titleLabel?.font = UIFont(name: "Proxima Nova", size: 20)
         
         // Add touch events
         addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
@@ -137,11 +138,9 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
             let touchLoc = touch.locationInView(self.superview)
             if abs(startDown!.x - touchLoc.x) > 10 || abs(startDown!.y - touchLoc.y) > 10 {
                 dragging = DragState.Dragging // To avoid triggering tap functionality
+                showSeeThrough()
             }
             center = boundCenterLocToRoom(touchLoc)
-            if let handler = moveHandler {
-                handler(top, left)
-            }
         }
     }
     
@@ -169,25 +168,47 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
     func touchDown(button: UIButton, withEvent event: UIEvent) {
         startDown = center
         dragging = .Maybe
+        showShadow()
         superview?.bringSubviewToFront(self)
+        NSTimer.scheduledTimerWithTimeInterval(0.04, target:self, selector: Selector("debouncedMove:"), userInfo: nil, repeats:true)
     }
     
     func touchUp(button: UIButton, withEvent event: UIEvent) {
         startDown = nil
+        hideSeeThrough()
         if dragging == .Dragging {
+            triggerMove()
             dragging = .None // This always ends drag events
             if !menuShowing {
                 // Don't show menu at the end of dragging if there wasn't a menu to begin with
+                hideShadow()
                 return
             }
         }
+        dragging = .None // This always ends drag events
         
         showMenu()
+    }
+    
+    // --- Updates for move
+    func debouncedMove(timer: NSTimer) {
+        if dragging == .None {
+            timer.invalidate()
+        } else {
+            triggerMove()
+        }
+    }
+    
+    func triggerMove() {
+        if let handler = moveHandler {
+            handler(top, left)
+        }
     }
     
     // --- Edit buttons were clicked
     func triggerRotate(sender: AnyObject) {
         transform = CGAffineTransformRotate(transform, CGFloat(M_PI / -2))
+        hideShadow()
         if let handler = rotateHandler {
             handler(top, left, rotation)
         }
@@ -208,6 +229,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        hideShadow()
         if buttonIndex == 1 { // This is the ok button, and not the cancel button
             if let newName = alertView.textFieldAtIndex(0)?.text {
                 name = newName
@@ -218,8 +240,31 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         }
     }
     
+    // --- Selected shadow
+    func showShadow() {
+        layer.shadowColor = TopbarBlue.CGColor
+        layer.shadowRadius = 4.0
+        layer.shadowOpacity = 0.9
+        layer.shadowOffset = CGSizeZero
+        layer.masksToBounds = false
+    }
+    
+    func hideShadow() {
+        layer.shadowOpacity = 0
+    }
+    
+    func showSeeThrough() {
+        layer.opacity = 0.5
+    }
+    
+    func hideSeeThrough() {
+        layer.opacity = 1
+    }
+    
+    
     // --- Menu helper methods
     func showMenu() {
+        showShadow()
         menuShowing = true
         let menuController = UIMenuController.sharedMenuController()
         
@@ -254,11 +299,13 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         if menuListener != nil {
             NSNotificationCenter.defaultCenter().removeObserver(menuListener!)
         }
-        
         menuListener = NSNotificationCenter.defaultCenter().addObserverForName(UIMenuControllerWillHideMenuNotification, object:nil, queue: nil, usingBlock: {
             notification in
             if self.dragging == .Dragging {
                 self.menuShowing = false
+            }
+            if self.dragging == .None || self.dragging == .Maybe {
+                self.hideShadow()
             }
             NSNotificationCenter.defaultCenter().removeObserver(self.menuListener!)
         })
