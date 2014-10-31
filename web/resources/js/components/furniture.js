@@ -82,12 +82,14 @@ var Furniture = function(snapshot, options) {
   this.editName = function(){
     console.log("EDIT");
   };
+
   this.rotate = function(){
     this.ref.child("rotation").set(this.rotation + 90);
     this.render();
   };
+
   this.delete = function(){
-    console.log("DELETE");
+    this.ref.remove();
   };
 
   /*
