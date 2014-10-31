@@ -11,6 +11,8 @@ import UIKit
 class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewItemDelegate, ChangeBackgroundDelegate {
     
     @IBOutlet weak var roomView: UIView!
+    @IBOutlet weak var layoutView: UIView!
+    @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var addItemButton: UIBarButtonItem!
     @IBOutlet weak var backgroundButton: UIBarButtonItem!
     
@@ -19,8 +21,7 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        roomView.layer.borderColor = BorderBlue.CGColor
-        roomView.layer.borderWidth = 4
+        layoutView.backgroundColor = UIColor(patternImage: UIImage(named: "office.png")!)
         
         var nav = self.navigationController?.navigationBar
         nav?.barTintColor = TopbarBlue
@@ -55,7 +56,7 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     
     func setBackground(type: String) {
         if let image = UIImage(named:"\(type).png") {
-            roomView.backgroundColor = UIColor(patternImage: image)
+            backgroundView.backgroundColor = UIColor(patternImage: image)
         }
     }
 }

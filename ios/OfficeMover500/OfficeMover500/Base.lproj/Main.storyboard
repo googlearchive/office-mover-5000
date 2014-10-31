@@ -69,6 +69,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CVe-pd-Xax" userLabel="Background">
+                                <rect key="frame" x="-10" y="-142" width="610" height="810"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tzx-AT-yQs" userLabel="Layout">
+                                <rect key="frame" x="0.0" y="-132" width="620" height="820"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H65-Mr-WCT" userLabel="Room">
                                 <rect key="frame" x="0.0" y="-132" width="600" height="800"/>
                                 <constraints>
@@ -79,8 +87,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="CVe-pd-Xax" secondAttribute="centerX" id="49S-ze-b81"/>
+                            <constraint firstAttribute="centerX" secondItem="Tzx-AT-yQs" secondAttribute="centerX" id="VNK-YZ-Oi1"/>
+                            <constraint firstAttribute="centerY" secondItem="CVe-pd-Xax" secondAttribute="centerY" id="WsX-CD-HnG"/>
                             <constraint firstAttribute="centerY" secondItem="H65-Mr-WCT" secondAttribute="centerY" id="XKy-e2-AhY"/>
                             <constraint firstAttribute="centerX" secondItem="H65-Mr-WCT" secondAttribute="centerX" id="Y27-U7-P3W"/>
+                            <constraint firstAttribute="centerY" secondItem="Tzx-AT-yQs" secondAttribute="centerY" id="ir0-xP-DPD"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Office Mover 5000" id="b7u-bo-S1M"/>
@@ -88,6 +100,8 @@
                     <connections>
                         <outlet property="addItemButton" destination="YPx-24-DjD" id="ET4-UG-AVH"/>
                         <outlet property="backgroundButton" destination="ep3-aJ-GKY" id="JMP-EN-66w"/>
+                        <outlet property="backgroundView" destination="CVe-pd-Xax" id="IsV-oW-Zr0"/>
+                        <outlet property="layoutView" destination="Tzx-AT-yQs" id="I2f-yE-jsX"/>
                         <outlet property="roomView" destination="H65-Mr-WCT" id="rpl-Q4-vmj"/>
                     </connections>
                 </viewController>
