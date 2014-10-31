@@ -10,7 +10,7 @@ var userProfile = {
   init: function(data) {
     var hasData = (data && data.google && data.google.cachedUserProfile);
 
-    if(data && data.google && data.google.cachedUserProfile) {
+    if(hasData) {
       this.data = data.google.cachedUserProfile;
       this.render();
     }
