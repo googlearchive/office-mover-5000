@@ -2,179 +2,114 @@ package com.firebase.officemover;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import com.firebase.officemover.model.OfficeLayout;
+import com.firebase.officemover.model.OfficeThing;
 
 public class OfficeCanvasView extends View {
 
     private static final String TAG = OfficeCanvasView.class.getSimpleName();
 
-    /**
-     * Main bitmap
-     */
-    private Bitmap mBitmap = null;
-
-    private Rect mMeasuredRect;
+    private static final Paint DEFAULT_PAINT = new Paint();
 
     /**
-     * Stores data about single circle
+     * All available things
      */
-    private static class CircleArea {
-        int radius;
-        int centerX;
-        int centerY;
-        int zIndex;
-        Paint paint;
+    private final SparseArray<OfficeThing> mOfficeThingPointer = new SparseArray<OfficeThing>();
+    private String mSelectedThingKey;
+    private OfficeLayout mOfficeLayout;
+    private OfficeMoverActivity.ThingChangeListener mThingChangedListener;
 
-        CircleArea(int centerX, int centerY, int radius, int zIndex, Paint paint) {
-            this.radius = radius;
-            this.centerX = centerX;
-            this.centerY = centerY;
-            this.zIndex = zIndex;
-            this.paint = paint;
-        }
 
-        @Override
-        public String toString() {
-            return "Circle[" + centerX + ", " + centerY + ", " + radius + "]";
-        }
-    }
-
-    private static class CircleAreaComprator implements Comparator<CircleArea> {
-
-        @Override
-        public int compare(CircleArea lhs, CircleArea rhs) {
-            return lhs.zIndex - rhs.zIndex;
-        }
-    }
-
-    private final Random mRando = new Random();
-    // Radius limit in pixels
-    private final static int RADIUS_LIMIT = 150;
-
-    /**
-     * All available circles
-     */
-    private List<CircleArea> mOfficeLayout = new ArrayList<CircleArea>();
-    private SparseArray<CircleArea> mCirclePointer = new SparseArray<CircleArea>();
-
-    public List<CircleArea> getStuffLayout() {
-        return mOfficeLayout;
-    }
-
-    public void setStuffLayout(List<CircleArea> mStuffLayout) {
-        this.mOfficeLayout = mStuffLayout;
-    }
-
-    public void clearLayout() {
-        mOfficeLayout.clear();
-        invalidate();
-    }
-
-    public void addNewThing() {
-        // Random color
-        Paint circlePaint = new Paint();
-
-        circlePaint.setColor(0xFF000000 + mRando.nextInt(0xFFFFFF));
-        circlePaint.setStrokeWidth(40);
-        circlePaint.setStyle(Paint.Style.FILL);
-
-        int zIndex = 0;
-        if (mOfficeLayout.size() > 0) {
-            zIndex = mOfficeLayout.get(mOfficeLayout.size() - 1).zIndex + 1;
-        }
-
-        //TODO: move to center
-        CircleArea newCircle = new CircleArea(100, 100, mRando.nextInt(RADIUS_LIMIT) + RADIUS_LIMIT, zIndex, circlePaint);
-
-        Log.w(TAG, "Added circle " + newCircle);
-        mOfficeLayout.add(newCircle);
-        Collections.sort(mOfficeLayout, new CircleAreaComprator());
-
-        invalidate();
-    }
-
-    /**
-     * Default constructor
-     *
-     * @param ct {@link android.content.Context}
-     */
     public OfficeCanvasView(final Context ct) {
         super(ct);
-
-        init(ct);
     }
 
     public OfficeCanvasView(final Context ct, final AttributeSet attrs) {
         super(ct, attrs);
-
-        init(ct);
     }
 
     public OfficeCanvasView(final Context ct, final AttributeSet attrs, final int defStyle) {
         super(ct, attrs, defStyle);
-
-        init(ct);
-    }
-
-    private void init(final Context ct) {
-        // Generate bitmap used for background
-        mBitmap = BitmapFactory.decodeResource(ct.getResources(), R.drawable.office_walls);
     }
 
     @Override
     public void onDraw(final Canvas canv) {
-        // background bitmap to cover all area
-        canv.drawBitmap(mBitmap, null, mMeasuredRect, null);
+        if(null == mOfficeLayout) {
+            Log.w(TAG, "Tried to render empty office");
+            return;
+        }
 
-        for (CircleArea circle : mOfficeLayout) {
-            canv.drawCircle(circle.centerX, circle.centerY, circle.radius, circle.paint);
+        // TODO: draw from bottom z-index to top z-index (use queries?)
+        for (OfficeThing thing : mOfficeLayout.values()) {
+            Bitmap thingBitmap = thing.getBitmap(getContext());
+
+            // If it's the selected thing, make it GLOW!
+            if(thing.getKey().equals(mSelectedThingKey)) {
+                thingBitmap = thing.getGlowingBitmap(getContext());
+            }
+
+            canv.drawBitmap(thingBitmap, modelToScreen(thing.getLeft()), modelToScreen(thing.getTop()), DEFAULT_PAINT);
         }
     }
 
-
+    //TODO: This needs some serious refactoring
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
         boolean handled = false;
 
-        CircleArea touchedCircle;
+        OfficeThing touchedThing;
         int xTouch;
         int yTouch;
         int pointerId;
         int actionIndex = event.getActionIndex();
 
-        // get touch event coordinates and make transparent circle from it
+        // primitive throttling
+        // TODO: Make this less stupid. Use a timer for updates to firebase model every 40ms
+        synchronized (mOfficeThingPointer) {
+            try {
+                mOfficeThingPointer.wait(10L);
+            } catch (InterruptedException e) {
+                //noop
+            }
+        }
+
+        // get touch event coordinates and make transparent wrapper from it
         switch (event.getActionMasked()) {
+
             case MotionEvent.ACTION_DOWN:
-                // it's the first pointer, so clear all existing pointers data
-                clearCirclePointer();
+                // first pointer, clear all existing pointers data
+                mOfficeThingPointer.clear();
 
-                xTouch = (int) event.getX(0);
-                yTouch = (int) event.getY(0);
+                xTouch = screenToModel((int) event.getX(0));
+                yTouch = screenToModel((int) event.getY(0));
 
-                // check if we've touched inside some circle
-                touchedCircle = obtainTouchedCircle(xTouch, yTouch);
-                if(touchedCircle == null) {
+                // check if we've touched inside something
+                touchedThing = getTouchedThing(xTouch, yTouch);
+                if (touchedThing == null) {
+                    Log.v(TAG, "Deselected " + mSelectedThingKey);
+                    mSelectedThingKey = null;
                     break;
                 }
-                touchedCircle.centerX = xTouch;
-                touchedCircle.centerY = yTouch;
-                mCirclePointer.put(event.getPointerId(0), touchedCircle);
 
-                invalidate();
+                //TODO: decouple this from the local model
+                touchedThing.setX(xTouch, getContext());
+                touchedThing.setY(yTouch, getContext());
+
+                if(null != this.mThingChangedListener) {
+                    mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                }
+
+                mOfficeThingPointer.put(event.getPointerId(0), touchedThing);
+                mSelectedThingKey = touchedThing.getKey();
+                Log.v(TAG, "Selected " + touchedThing);
                 handled = true;
                 break;
 
@@ -183,56 +118,67 @@ public class OfficeCanvasView extends View {
                 // It secondary pointers, so obtain their ids and check circles
                 pointerId = event.getPointerId(actionIndex);
 
-                xTouch = (int) event.getX(actionIndex);
-                yTouch = (int) event.getY(actionIndex);
+                xTouch = screenToModel((int) event.getX(actionIndex));
+                yTouch = screenToModel((int) event.getY(actionIndex));
 
-                // check if we've touched inside some circle
-                touchedCircle = obtainTouchedCircle(xTouch, yTouch);
-                if(touchedCircle == null) {
+                // check if we've touched inside something
+                touchedThing = getTouchedThing(xTouch, yTouch);
+                if (touchedThing == null) {
                     break;
                 }
 
-                mCirclePointer.put(pointerId, touchedCircle);
-                touchedCircle.centerX = xTouch;
-                touchedCircle.centerY = yTouch;
-                invalidate();
+                mOfficeThingPointer.put(pointerId, touchedThing);
+                touchedThing.setX(xTouch, getContext());
+                touchedThing.setY(yTouch, getContext());
+
+                if(null != this.mThingChangedListener) {
+                    mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                }
+
                 handled = true;
                 break;
 
             case MotionEvent.ACTION_MOVE:
+                //TODO: keep thing from getting dragged outside the board
                 final int pointerCount = event.getPointerCount();
-
-                Log.w(TAG, "Move");
 
                 for (actionIndex = 0; actionIndex < pointerCount; actionIndex++) {
                     // Some pointer has moved, search it by pointer id
                     pointerId = event.getPointerId(actionIndex);
 
-                    xTouch = (int) event.getX(actionIndex);
-                    yTouch = (int) event.getY(actionIndex);
+                    xTouch = screenToModel((int) event.getX(actionIndex));
+                    yTouch = screenToModel((int) event.getY(actionIndex));
 
-                    touchedCircle = mCirclePointer.get(pointerId);
+                    touchedThing = mOfficeThingPointer.get(pointerId);
 
-                    if (null != touchedCircle) {
-                        touchedCircle.centerX = xTouch;
-                        touchedCircle.centerY = yTouch;
+                    if (null != touchedThing) {
+                        int newTop = yTouch - touchedThing.getHeight(getContext()) / 2;
+                        int newLeft = xTouch - touchedThing.getWidth(getContext()) / 2;
+                        int newBottom = yTouch + touchedThing.getHeight(getContext()) / 2;
+                        int newRight = xTouch + touchedThing.getWidth(getContext()) / 2;
+
+                        if(newTop >= 0 && newLeft >= 0 && newBottom <= 800 && newRight <= 600) {
+                            touchedThing.setX(xTouch, getContext());
+                            touchedThing.setY(yTouch, getContext());
+
+                            if(null != this.mThingChangedListener) {
+                                mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                            }
+                        }
                     }
                 }
-                invalidate();
                 handled = true;
                 break;
 
             case MotionEvent.ACTION_UP:
-                clearCirclePointer();
+                mOfficeThingPointer.clear();
                 invalidate();
                 handled = true;
                 break;
 
             case MotionEvent.ACTION_POINTER_UP:
-                // not general pointer was up
                 pointerId = event.getPointerId(actionIndex);
-
-                mCirclePointer.remove(pointerId);
+                mOfficeThingPointer.remove(pointerId);
                 invalidate();
                 handled = true;
                 break;
@@ -240,73 +186,64 @@ public class OfficeCanvasView extends View {
             case MotionEvent.ACTION_CANCEL:
                 handled = true;
                 break;
-
-            default:
-                // do nothing
-                break;
         }
 
         return super.onTouchEvent(event) || handled;
     }
 
-    /**
-     * Clears all CircleArea - pointer id relations
-     */
-    private void clearCirclePointer() {
-        Log.w(TAG, "clearCirclePointer");
+    // Accepts model coords
+    private OfficeThing getTouchedThing(int xTouchModel, int yTouchModel) {
 
-        mCirclePointer.clear();
-    }
+        OfficeThing touched = null;
 
-    /**
-     * Search and creates new (if needed) circle based on touch area
-     *
-     * @param xTouch int x of touch
-     * @param yTouch int y of touch
-     * @return obtained {@link CircleArea}
-     */
-    private CircleArea obtainTouchedCircle(final int xTouch, final int yTouch) {
-        CircleArea touchedCircle = getTouchedCircle(xTouch, yTouch);
+        //TODO: get the item with highest zindex, instead of a random one
+        for (OfficeThing thing : mOfficeLayout.values()) {
+            int top = thing.getTop();
+            int left = thing.getLeft();
+            int bottom = thing.getTop() + thing.getHeight(getContext());
+            int right = thing.getLeft() + thing.getWidth(getContext());
 
-        if (null != touchedCircle) {
-            touchedCircle.zIndex = mOfficeLayout.get(mOfficeLayout.size() - 1).zIndex + 1;
-            Collections.sort(mOfficeLayout, new CircleAreaComprator());
-        }
-
-        return touchedCircle;
-    }
-
-    /**
-     * Determines touched circle
-     *
-     * @param xTouch int x touch coordinate
-     * @param yTouch int y touch coordinate
-     * @return {@link CircleArea} touched circle or null if no circle has been touched
-     */
-    private CircleArea getTouchedCircle(final int xTouch, final int yTouch) {
-        CircleArea touched = null;
-
-        List<CircleArea> backwardsLayout = new ArrayList<CircleArea>(mOfficeLayout);
-        Collections.sort(backwardsLayout, new Comparator<CircleArea>() {
-            @Override
-            public int compare(CircleArea lhs, CircleArea rhs) {
-                return rhs.zIndex - lhs.zIndex;
-            }
-        });
-
-        for (CircleArea circle : backwardsLayout) {
-            if ((circle.centerX - xTouch) * (circle.centerX - xTouch) + (circle.centerY - yTouch) * (circle.centerY - yTouch) <= circle.radius * circle.radius) {
-                touched = circle;
+            if (yTouchModel <= bottom && yTouchModel >= top && xTouchModel >= left && xTouchModel <= right) {
+                touched = thing;
                 break;
             }
         }
         return touched;
     }
 
-    @Override
-    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        mMeasuredRect = new Rect(0, 0, getMeasuredWidth(), getMeasuredHeight());
+    //Coordinate conversion
+    //TODO: called from the activity too, consider moving elsewhere
+    public int modelToScreen(int coordinate) {
+        return (int) ((double) coordinate * (double) this.getHeight() / 800D);
     }
+
+    public int screenToModel(int coordinate) {
+        return (int) ((double) coordinate * 800D / (double) this.getHeight());
+    }
+
+    public OfficeLayout getOfficeLayout() {
+        return mOfficeLayout;
+    }
+
+    public void setOfficeLayout(OfficeLayout officeLayout) {
+        this.mOfficeLayout = officeLayout;
+    }
+
+    public void setThingChangedListener(OfficeMoverActivity.ThingChangeListener thingChangeListener) {
+        this.mThingChangedListener = thingChangeListener;
+    }
+
+    public void setFloor(String floor) {
+        if(floor.equals("carpet")) {
+            this.setBackground(getResources().getDrawable(R.drawable.floor_carpet));
+        } else if(floor.equals("grid")) {
+            this.setBackground(getResources().getDrawable(R.drawable.floor_grid));
+        } else if(floor.equals("tile")) {
+            this.setBackground(getResources().getDrawable(R.drawable.floor_tile));
+        } else if(floor.equals("wood")) {
+            this.setBackground(getResources().getDrawable(R.drawable.floor_wood));
+        }
+        invalidate();
+    }
+
 }
