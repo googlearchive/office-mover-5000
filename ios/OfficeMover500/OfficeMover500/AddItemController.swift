@@ -9,11 +9,17 @@ import UIKit
 
 @objc protocol AddNewItemDelegate {
     optional func addNewItem(type: String)
+    func dismissPopover()
 }
 
 class AddItemController : UITableViewController {
     
     var delegate: AddNewItemDelegate?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        preferredContentSize.height = 70 * CGFloat(Items.count)
+    }
  
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -37,14 +43,14 @@ class AddItemController : UITableViewController {
         
         return cell
     }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 70
+    }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var type = Items[indexPath.row].1
-        if let multiType = ItemTypes[type] {
-            type = multiType[Int(arc4random_uniform(UInt32(multiType.count)))]
-        }
-        
+        var type = Items[indexPath.row].2
         delegate?.addNewItem?(type)
-        dismissViewControllerAnimated(true, completion: nil)
+        delegate?.dismissPopover()
     }
 }
