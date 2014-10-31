@@ -35,10 +35,14 @@ var app = {
     this.$signOutButton = $(".toolbar-sign-out");
 
     //INITIALIZE APP
-    this.createDropdowns();
     welcome.init();
-    this.logout();
     this.checkUserAuthentication();
+    this.createDropdowns();
+    this.logout();
+  },
+
+  addFurniture: function(type) {
+    furnitureRef.push();
   },
 
   changeBackground: function(snapshot) {
@@ -49,25 +53,6 @@ var app = {
 
   createFurniture: function(snapshot) {
     new Furniture(snapshot);
-  },
-
-  createDropdowns: function() {
-    var $addFurniture = $('#add-furniture');
-    var $addBackground = $('#select-background');
-
-    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture, 'furniture');
-    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'background');
-
-    $('.dropdown').on('click', '.dropdown-button', function(e) {
-      e.preventDefault();
-      var button = $(e.currentTarget);
-      var type = button.data('type');
-
-      switch(type) {
-        case 'furniture': self.createFurniture(); break;
-        case 'background': self.changeBackground(); break;
-      }
-    });
   },
 
   removeFurniture: function(snapshot){
@@ -88,6 +73,28 @@ var app = {
     });
   },
 
+  createDropdowns: function() {
+    var self = this;
+    var $addFurniture = $('#add-furniture');
+    var $addBackground = $('#select-background');
+
+    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture, 'furniture');
+    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'background');
+
+    $('.dropdown').on('click', '.dropdown-button', function(e) {
+      e.preventDefault();
+      var button = $(e.currentTarget);
+      var type = button.data('type');
+      var name = button.data('name');
+
+      switch(type) {
+        case 'furniture': self.addFurniture(name); break;
+        case 'background': self.changeBackground(name); break;
+      }
+    });
+  },
+
+
   renderFurniture: function(){
     var self = this;
 
@@ -97,9 +104,9 @@ var app = {
       });
     });
 
-    // furnitureRef.on("child_added", function(snapshot){
-    //   self.createFurniture(snapshot);
-    // });
+    furnitureRef.on("child_added", function(snapshot){
+      self.createFurniture(snapshot);
+    });
 
     // furnitureRef.on("child_removed", function(snapshot){
     //   self.removeFurniture(snapshot);
@@ -107,7 +114,6 @@ var app = {
   },
 
   logout: function(){
-    // SETUP LOGOUT BUTTON
     this.$signOutButton.on("click", function(e){
       rootRef.unauth();
     });

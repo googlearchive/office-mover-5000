@@ -81,10 +81,14 @@
 	    this.$signOutButton = $(".toolbar-sign-out");
 
 	    //INITIALIZE APP
-	    this.createDropdowns();
 	    welcome.init();
-	    this.logout();
 	    this.checkUserAuthentication();
+	    this.createDropdowns();
+	    this.logout();
+	  },
+
+	  addFurniture: function(type) {
+	    furnitureRef.push();
 	  },
 
 	  changeBackground: function(snapshot) {
@@ -95,25 +99,6 @@
 
 	  createFurniture: function(snapshot) {
 	    new Furniture(snapshot);
-	  },
-
-	  createDropdowns: function() {
-	    var $addFurniture = $('#add-furniture');
-	    var $addBackground = $('#select-background');
-
-	    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture, 'furniture');
-	    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'background');
-
-	    $('.dropdown').on('click', '.dropdown-button', function(e) {
-	      e.preventDefault();
-	      var button = $(e.currentTarget);
-	      var type = button.data('type');
-
-	      switch(type) {
-	        case 'furniture': self.createFurniture(); break;
-	        case 'background': self.changeBackground(); break;
-	      }
-	    });
 	  },
 
 	  removeFurniture: function(snapshot){
@@ -134,6 +119,28 @@
 	    });
 	  },
 
+	  createDropdowns: function() {
+	    var self = this;
+	    var $addFurniture = $('#add-furniture');
+	    var $addBackground = $('#select-background');
+
+	    this.furnitureDropdown = new Dropdown($addFurniture, data.furniture, 'furniture');
+	    this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'background');
+
+	    $('.dropdown').on('click', '.dropdown-button', function(e) {
+	      e.preventDefault();
+	      var button = $(e.currentTarget);
+	      var type = button.data('type');
+	      var name = button.data('name');
+
+	      switch(type) {
+	        case 'furniture': self.addFurniture(name); break;
+	        case 'background': self.changeBackground(name); break;
+	      }
+	    });
+	  },
+
+
 	  renderFurniture: function(){
 	    var self = this;
 
@@ -143,9 +150,9 @@
 	      });
 	    });
 
-	    // furnitureRef.on("child_added", function(snapshot){
-	    //   self.createFurniture(snapshot);
-	    // });
+	    furnitureRef.on("child_added", function(snapshot){
+	      self.createFurniture(snapshot);
+	    });
 
 	    // furnitureRef.on("child_removed", function(snapshot){
 	    //   self.removeFurniture(snapshot);
@@ -153,7 +160,6 @@
 	  },
 
 	  logout: function(){
-	    // SETUP LOGOUT BUTTON
 	    this.$signOutButton.on("click", function(e){
 	      rootRef.unauth();
 	    });
@@ -389,15 +395,13 @@
 
 	  this.ref  = new Firebase(utils.urls.furniture + this.id);
 
-	  this.ref.on("value", function(snap){
 
-	    // UPDATE Furniture INSTANCE WITH MOST RECENT DATA
-	    var state = snap.val();
-	    _.extend(self, state);
 
-	    // RENDER
-	    self.render();
-	  });
+
+	  /*
+	  * Render Furniture to DOM
+	  *
+	  */
 
 	  this.render = function(){
 
@@ -421,8 +425,9 @@
 	    this.officeSpace.append(this.element);
 	  };
 
+
 	  /*
-	  * Create Furniture Method
+	  * Initialize furniture module
 	  *
 	  */
 
@@ -449,9 +454,44 @@
 
 	    this.element.addClass(this.type);
 
-	    // RENDER 
+	    // RENDER
 	    this.render();
 	  };
+
+
+
+	  /*
+	  * Destroy element
+	  *
+	  */
+
+	  this.destroy = function() {
+	    this.element.remove();
+	  };
+
+
+	  /*
+	  * Listen for updates
+	  *
+	  */
+
+	  this.ref.on("value", function(snap){
+	    var value = snap.val();
+
+	    if(value === null) {
+	      self.ref.off();
+	      self.element.addClass('animated fadeOut');
+
+	      setTimeout(function() {
+	        self.destroy();
+	      }, 2000);
+	    }
+	    else {
+	      _.extend(self, value);
+	      self.render();
+	    }
+	  });
+
 
 
 	  /*
