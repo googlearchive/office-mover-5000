@@ -387,6 +387,7 @@
 	                  "<button class='tooltip-button' data-tooltip-action='rotate'>Rotate</button>" +
 	                  "<button class='tooltip-button' data-tooltip-action='delete'>Delete</button>" +
 	                "</div>";
+	  var name    = "<span class='furniture-name'></span>";
 
 	  /*
 	  * Register Furniture Values
@@ -396,7 +397,10 @@
 	  this.officeSpace = $('#office-space');
 	  this.element = $(element);
 	  this.tooltip = $(tooltip);
+	  this.nameEl = $(name);
 	  this.$tooltipButtons = null;
+	  this.$name = null;
+
 	  this.id = snapshot.name();
 	  this.ref = snapshot.ref();
 	  this.type = data.type;
@@ -425,19 +429,24 @@
 	  this.render = function(){
 
 	    var rotation = "rotate(" + (this.rotation * -1) + "deg)";  // CCW ROTATION
-	    var antiRotation = "rotate(" + (this.rotation) + "deg)";  // CCW ROTATION
+	    var antiRotation = "rotate(" + (this.rotation) + "deg)";   // CCW ROTATION
 
 	    // REMOVE ELEMENT FROM DOM
 	    this.element.detach();
 
-	    // SET CURRENT LOCATION
+	    // SET NAME ON DESK
+	    this.nameEl.text(this.name);
+
+	    // SET CURRENT LOCATION AND ROTATION
 	    this.element.css({
 	      "top": parseInt(this.top, 10),
 	      "left": parseInt(this.left, 10),
 	      "transform": rotation
 	    });
-
 	    this.tooltip.css({
+	      "transform": antiRotation
+	    });
+	    this.nameEl.css({
 	      "transform": antiRotation
 	    });
 
@@ -454,7 +463,8 @@
 	  };
 
 	  this.editName = function(){
-	    console.log("EDIT");
+	    var name = window.prompt("Who sits here?", this.name);
+	    this.ref.child("name").set(name);
 	  };
 
 	  this.rotate = function(){
@@ -471,6 +481,8 @@
 	  */
 
 	  this.initElement = function() {
+
+	    this.$tooltipButtons = $(".tooltip-button");
 
 	    //SET DRAG OPTIONS
 	    this.element.draggable({
@@ -493,7 +505,7 @@
 
 	    // SET IMAGE FOR ELEMENT AND INIT TOOLTIP
 	    this.element.addClass(this.type);
-	    this.element.append(this.tooltip);
+	    this.element.append(this.tooltip, this.nameEl);
 
 	    // SET CLICK HANDLER TO CREATE TOOLTIP
 	    this.element.on("click", function(e){
@@ -509,7 +521,6 @@
 	      }
 	    });
 
-	    this.$tooltipButtons = $(".tooltip-button");
 	    this.tooltip.on("click", function(e){
 	      var $el = $(e.target);
 	      var action = $el.data("tooltip-action");
@@ -537,6 +548,12 @@
 	    this.element.remove();
 	  };
 
+	  /*
+	  * Create Furniture Element
+	  *
+	  */
+
+	  this.initElement();
 
 	  /*
 	  * Listen for updates
@@ -560,14 +577,6 @@
 	    }
 	  });
 
-
-
-	  /*
-	  * Create Furniture Element
-	  *
-	  */
-
-	  this.initElement();
 	};
 
 	module.exports = Furniture;
