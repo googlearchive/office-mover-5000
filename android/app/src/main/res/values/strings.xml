@@ -12,7 +12,7 @@
     <!-- Add stuff menu -->
     <string name="action_add_redstapler">Red Stapler</string>
     <string name="action_add_plant2">Plant (Succulent)</string>
-    <string name="action_add_plant">Plant (Shrub)</string>
+    <string name="action_add_plant1">Plant (Shrub)</string>
     <string name="action_add_pingpong">Ping Pong Table</string>
     <string name="action_add_pacman">Pacman Arcade</string>
     <string name="action_add_nerfgun">Nerfgun Pistol</string>
