@@ -17,6 +17,15 @@ class ChangeBackgroundController : UITableViewController {
     
     var delegate: ChangeBackgroundDelegate?
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        preferredContentSize.height = 70 * CGFloat(Floors.count)
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 70
+    }
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
