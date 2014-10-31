@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.PopupMenu;
 
 import com.firebase.client.ChildEventListener;
@@ -23,6 +24,7 @@ public class OfficeMoverActivity extends Activity {
 
     private OfficeLayout mOfficeLayout;
     private OfficeCanvasView mOfficeCanvasView;
+    private FrameLayout mOfficeFloorView;
     private Firebase mFirebaseRef;
 
     public abstract class ThingChangeListener {
@@ -38,6 +40,7 @@ public class OfficeMoverActivity extends Activity {
         mOfficeLayout = new OfficeLayout();
         mOfficeCanvasView = (OfficeCanvasView) findViewById(R.id.office_canvas);
         mOfficeCanvasView.setOfficeLayout(mOfficeLayout);
+        mOfficeFloorView = (FrameLayout)findViewById(R.id.office_floor);
 
         Firebase.setAndroidContext(this);
 
@@ -48,7 +51,17 @@ public class OfficeMoverActivity extends Activity {
         mFirebaseRef.child("background").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mOfficeCanvasView.setFloor(dataSnapshot.getValue(String.class));
+                String floor = dataSnapshot.getValue(String.class);
+                if(floor.equals("carpet")) {
+                    mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_carpet));
+                } else if(floor.equals("grid")) {
+                    mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_grid));
+                } else if(floor.equals("tile")) {
+                    mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_tile));
+                } else if(floor.equals("wood")) {
+                    mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_wood));
+                }
+                mOfficeFloorView.invalidate();
             }
 
             @Override

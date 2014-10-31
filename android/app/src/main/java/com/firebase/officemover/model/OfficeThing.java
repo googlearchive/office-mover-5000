@@ -10,6 +10,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.util.Log;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class OfficeThing {
 
     private static final String TAG = OfficeThing.class.getSimpleName();
@@ -22,10 +24,15 @@ public class OfficeThing {
     private boolean locked;
 
     //Cache variables
+    @JsonIgnore
     private int height;
+    @JsonIgnore
     private int width;
+    @JsonIgnore
     private Bitmap bitmap;
+    @JsonIgnore
     private Bitmap glowingBitmap;
+    @JsonIgnore
     private String key;
 
     public OfficeThing() {
@@ -39,7 +46,6 @@ public class OfficeThing {
     public String getKey() {
         return key;
     }
-
     public void setKey(String key) {
         this.key = key;
     }

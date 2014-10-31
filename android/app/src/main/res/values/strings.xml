@@ -32,4 +32,5 @@
 
     <!-- Login -->
     <string name="login_with_google">Login with Google</string>
+    <string name="action_floor_none">None</string>
 </resources>

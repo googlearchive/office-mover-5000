@@ -232,18 +232,4 @@ public class OfficeCanvasView extends View {
     public void setThingChangedListener(OfficeMoverActivity.ThingChangeListener thingChangeListener) {
         this.mThingChangedListener = thingChangeListener;
     }
-
-    public void setFloor(String floor) {
-        if(floor.equals("carpet")) {
-            this.setBackground(getResources().getDrawable(R.drawable.floor_carpet));
-        } else if(floor.equals("grid")) {
-            this.setBackground(getResources().getDrawable(R.drawable.floor_grid));
-        } else if(floor.equals("tile")) {
-            this.setBackground(getResources().getDrawable(R.drawable.floor_tile));
-        } else if(floor.equals("wood")) {
-            this.setBackground(getResources().getDrawable(R.drawable.floor_wood));
-        }
-        invalidate();
-    }
-
 }
