@@ -13,11 +13,13 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.firebase.officemover.model.OfficeLayout;
 import com.firebase.officemover.model.OfficeThing;
 
 public class OfficeMoverActivity extends Activity {
     private final static String TAG = OfficeMoverActivity.class.getSimpleName();
+    public static final String FIREBASE = "https://mover-app-5000-demo.firebaseio.com/";
 
     private OfficeLayout mOfficeLayout;
     private OfficeCanvasView mOfficeCanvasView;
@@ -40,8 +42,22 @@ public class OfficeMoverActivity extends Activity {
         Firebase.setAndroidContext(this);
 
         // add an on child added listener for the table
-        mFirebaseRef = new Firebase("https://office-mover2.firebaseio.com/");
+        mFirebaseRef = new Firebase(FIREBASE);
 
+        // Listen for floor changes
+        mFirebaseRef.child("background").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mOfficeCanvasView.setFloor(dataSnapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+        // Listen for furniture changes
         mFirebaseRef.child("furniture").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -124,6 +140,9 @@ public class OfficeMoverActivity extends Activity {
             case R.id.change_floor:
                 renderChangeCarpetPopup();
                 break;
+            case R.id.action_sign_out:
+
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -166,8 +185,8 @@ public class OfficeMoverActivity extends Activity {
                     case R.id.action_add_pingpong:
                         addOfficeThing("pingpong");
                         break;
-                    case R.id.action_add_plant:
-                        addOfficeThing("plant");
+                    case R.id.action_add_plant1:
+                        addOfficeThing("plant1");
                         break;
                     case R.id.action_add_plant2:
                         addOfficeThing("plant2");
@@ -197,16 +216,16 @@ public class OfficeMoverActivity extends Activity {
                     //TODO: do this with less copy and paste
                     //TODO: make this real time
                     case R.id.action_floor_carpet:
-                        mOfficeCanvasView.setFloor("carpet");
+                        mFirebaseRef.child("background").setValue("carpet");
                         break;
                     case R.id.action_floor_grid:
-                        mOfficeCanvasView.setFloor("grid");
+                        mFirebaseRef.child("background").setValue("grid");
                         break;
                     case R.id.action_floor_tile:
-                        mOfficeCanvasView.setFloor("tile");
+                        mFirebaseRef.child("background").setValue("tile");
                         break;
                     case R.id.action_floor_wood:
-                        mOfficeCanvasView.setFloor("wood");
+                        mFirebaseRef.child("background").setValue("wood");
                         break;
                     default:
                         throw new RuntimeException();

@@ -46,9 +46,10 @@
 
 	var Utils  = __webpack_require__(1);
 	var data  = __webpack_require__(2);
-	var Dropdown = __webpack_require__(3);
-	var Furniture  = __webpack_require__(4);
-	var welcome = __webpack_require__(5);
+	var userProfile = __webpack_require__(3);
+	var Dropdown = __webpack_require__(4);
+	var Furniture  = __webpack_require__(5);
+	var welcome = __webpack_require__(6);
 	var rootRef = new Firebase(Utils.urls.root);
 	var furnitureRef = new Firebase(Utils.urls.furniture);
 	var backgroundRef = new Firebase(Utils.urls.background);
@@ -99,6 +100,7 @@
 	      if (authData) {
 	        self.hideWelcomeScreen();
 	        self.renderFurniture();
+	        userProfile.init(authData);
 	      }
 	      else {
 	        self.showWelcomeScreen();
@@ -326,6 +328,37 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
+	* User Profile Module
+	*
+	*/
+
+	var userProfile = {
+	  template: _.template($('#template-profile').html()),
+	  container: $('#profile'),
+
+	  init: function(data) {
+	    var hasData = (data && data.google && data.google.cachedUserProfile);
+
+	    if(hasData) {
+	      this.data = data.google.cachedUserProfile;
+	      this.render();
+	    }
+	  },
+
+	  render: function() {
+	    var $profile = this.template(this.data);
+
+	    this.container.html('').addClass('is-visible').append($profile);
+	  }
+	};
+
+	module.exports = userProfile;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
 	* Dropdown Menu Module
 	*
 	*/
@@ -365,7 +398,7 @@
 	module.exports = Dropdown;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var utils  = __webpack_require__(1);
@@ -382,6 +415,8 @@
 	  options = options || {};
 	  var self = this;
 	  var data = snapshot.val();
+	  var elementTemplate = _.template($('#template-furniture-item').html());
+	  var element = elementTemplate().trim();
 
 	  /*
 	  * Register Furniture Values
@@ -389,7 +424,10 @@
 	  */
 
 	  this.officeSpace = $('#office-space');
-	  this.element = $("<div class='furniture'></div>");
+	  this.element = $(element);
+	  this.tooltip = this.element.children(".tooltip");
+	  this.nameEl = this.element.children(".furniture-name");
+
 	  this.id = snapshot.name();
 	  this.ref = snapshot.ref();
 	  this.type = data.type;
@@ -417,15 +455,24 @@
 
 	  this.render = function(){
 
-	    // REMOVE ELEMENT FROM DOM
-	    this.element.detach();
+	    var rotateCCW = "rotate(" + (this.rotation * -1) + "deg)";  // CCW ROTATION
+	    var rotateCW = "rotate(" + (this.rotation) + "deg)";   // CCW ROTATION
 
-	    // SET CURRENT LOCATION
+	    // SET NAME ON DESK
+	    this.nameEl.text(this.name);
+
+	    // SET CURRENT LOCATION AND ROTATION
 	    this.element.css({
 	      "top": parseInt(this.top, 10),
-	      "left": parseInt(this.left, 10)
+	      "left": parseInt(this.left, 10),
+	      "transform": rotateCCW
+	    });
+	    
+	    this.tooltip.css({
+	      "transform": rotateCW
 	    });
 
+	    // SET ACTIVE STATE
 	    if (this.locked){
 	      this.element.addClass("is-active");
 	    }
@@ -437,6 +484,59 @@
 	    this.officeSpace.append(this.element);
 	  };
 
+	  /*
+	  * Edit name on desk
+	  */
+
+	  this.editName = function(){
+	    var name = window.prompt("Who sits here?", this.name);
+	    this.ref.child("name").set(name);
+	  };
+
+	  /*
+	  * Rotate furniture
+	  */
+	  this.rotate = function(){
+	    this.ref.child("rotation").set(this.rotation + 90);
+	  };
+
+	  /*
+	  * Delete furniture and remove from screen
+	  */
+	  this.delete = function(){
+	    this.ref.remove();
+	  };
+
+	  /*
+	  * Initialize click listeners
+	  */
+
+	  this.initListeners = function(){
+	    // SET CLICK HANDLER TO CREATE TOOLTIP
+	    this.element.on("click", function(e){
+
+	      var $el = $(e.target);
+	      var $tooltip = $el.children(".tooltip");
+	      var $edit = $tooltip.children("[data-tooltip-action='edit']");
+
+	      $tooltip.toggleClass("is-hidden");
+
+	      if (self.type === "desk") {
+	        $edit.removeClass("is-hidden");
+	      }
+	    });
+
+	    this.tooltip.on("click", function(e){
+	      var $el = $(e.target);
+	      var action = $el.data("tooltip-action");
+
+	      switch (action) {
+	        case "edit": self.editName(); break;
+	        case "rotate": self.rotate(); break;
+	        case "delete": self.delete(); break;
+	      }
+	    });
+	  };
 
 	  /*
 	  * Initialize furniture module
@@ -464,7 +564,9 @@
 	      }
 	    });
 
+	    // SET IMAGE FOR ELEMENT AND INIT TOOLTIP
 	    this.element.addClass(this.type);
+	    this.initListeners();
 
 	    // RENDER
 	    this.render();
@@ -474,17 +576,20 @@
 
 	  /*
 	  * Destroy element
-	  *
 	  */
 
 	  this.destroy = function() {
 	    this.element.remove();
 	  };
 
+	  /*
+	  * Create Furniture Element
+	  */
+
+	  this.initElement();
 
 	  /*
 	  * Listen for updates
-	  *
 	  */
 
 	  this.ref.on("value", function(snap){
@@ -504,20 +609,12 @@
 	    }
 	  });
 
-
-
-	  /*
-	  * Create Furniture Element
-	  *
-	  */
-
-	  this.initElement();
 	};
 
 	module.exports = Furniture;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var utils  = __webpack_require__(1);

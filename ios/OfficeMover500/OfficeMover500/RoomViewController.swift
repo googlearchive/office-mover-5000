@@ -33,11 +33,12 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        popoverController?.dismissPopoverAnimated(false)
         if let popoverSegue = segue as? UIStoryboardPopoverSegue {
             self.popoverController = popoverSegue.popoverController
             if segue.identifier == "addItemPopoverSegue" {
-                if let popoverController = segue.destinationViewController as? AddItemController {
-                    popoverController.delegate = self
+                if let controller = segue.destinationViewController as? AddItemController {
+                    controller.delegate = self
                 }
             } else if segue.identifier == "changeBackgroundPopoverSegue" {
                 if let popoverController = segue.destinationViewController as? ChangeBackgroundController {
