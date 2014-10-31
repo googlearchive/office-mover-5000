@@ -14,9 +14,9 @@ var Furniture = function(snapshot, options) {
   var data = snapshot.val();
   var element = "<div class='furniture'></div>";
   var tooltip = "<div class='tooltip is-hidden'>" +
-                  "<button class='edit is-hidden'>Edit</button>" +
-                  "<button class='rotate'>Rotate</button>" +
-                  "<button class='delete'>Delete</button>" +
+                  "<button class='tooltip-button is-hidden' data-tooltip-action='edit'>Edit</button>" +
+                  "<button class='tooltip-button' data-tooltip-action='rotate'>Rotate</button>" +
+                  "<button class='tooltip-button' data-tooltip-action='delete'>Delete</button>" +
                 "</div>";
 
   /*
@@ -26,6 +26,8 @@ var Furniture = function(snapshot, options) {
 
   this.officeSpace = $('#office-space');
   this.element = $(element);
+  this.tooltip = $(tooltip);
+  this.$tooltipButtons = null;
   this.id = snapshot.name();
   this.ref = snapshot.ref();
   this.type = data.type;
@@ -34,7 +36,6 @@ var Furniture = function(snapshot, options) {
   this.top = data.top;
   this.left = data.left;
   this.name = data.name;
-
 
 
   /*
@@ -77,6 +78,16 @@ var Furniture = function(snapshot, options) {
     this.officeSpace.append(this.element);
   };
 
+  this.editName = function(){
+    console.log("EDIT");
+  };
+  this.rotate = function(){
+    console.log("ROTATE");
+  };
+  this.delete = function(){
+    console.log("DELETE");
+  };
+
   /*
   * Create Furniture Method
   *
@@ -105,19 +116,33 @@ var Furniture = function(snapshot, options) {
 
     // SET IMAGE FOR ELEMENT AND INIT TOOLTIP
     this.element.addClass(this.type);
-    this.element.append($(tooltip));
+    this.element.append(this.tooltip);
 
+    // SET CLICK HANDLER TO CREATE TOOLTIP
     this.element.on("click", function(e){
 
       var $el = $(e.target);
       var $tooltip = $el.children(".tooltip");
-      var $edit = $tooltip.children(".edit");
+      var $edit = $tooltip.children("[data-tooltip-action='edit']");
 
       $tooltip.toggleClass("is-hidden");
 
       if (self.type === "desk") {
         $edit.removeClass("is-hidden");
       }
+    });
+
+    this.$tooltipButtons = $(".tooltip-button");
+    this.tooltip.on("click", function(e){
+      var $el = $(e.target);
+      var action = $el.data("tooltip-action");
+
+      switch (action) {
+        case "edit": self.editName(); break;
+        case "rotate": self.rotate(); break;
+        case "delete": self.delete(); break;
+      }
+
     });
 
     // RENDER 
