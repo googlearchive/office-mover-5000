@@ -36,6 +36,8 @@
         <!-- <button class="editor-new" data-name="desk">new desk</button> -->
         <!-- <button class="editor-new" data-name="plant">new plant</button> -->
       </div>
+
+      <div id="profile" class="user-profile animated bounceInUp"></div>
     </div>
 
 
@@ -57,6 +59,11 @@
           <%= description %>
         </a>
       </li>
+    </script>
+
+    <script id="template-profile" type="text/template">
+      <img src="<%= picture %>">
+      <h2><%= name %></h2>
     </script>
 
     <script id="template-furniture-item" type="text/template">

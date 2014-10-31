@@ -1,5 +1,6 @@
 var Utils  = require('./helpers/utils');
 var data  = require('./helpers/data');
+var userProfile = require('./components/user-profile');
 var Dropdown = require('./components/dropdown');
 var Furniture  = require('./components/furniture');
 var welcome = require('./components/welcome');
@@ -52,6 +53,7 @@ var app = {
       if (authData) {
         self.hideWelcomeScreen();
         self.renderFurniture();
+        userProfile.init(authData);
       }
       else {
         self.showWelcomeScreen();
