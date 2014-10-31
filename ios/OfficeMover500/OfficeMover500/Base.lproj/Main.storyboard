@@ -29,7 +29,33 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5k-YH-Fp7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="711" y="-705"/>
+            <point key="canvasLocation" x="1663" y="-313"/>
+        </scene>
+        <!--Change Background Controller-->
+        <scene sceneID="PV8-ow-I6Y">
+            <objects>
+                <tableViewController id="wof-UY-25b" customClass="ChangeBackgroundController" customModule="OfficeMover500" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ACC-ai-oK9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="menuItemCell" id="A0q-vD-t5i">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="A0q-vD-t5i" id="2zr-Hw-7hy">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="wof-UY-25b" id="9Sd-XS-5Kq"/>
+                            <outlet property="delegate" destination="wof-UY-25b" id="nnJ-WH-8WI"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ogs-Lo-LXz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1677" y="409"/>
         </scene>
         <!--Office Mover 5000-->
         <scene sceneID="tne-QT-ifu">
@@ -73,7 +99,13 @@
                         </segue>
                     </connections>
                 </barButtonItem>
-                <barButtonItem image="backgrounds" id="ep3-aJ-GKY"/>
+                <barButtonItem image="backgrounds" id="ep3-aJ-GKY">
+                    <connections>
+                        <segue destination="wof-UY-25b" kind="popoverPresentation" popoverAnchorBarButtonItem="ep3-aJ-GKY" id="tUS-gq-6tE">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
+                    </connections>
+                </barButtonItem>
             </objects>
             <point key="canvasLocation" x="741" y="-8"/>
         </scene>

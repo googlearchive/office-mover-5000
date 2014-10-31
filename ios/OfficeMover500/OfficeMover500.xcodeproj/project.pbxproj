@@ -15,6 +15,7 @@
 		5F05DA291A0022BB0076D47C /* FurnitureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA281A0022BB0076D47C /* FurnitureButton.swift */; };
 		5F2C885F1A02DE64008F77F7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C885E1A02DE64008F77F7 /* Constants.swift */; };
 		5F2C88611A02E722008F77F7 /* AddItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C88601A02E722008F77F7 /* AddItemController.swift */; };
+		5F350F271A040701003E5281 /* ChangeBackgroundController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F350F261A040701003E5281 /* ChangeBackgroundController.swift */; };
 		5F4E89011A03152900F925D7 /* PopoverMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4E89001A03152900F925D7 /* PopoverMenuItemCell.swift */; };
 		5F999E681A01C01800208956 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F999E671A01C01800208956 /* RoomViewController.swift */; };
 		63BBF8F71A001E0800F74141 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8F61A001E0800F74141 /* Firebase.framework */; };
@@ -52,6 +53,7 @@
 		5F05DA281A0022BB0076D47C /* FurnitureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FurnitureButton.swift; sourceTree = "<group>"; };
 		5F2C885E1A02DE64008F77F7 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5F2C88601A02E722008F77F7 /* AddItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemController.swift; sourceTree = "<group>"; };
+		5F350F261A040701003E5281 /* ChangeBackgroundController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeBackgroundController.swift; sourceTree = "<group>"; };
 		5F4E89001A03152900F925D7 /* PopoverMenuItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverMenuItemCell.swift; sourceTree = "<group>"; };
 		5F999E671A01C01800208956 /* RoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		63BBF8F61A001E0800F74141 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Firebase.framework; path = OfficeMover500/Firebase.framework; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				5F05DA281A0022BB0076D47C /* FurnitureButton.swift */,
 				5F999E671A01C01800208956 /* RoomViewController.swift */,
 				5F2C88601A02E722008F77F7 /* AddItemController.swift */,
+				5F350F261A040701003E5281 /* ChangeBackgroundController.swift */,
 				5F4E89001A03152900F925D7 /* PopoverMenuItemCell.swift */,
 				5F05DA0A1A0018C50076D47C /* ViewController.swift */,
 				5F05DA0C1A0018C50076D47C /* Main.storyboard */,
@@ -287,6 +290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F350F271A040701003E5281 /* ChangeBackgroundController.swift in Sources */,
 				63BBF90E1A00538700F74141 /* RoomSync.swift in Sources */,
 				63BBF90B1A0045EF00F74141 /* Furniture.swift in Sources */,
 				5F999E681A01C01800208956 /* RoomViewController.swift in Sources */,
