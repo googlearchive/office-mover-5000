@@ -3,6 +3,19 @@
   background-color: $concrete;
   position: absolute !important;
 
+  .tooltip {
+    position: absolute;
+    top: -40px;
+    background-color: $sterling;
+    border-radius: $border-radius;
+
+    .tooltip-button {
+      background-color: rgba(0,0,0,0);
+      border: none;
+      color: $white;
+    }
+  }
+
   &.is-active {
     border: 2px solid $azure;
     background-color: $bluish-gray;
