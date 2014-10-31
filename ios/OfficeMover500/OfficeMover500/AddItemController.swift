@@ -7,7 +7,13 @@
 //
 import UIKit
 
+@objc protocol AddNewItemDelegate {
+    optional func addNewItem(type: String)
+}
+
 class AddItemController : UITableViewController {
+    
+    var delegate: AddNewItemDelegate?
  
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -18,16 +24,27 @@ class AddItemController : UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: UITableViewCell! = tableView.dequeueReusableCellWithIdentifier("addItemCell") as? UITableViewCell
+        var cell: AddItemCell! = tableView.dequeueReusableCellWithIdentifier("addItemCell") as? AddItemCell
         if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: "addItemCell")
+            cell = AddItemCell(style: .Default, reuseIdentifier: "addItemCell")
         }
         
         // Definitely populated now
         cell.textLabel.text = Items[indexPath.row].0
+        cell.name = Items[indexPath.row].1
         let imageName = Items[indexPath.row].1
-        cell.imageView
-        cell.imageView.image = UIImage(named: "icon_\(imageName).png")
+        cell.imageView.image = UIImage(named: "\(imageName)_unselected.png")
+        
         return cell
+    }
+
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        var type = Items[indexPath.row].1
+        if let multiType = ItemTypes[type] {
+            type = multiType[Int(arc4random_uniform(UInt32(multiType.count)))]
+        }
+        
+        delegate?.addNewItem?(type)
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }
