@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".OfficeMoverActivity">
+    <!-- TODO: Update Icons -->
+
+    <item
+        android:id="@+id/action_new_thing"
+        android:icon="@drawable/add"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_new_thing" />
+    <item
+        android:id="@+id/change_floor"
+        android:icon="@drawable/backgrounds"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_change_floor" />
+    <item
+        android:id="@+id/action_sign_out"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_sign_out" />
+</menu>
