@@ -12,19 +12,11 @@
 
     <!-- Add stuff menu -->
     <string name="action_add_redstapler">Red Stapler</string>
-<<<<<<< HEAD
     <string name="action_add_plant2">Plant (Succulent)</string>
     <string name="action_add_plant1">Plant (Shrub)</string>
     <string name="action_add_pingpong">Ping Pong Table</string>
     <string name="action_add_pacman">Pacman Arcade</string>
     <string name="action_add_nerfgun">Nerfgun Pistol</string>
-=======
-    <string name="action_add_plant2">Plant 2</string>
-    <string name="action_add_plant">Plant</string>
-    <string name="action_add_pingpong">Ping Pong</string>
-    <string name="action_add_pacman">Pacman</string>
-    <string name="action_add_nerfgun">Nerf Gun</string>
->>>>>>> 3f40515ff48d4d45f800b79ee107dbd2d192f02d
     <string name="action_add_laptop">Laptop</string>
     <string name="action_add_dog_retriever">Dog Retriever</string>
     <string name="action_add_dog_corgi">Dog Corgi</string>
