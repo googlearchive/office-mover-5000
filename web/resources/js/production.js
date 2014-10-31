@@ -74,9 +74,11 @@
 	  */
 
 	  init: function() {
+
 	    // REGISTER ELEMENTS
 	    this.$welcome = $("#welcome");
 	    this.$app = $("#app");
+	    this.$officeSpace = $("#office-space");
 	    this.$signInButtons = $(".welcome-hero-signin");
 	    this.$alert = $(".alert");
 	    this.$signOutButton = $(".toolbar-sign-out");
@@ -85,32 +87,8 @@
 	    welcome.init();
 	    this.checkUserAuthentication();
 	    this.createDropdowns();
+	    this.setOfficeBackground();
 	    this.logout();
-	  },
-
-	  addFurniture: function(type) {
-	    furnitureRef.push({
-	      top: 400,
-	      left: 300,
-	      type: type,
-	      rotation: 0,
-	      locked: false,
-	      name: ""
-	    });
-	  },
-
-	  changeBackground: function(snapshot) {
-	    snapshot.forEach(function(childSnapshot) {
-	      new Furniture(childSnapshot);
-	    });
-	  },
-
-	  createFurniture: function(snapshot) {
-	    new Furniture(snapshot);
-	  },
-
-	  removeFurniture: function(snapshot){
-	    // TODO: add method to remove furniture
 	  },
 
 	  checkUserAuthentication: function(){
@@ -148,6 +126,35 @@
 	    });
 	  },
 
+	  changeBackground: function(name) {
+	    backgroundRef.set(name);
+	  },
+
+	  setOfficeBackground: function() {
+	    var self = this;
+
+	    backgroundRef.on('value', function(snapshot) {
+	      var value = snapshot.val();
+	      var pattern = value ? 'background-' + value : '';
+
+	      self.$officeSpace.removeClass().addClass('editor ' +  pattern);
+	    });
+	  },
+
+	  addFurniture: function(type) {
+	    furnitureRef.push({
+	      top: 400,
+	      left: 300,
+	      type: type,
+	      rotation: 0,
+	      locked: false,
+	      name: ""
+	    });
+	  },
+
+	  createFurniture: function(snapshot) {
+	    new Furniture(snapshot);
+	  },
 
 	  renderFurniture: function(){
 	    var self = this;
@@ -161,10 +168,6 @@
 	    furnitureRef.on("child_added", function(snapshot){
 	      self.createFurniture(snapshot);
 	    });
-
-	    // furnitureRef.on("child_removed", function(snapshot){
-	    //   self.removeFurniture(snapshot);
-	    // });
 	  },
 
 	  logout: function(){
