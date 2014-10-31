@@ -68,8 +68,6 @@ var app = {
     });
   },
 
-
-
   createDropdowns: function() {
     var $addFurniture = $('#add-furniture');
     var $addBackground = $('#select-background');
