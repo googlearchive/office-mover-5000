@@ -3,6 +3,14 @@
   background-color: $concrete;
   position: absolute !important;
 
+  .furniture-name {
+    color: $white;
+    width: 100%;
+    text-align: center;
+    line-height: 62px;
+    overflow: hidden;
+  }
+
   .tooltip {
     position: absolute;
     top: -40px;
