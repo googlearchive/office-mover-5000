@@ -12,6 +12,12 @@ var Furniture = function(snapshot, options) {
   options = options || {};
   var self = this;
   var data = snapshot.val();
+  var element = "<div class='furniture'></div>";
+  var tooltip = "<div class='tooltip'>" +
+                  "<button class='edit is-hidden'>Edit</button>" +
+                  "<button class='rotate'>Rotate</button>" +
+                  "<button class='delete'>Delete</button>" +
+                "</div>";
 
   /*
   * Register Furniture Values
@@ -19,7 +25,7 @@ var Furniture = function(snapshot, options) {
   */
 
   this.officeSpace = $('#office-space');
-  this.element = $("<div class='furniture'></div>");
+  this.element = $(element + tooltip);
   this.id = snapshot.name();
   this.ref = snapshot.ref();
   this.type = data.type;
@@ -58,6 +64,7 @@ var Furniture = function(snapshot, options) {
       "left": parseInt(this.left, 10)
     });
 
+    // SET ACTIVE STATE
     if (this.locked){
       this.element.addClass("is-active");
     }
@@ -95,7 +102,15 @@ var Furniture = function(snapshot, options) {
       }
     });
 
+    // SET IMAGE FOR ELEMENT
     this.element.addClass(this.type);
+
+    this.element.on("click", function(e){
+      // delegate the event to the body
+      e.preventDefault();
+      console.log("clicked")
+      // $(this).append("<a href='#' title="\<button\>LOL\<button\>"></a>");
+    });
 
     // RENDER 
     this.render();
