@@ -24,9 +24,9 @@ class AddItemController : UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: PopoverMenuItemCell! = tableView.dequeueReusableCellWithIdentifier("popoverMenuItemCell") as? PopoverMenuItemCell
+        var cell: PopoverMenuItemCell! = tableView.dequeueReusableCellWithIdentifier("menuItemCell") as? PopoverMenuItemCell
         if cell == nil {
-            cell = PopoverMenuItemCell(style: .Default, reuseIdentifier: "popoverMenuItemCell")
+            cell = PopoverMenuItemCell(style: .Default, reuseIdentifier: "menuItemCell")
         }
         
         // Definitely populated now
