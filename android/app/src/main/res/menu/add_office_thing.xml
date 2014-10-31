@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_add_android"
+        android:title="@string/action_add_android"/>
+
+    <item
+        android:id="@+id/action_add_ballpit"
+        android:title="@string/action_add_ballpit" />
+
+    <item
+        android:id="@+id/action_add_desk"
+        android:title="@string/action_add_desk" />
+
+    <item
+        android:id="@+id/action_add_dog_corgi"
+        android:title="@string/action_add_dog_corgi" />
+
+    <item
+        android:id="@+id/action_add_dog_retriever"
+        android:title="@string/action_add_dog_retriever" />
+
+    <item
+        android:id="@+id/action_add_laptop"
+        android:title="@string/action_add_laptop" />
+
+    <item
+        android:id="@+id/action_add_nerfgun"
+        android:title="@string/action_add_nerfgun" />
+
+    <item
+        android:id="@+id/action_add_pacman"
+        android:title="@string/action_add_pacman" />
+
+    <item
+        android:id="@+id/action_add_pingpong"
+        android:title="@string/action_add_pingpong" />
+
+    <item
+        android:id="@+id/action_add_plant1"
+        android:title="@string/action_add_plant1" />
+
+    <item
+        android:id="@+id/action_add_plant2"
+        android:title="@string/action_add_plant2" />
+
+    <item
+        android:id="@+id/action_add_redstapler"
+        android:title="@string/action_add_redstapler" />
+</menu>

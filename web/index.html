@@ -66,6 +66,16 @@
       <h2><%= name %></h2>
     </script>
 
+    <script id="template-furniture-item" type="text/template">
+      <div class='furniture'>
+        <span class='furniture-name'></span>
+        <div class='tooltip is-hidden'>
+          <button class='tooltip-button is-hidden' data-tooltip-action='edit'>Edit</button>
+          <button class='tooltip-button' data-tooltip-action='rotate'>Rotate</button>
+          <button class='tooltip-button' data-tooltip-action='delete'>Delete</button>
+        </div>
+      </div>
+    </script>
 
     <script src="https://cdn.firebase.com/js/client/1.1.2/firebase.js"></script>
     <script src="bower_components/jquery/jquery.js"></script>

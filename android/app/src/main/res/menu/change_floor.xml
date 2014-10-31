@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_floor_tile"
+        android:title="@string/action_floor_tile"/>
+
+    <item
+        android:id="@+id/action_floor_grid"
+        android:title="@string/action_floor_grid" />
+
+    <item
+        android:id="@+id/action_floor_carpet"
+        android:title="@string/action_floor_carpet" />
+
+    <item
+        android:id="@+id/action_floor_wood"
+        android:title="@string/action_floor_wood" />
+</menu>

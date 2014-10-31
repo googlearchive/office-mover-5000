@@ -18,22 +18,23 @@ let TopbarBlue = UIColor(red: CGFloat(22.0/255.0), green: CGFloat(148.0/255.0), 
 
 // Each icon on the add menu should have one of these. The second value is the name of the asset
 let Items = [
-    ("Android Stuffed Animal", "android"),
-    ("Ball Pit", "ballpit"),
-    ("Laptop", "laptop"),
-    ("Desk", "desk"),
-    ("Dog", "dog"),
-    ("Arcade Game", "game"),
-    ("Nerf Gun", "nerfgun"),
-    ("Ping Pong Table", "pingpong"),
-    ("Indoor Plant", "plant"),
-    ("Red Stapler", "stapler")
+    ("Android Toy", "android", "android"),
+    ("Ball Pit Pool", "ballpit", "ballpit"),
+    ("Office Desk", "desk", "desk"),
+    ("Dog (Corgi)", "dog", "dog_corgi"),
+    ("Dog (Retriever)", "dog", "dog_retriever"),
+    ("Laptop", "computer", "laptop"),
+    ("Nerfgun Pistol", "nerf", "nerfgun"),
+    ("Pacman Arcade", "game", "pacman"),
+    ("Ping Pong Table", "pingpong", "pingpong"),
+    ("Plant (Shrub)", "plant", "plant1"),
+    ("Plant (Succulent)", "plant", "plant2"),
+    ("Red Stapler", "stapler", "redstapler")
 ]
 
-// Some items have multiple item types or names that don't match the add-icon name, so they're listed here
-let ItemTypes = [
-    "dog": ["dog_retriever", "dog_corgi"],
-    "game": ["pacman"],
-    "plant": ["plant1", "plant2"],
-    "stapler": ["redstapler"]
+let Floors = [
+    ("Carpet", "carpet"),
+    ("Grid", "grid"),
+    ("Tile", "tile"),
+    ("Wood", "wood"),
 ]
