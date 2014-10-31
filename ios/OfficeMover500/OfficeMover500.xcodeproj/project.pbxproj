@@ -30,6 +30,7 @@
 		63BBF93B1A02C7A500F74141 /* ProximaNova-Sbold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63BBF93A1A02C74500F74141 /* ProximaNova-Sbold.ttf */; };
 		63BBF93D1A02EFF100F74141 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63BBF93C1A02EFE700F74141 /* ProximaNova-Light.ttf */; };
 		63BBF93F1A02F0D200F74141 /* ProximaNova-Reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63BBF93E1A02F0C000F74141 /* ProximaNova-Reg.ttf */; };
+		63BBF9411A04112C00F74141 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BBF9401A04112C00F74141 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		63BBF93A1A02C74500F74141 /* ProximaNova-Sbold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Sbold.ttf"; sourceTree = "<group>"; };
 		63BBF93C1A02EFE700F74141 /* ProximaNova-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Light.ttf"; sourceTree = "<group>"; };
 		63BBF93E1A02F0C000F74141 /* ProximaNova-Reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Reg.ttf"; sourceTree = "<group>"; };
+		63BBF9401A04112C00F74141 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				5F05DA0F1A0018C50076D47C /* Images.xcassets */,
 				63BBF9021A001F1A00F74141 /* OfficeMover500-Bridging-Header.h */,
 				5F05DA061A0018C50076D47C /* Supporting Files */,
+				63BBF9401A04112C00F74141 /* LoginViewController.swift */,
 			);
 			path = OfficeMover500;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63BBF9411A04112C00F74141 /* LoginViewController.swift in Sources */,
 				5F350F271A040701003E5281 /* ChangeBackgroundController.swift in Sources */,
 				63BBF90E1A00538700F74141 /* RoomSync.swift in Sources */,
 				63BBF90B1A0045EF00F74141 /* Furniture.swift in Sources */,

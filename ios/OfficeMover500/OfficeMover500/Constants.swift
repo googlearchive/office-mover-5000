@@ -15,6 +15,11 @@ let ThresholdMoved = CGFloat(10)
 
 let BorderBlue = UIColor(red: CGFloat(214.0/255.0), green: CGFloat(235.0/255.0), blue: CGFloat(249.0/255.0), alpha: 1.0)
 let TopbarBlue = UIColor(red: CGFloat(22.0/255.0), green: CGFloat(148.0/255.0), blue: CGFloat(223.0/255.0), alpha: 1.0)
+let LoginBlue = UIColor(red: CGFloat(13.0/255.0), green: CGFloat(124.0/255.0), blue: CGFloat(189.0/255.0), alpha: 1.0)
+let FontBlue = UIColor(red: CGFloat(9.0/255.0), green: CGFloat(144.0/255.0), blue: CGFloat(201.0/255.0), alpha: 1.0)
+let ErrorBodyRed = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(243.0/255.0), blue: CGFloat(242.0/255.0), alpha: 1.0)
+let ErrorBorderRed = UIColor(red: CGFloat(249.0/255.0), green: CGFloat(208.0/255.0), blue: CGFloat(201.0/255.0), alpha: 1.0)
+let GooglePlusRed = UIColor(red: CGFloat(227.0/255.0), green: CGFloat(78.0/255.0), blue: CGFloat(51.0/255.0), alpha: 1.0)
 
 // Each icon on the add menu should have one of these. The second value is the name of the asset
 let Items = [
