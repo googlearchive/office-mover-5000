@@ -101,7 +101,7 @@
                 </barButtonItem>
                 <barButtonItem image="backgrounds" id="ep3-aJ-GKY">
                     <connections>
-                        <segue destination="wof-UY-25b" kind="popoverPresentation" popoverAnchorBarButtonItem="ep3-aJ-GKY" id="tUS-gq-6tE">
+                        <segue destination="wof-UY-25b" kind="popoverPresentation" identifier="changeBackgroundPopoverSegue" popoverAnchorBarButtonItem="ep3-aJ-GKY" id="tUS-gq-6tE">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
                     </connections>
