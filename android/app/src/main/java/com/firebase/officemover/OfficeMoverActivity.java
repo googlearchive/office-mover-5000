@@ -21,6 +21,11 @@ import com.firebase.officemover.model.OfficeThing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
+import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class OfficeMoverActivity extends Activity {
     private final static String TAG = OfficeMoverActivity.class.getSimpleName();
     public static final String FIREBASE = "https://mover-app-5000-demo.firebaseio.com/";
@@ -30,9 +35,8 @@ public class OfficeMoverActivity extends Activity {
     private FrameLayout mOfficeFloorView;
     private Firebase mFirebaseRef;
 
-    // For sign out
-    private GoogleApiClient mGoogleApiClient;
-
+    private ScheduledExecutorService mFirebaseUpdateScheduler;
+    private HashMap<String, OfficeThing> mStuffToUpdate = new HashMap<String, OfficeThing>();
 
     public abstract class ThingChangeListener {
         public abstract void thingChanged(String key, OfficeThing officeThing);
@@ -89,6 +93,7 @@ public class OfficeMoverActivity extends Activity {
 
                 addUpdateThingToLocalModel(key, existingThing);
             }
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 String key = dataSnapshot.getName();
@@ -129,15 +134,27 @@ public class OfficeMoverActivity extends Activity {
         mOfficeCanvasView.setThingChangedListener(new ThingChangeListener() {
             @Override
             public void thingChanged(String key, OfficeThing officeThing) {
-                updateOfficeThing(key, officeThing);
+                mStuffToUpdate.put(key, officeThing);
+//                if(mFirebaseUpdateScheduler.isShutdown()) {
+//                }
+
+//                updateOfficeThing(key, officeThing);
+                mOfficeCanvasView.invalidate();
             }
         });
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Plus.API)
-                .addScope(Plus.SCOPE_PLUS_LOGIN)
-                .build();
-
+        mFirebaseUpdateScheduler = Executors.newScheduledThreadPool(1);
+        mFirebaseUpdateScheduler.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                if(mStuffToUpdate != null && mStuffToUpdate.size() > 0) {
+                    for(OfficeThing officeThing : mStuffToUpdate.values()) {
+                        updateOfficeThing(officeThing.getKey(), officeThing);
+                        mStuffToUpdate.remove(officeThing.getKey());
+                    }
+                }
+            }
+        }, 40, 40, TimeUnit.MILLISECONDS);
     }
 
     @Override
