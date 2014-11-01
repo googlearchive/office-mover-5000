@@ -1,3 +1,5 @@
+$height: 62px;
+
 .furniture {
   border-radius: $border-radius;
   background-color: $concrete;
@@ -7,21 +9,26 @@
     color: $white;
     width: 100%;
     text-align: center;
-    // margin: auto 0;
-    line-height: 62px;
+    margin: ($height - $basefont)/2 auto;
+    line-height: $basefont;
     overflow: hidden;
   }
 
   .tooltip {
     position: absolute;
     top: -40px;
+    margin: 0 auto;
+    width: 175px;
     background-color: $sterling;
     border-radius: $border-radius;
+    text-align: center; 
 
     .tooltip-button {
-      background-color: rgba(0,0,0,0);
+      display: inline-block;
+      padding: 5px 5px;
       border: none;
       color: $white;
+      background-color: rgba(0,0,0,0);
     }
   }
 
@@ -35,9 +42,9 @@
 
   &.desk {
     background: url('../images/furniture/desk.png') center center no-repeat;
-    background-size: 116px 62px;
+    background-size: 116px $height;
     width: 116px;
-    height: 62px;
+    height: $height;
   }
 
   &.plant1 {

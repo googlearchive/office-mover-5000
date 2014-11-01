@@ -53,7 +53,7 @@ var Furniture = function(snapshot, options) {
   this.render = function(){
 
     var rotateCCW = "rotate(" + (this.rotation * -1) + "deg)";  // CCW ROTATION
-    var rotateCW = "rotate(" + (this.rotation) + "deg)";   // CCW ROTATION
+    var rotateCW = "translate(-29.5px, 0) rotate(" + (this.rotation) + "deg)";   // CCW ROTATION
 
     // SET NAME ON DESK
     this.nameEl.text(this.name);
@@ -110,9 +110,9 @@ var Furniture = function(snapshot, options) {
 
   this.initListeners = function(){
     // SET CLICK HANDLER TO CREATE TOOLTIP
-    this.nameEl.on("click", function(e){
+    this.element.on("click", function(e){
       var $el = $(e.target);
-      var $tooltip = $el.next(".tooltip");
+      var $tooltip = $el.children(".tooltip");
       var $edit = $tooltip.children("[data-tooltip-action='edit']");
 
       $tooltip.toggleClass("is-hidden");
