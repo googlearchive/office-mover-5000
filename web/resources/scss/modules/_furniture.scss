@@ -16,9 +16,11 @@ $height: 62px;
 
   .tooltip {
     position: absolute;
+    white-space: nowrap;
+
     top: -40px;
-    margin: 0 auto;
-    width: 175px;
+    padding: 0 10px;
+
     background-color: $sterling;
     border-radius: $border-radius;
     text-align: center; 
