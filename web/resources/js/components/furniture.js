@@ -94,7 +94,13 @@ var Furniture = function(snapshot, options) {
   * Rotate furniture
   */
   this.rotate = function(){
-    this.ref.child("rotation").set(this.rotation + 90);
+    var rotation = this.rotation + 90;
+
+    if (rotation === 360) {
+      rotation = 0;
+    }
+
+    this.ref.child("rotation").set(rotation);
   };
 
   /*
