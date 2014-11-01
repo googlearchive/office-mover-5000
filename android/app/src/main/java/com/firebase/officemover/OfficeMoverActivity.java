@@ -1,6 +1,7 @@
 package com.firebase.officemover;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +18,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.firebase.officemover.model.OfficeLayout;
 import com.firebase.officemover.model.OfficeThing;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
 
 public class OfficeMoverActivity extends Activity {
     private final static String TAG = OfficeMoverActivity.class.getSimpleName();
@@ -26,6 +29,10 @@ public class OfficeMoverActivity extends Activity {
     private OfficeCanvasView mOfficeCanvasView;
     private FrameLayout mOfficeFloorView;
     private Firebase mFirebaseRef;
+
+    // For sign out
+    private GoogleApiClient mGoogleApiClient;
+
 
     public abstract class ThingChangeListener {
         public abstract void thingChanged(String key, OfficeThing officeThing);
@@ -125,6 +132,12 @@ public class OfficeMoverActivity extends Activity {
                 updateOfficeThing(key, officeThing);
             }
         });
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Plus.API)
+                .addScope(Plus.SCOPE_PLUS_LOGIN)
+                .build();
+
     }
 
     @Override
@@ -278,7 +291,6 @@ public class OfficeMoverActivity extends Activity {
         mFirebaseRef.child("furniture").child(key).setValue(officeThing);
     }
 
-
     /**
      * Adds a thing to the local model used in rendering
      * @param key
@@ -299,4 +311,10 @@ public class OfficeMoverActivity extends Activity {
         mOfficeCanvasView.invalidate();
     }
 
+    public boolean signOut(MenuItem item) {
+        Intent signOutIntent = new Intent(this, LoginActivity.class);
+        signOutIntent.putExtra("SIGNOUT", true);
+        startActivity(signOutIntent);
+        return true;
+    }
 }
