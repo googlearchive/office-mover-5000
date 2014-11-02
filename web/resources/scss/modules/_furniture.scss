@@ -2,58 +2,18 @@ $height: 62px;
 
 .furniture {
   position: absolute !important;
-
   border-radius: $border-radius;
   background-color: $concrete;
 
   .furniture-name {
     overflow: hidden;
-
     width: 100%;
     margin: ($height - $basefont)/2 auto;
-
     text-align: center;
     line-height: $basefont;
     color: $white;
   }
 
-  .tooltip {
-    position: absolute;
-
-    top: -40px;
-    padding: 0 10px;
-
-    background-color: $sterling;
-    border-radius: $border-radius;
-    text-align: center; 
-    white-space: nowrap;
-
-    &:before {
-      content: "";
-      position: absolute;
-      // display: block;
-
-      top: 20px;
-      left: 50%;
-      // height: 0px;
-      // width: 0px;
-
-      border: 8px solid $sterling;
-      transform: translateX(-10px) rotate(45deg);
-      z-index: -1;
-    }
-
-    .tooltip-button {
-      display: inline-block;
-
-      padding: 5px 5px;
-
-      font-weight: 100;
-      border: none;
-      color: $white;
-      background-color: rgba(0,0,0,0);
-    }
-  }
 
   &.is-active {
     border: 2px solid $azure;

@@ -22,8 +22,8 @@ var Furniture = function(snapshot, options) {
 
   this.officeSpace = $('#office-space');
   this.element = $(element);
-  this.tooltip = this.element.children(".tooltip");
-  this.nameEl = this.element.children(".furniture-name");
+  this.tooltip = this.element.find(".tooltip");
+  this.nameEl = this.element.find(".furniture-name");
 
   this.id = snapshot.name();
   this.ref = snapshot.ref();
@@ -41,8 +41,6 @@ var Furniture = function(snapshot, options) {
   */
 
   this.ref  = new Firebase(utils.urls.furniture + this.id);
-
-
 
 
   /*
@@ -64,7 +62,7 @@ var Furniture = function(snapshot, options) {
       "left": parseInt(this.left, 10),
       "transform": rotateCCW
     });
-    
+
     this.tooltip.css({
       "transform": rotateCW
     });
@@ -82,6 +80,14 @@ var Furniture = function(snapshot, options) {
   };
 
   /*
+  * Show tooltip
+  */
+
+  this.showTooltip = function() {
+
+  };
+
+  /*
   * Edit name on desk
   */
 
@@ -90,6 +96,7 @@ var Furniture = function(snapshot, options) {
     this.ref.child("name").set(name);
   };
 
+
   /*
   * Rotate furniture
   */
@@ -97,12 +104,15 @@ var Furniture = function(snapshot, options) {
     this.ref.child("rotation").set(this.rotation + 90);
   };
 
+
   /*
   * Delete furniture and remove from screen
   */
+
   this.delete = function(){
     this.ref.remove();
   };
+
 
   /*
   * Initialize click listeners
@@ -111,14 +121,10 @@ var Furniture = function(snapshot, options) {
   this.initListeners = function(){
     // SET CLICK HANDLER TO CREATE TOOLTIP
     this.element.on("click", function(e){
-      var $el = $(e.target);
-      var $tooltip = $el.children(".tooltip");
-      var $edit = $tooltip.children("[data-tooltip-action='edit']");
-
-      $tooltip.toggleClass("is-hidden");
+      self.tooltip.toggleClass("is-hidden");
 
       if (self.type === "desk") {
-        $edit.removeClass("is-hidden");
+        self.tooltip.addClass("has-edit");
       }
     });
 
@@ -133,6 +139,7 @@ var Furniture = function(snapshot, options) {
       }
     });
   };
+
 
   /*
   * Initialize furniture module
@@ -167,7 +174,6 @@ var Furniture = function(snapshot, options) {
     // RENDER
     this.render();
   };
-
 
 
   /*

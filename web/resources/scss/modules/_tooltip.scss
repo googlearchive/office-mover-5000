@@ -1,0 +1,47 @@
+.tooltip {
+  border-radius: $border-radius;
+  background: rgba($black, .8);
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  z-index: 1;
+  margin-left: -60px;
+  width: 120px;
+  height: 30px;
+
+  .tooltip-button-edit {
+    display: none;
+  }
+
+  &.has-edit {
+    width: 180px;
+    margin-left: -90px;
+
+    .tooltip-button-edit {
+      display: block;
+    }
+  }
+
+  .tooltip-arrow {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba($black, .8);
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    z-index: 1;
+    margin-left: -4px;
+  }
+
+  .tooltip-button {
+    float: left;
+    line-height: 30px;
+    width: 60px;
+    text-align: center;
+    font-weight: 100;
+    font-size: 14px;
+    color: $white;
+  }
+}
