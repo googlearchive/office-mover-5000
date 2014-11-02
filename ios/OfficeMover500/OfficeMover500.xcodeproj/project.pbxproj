@@ -12,7 +12,7 @@
 		5F05DA0E1A0018C50076D47C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F05DA0C1A0018C50076D47C /* Main.storyboard */; };
 		5F05DA101A0018C50076D47C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F05DA0F1A0018C50076D47C /* Images.xcassets */; };
 		5F05DA1F1A0018C50076D47C /* OfficeMover500Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA1E1A0018C50076D47C /* OfficeMover500Tests.swift */; };
-		5F05DA291A0022BB0076D47C /* FurnitureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA281A0022BB0076D47C /* FurnitureButton.swift */; };
+		5F05DA291A0022BB0076D47C /* FurnitureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA281A0022BB0076D47C /* FurnitureView.swift */; };
 		5F1F991B1A06289A00EFDB68 /* PopoverMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1F991A1A06289A00EFDB68 /* PopoverMenuController.swift */; };
 		5F2C885F1A02DE64008F77F7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C885E1A02DE64008F77F7 /* Constants.swift */; };
 		5F2C88611A02E722008F77F7 /* AddItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C88601A02E722008F77F7 /* AddItemController.swift */; };
@@ -51,7 +51,7 @@
 		5F05DA181A0018C50076D47C /* OfficeMover500Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OfficeMover500Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F05DA1D1A0018C50076D47C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F05DA1E1A0018C50076D47C /* OfficeMover500Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeMover500Tests.swift; sourceTree = "<group>"; };
-		5F05DA281A0022BB0076D47C /* FurnitureButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FurnitureButton.swift; sourceTree = "<group>"; };
+		5F05DA281A0022BB0076D47C /* FurnitureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FurnitureView.swift; sourceTree = "<group>"; };
 		5F1F991A1A06289A00EFDB68 /* PopoverMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverMenuController.swift; sourceTree = "<group>"; };
 		5F2C885E1A02DE64008F77F7 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5F2C88601A02E722008F77F7 /* AddItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemController.swift; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 				63BBF8F51A001D2200F74141 /* Models */,
 				5F05DA081A0018C50076D47C /* AppDelegate.swift */,
 				5F2C885E1A02DE64008F77F7 /* Constants.swift */,
-				5F05DA281A0022BB0076D47C /* FurnitureButton.swift */,
+				5F05DA281A0022BB0076D47C /* FurnitureView.swift */,
 				5F999E671A01C01800208956 /* RoomViewController.swift */,
 				5F1F991A1A06289A00EFDB68 /* PopoverMenuController.swift */,
 				5F2C88601A02E722008F77F7 /* AddItemController.swift */,
@@ -298,7 +298,7 @@
 				63BBF90B1A0045EF00F74141 /* Furniture.swift in Sources */,
 				5F999E681A01C01800208956 /* RoomViewController.swift in Sources */,
 				5F05DA0B1A0018C50076D47C /* ViewController.swift in Sources */,
-				5F05DA291A0022BB0076D47C /* FurnitureButton.swift in Sources */,
+				5F05DA291A0022BB0076D47C /* FurnitureView.swift in Sources */,
 				5F05DA091A0018C50076D47C /* AppDelegate.swift in Sources */,
 				5F4E89011A03152900F925D7 /* PopoverMenuItemCell.swift in Sources */,
 				5F2C88611A02E722008F77F7 /* AddItemController.swift in Sources */,
