@@ -1,27 +1,42 @@
 package com.firebase.officemover;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.PopupMenu;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.firebase.officemover.model.OfficeLayout;
 import com.firebase.officemover.model.OfficeThing;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
+
+import java.util.HashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class OfficeMoverActivity extends Activity {
     private final static String TAG = OfficeMoverActivity.class.getSimpleName();
+    public static final String FIREBASE = "https://mover-app-5000-demo.firebaseio.com/";
 
     private OfficeLayout mOfficeLayout;
     private OfficeCanvasView mOfficeCanvasView;
+    private FrameLayout mOfficeFloorView;
     private Firebase mFirebaseRef;
+
+    private ScheduledExecutorService mFirebaseUpdateScheduler;
+    private HashMap<String, OfficeThing> mStuffToUpdate = new HashMap<String, OfficeThing>();
 
     public abstract class ThingChangeListener {
         public abstract void thingChanged(String key, OfficeThing officeThing);
@@ -36,12 +51,37 @@ public class OfficeMoverActivity extends Activity {
         mOfficeLayout = new OfficeLayout();
         mOfficeCanvasView = (OfficeCanvasView) findViewById(R.id.office_canvas);
         mOfficeCanvasView.setOfficeLayout(mOfficeLayout);
+        mOfficeFloorView = (FrameLayout)findViewById(R.id.office_floor);
 
         Firebase.setAndroidContext(this);
 
         // add an on child added listener for the table
-        mFirebaseRef = new Firebase("https://office-mover2.firebaseio.com/");
+        mFirebaseRef = new Firebase(FIREBASE);
 
+        // Listen for floor changes
+        mFirebaseRef.child("background").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String floor = dataSnapshot.getValue(String.class);
+                if(floor.equals("carpet")) {
+                    mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_carpet));
+                } else if(floor.equals("grid")) {
+                    mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_grid));
+                } else if(floor.equals("tile")) {
+                    mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_tile));
+                } else if(floor.equals("wood")) {
+                    mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_wood));
+                }
+                mOfficeFloorView.invalidate();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+        // Listen for furniture changes
         mFirebaseRef.child("furniture").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -94,9 +134,27 @@ public class OfficeMoverActivity extends Activity {
         mOfficeCanvasView.setThingChangedListener(new ThingChangeListener() {
             @Override
             public void thingChanged(String key, OfficeThing officeThing) {
-                updateOfficeThing(key, officeThing);
+                mStuffToUpdate.put(key, officeThing);
+//                if(mFirebaseUpdateScheduler.isShutdown()) {
+//                }
+
+//                updateOfficeThing(key, officeThing);
+                mOfficeCanvasView.invalidate();
             }
         });
+
+        mFirebaseUpdateScheduler = Executors.newScheduledThreadPool(1);
+        mFirebaseUpdateScheduler.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                if(mStuffToUpdate != null && mStuffToUpdate.size() > 0) {
+                    for(OfficeThing officeThing : mStuffToUpdate.values()) {
+                        updateOfficeThing(officeThing.getKey(), officeThing);
+                        mStuffToUpdate.remove(officeThing.getKey());
+                    }
+                }
+            }
+        }, 40, 40, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -169,8 +227,8 @@ public class OfficeMoverActivity extends Activity {
                     case R.id.action_add_pingpong:
                         addOfficeThing("pingpong");
                         break;
-                    case R.id.action_add_plant:
-                        addOfficeThing("plant");
+                    case R.id.action_add_plant1:
+                        addOfficeThing("plant1");
                         break;
                     case R.id.action_add_plant2:
                         addOfficeThing("plant2");
@@ -200,16 +258,16 @@ public class OfficeMoverActivity extends Activity {
                     //TODO: do this with less copy and paste
                     //TODO: make this real time
                     case R.id.action_floor_carpet:
-                        mOfficeCanvasView.setFloor("carpet");
+                        mFirebaseRef.child("background").setValue("carpet");
                         break;
                     case R.id.action_floor_grid:
-                        mOfficeCanvasView.setFloor("grid");
+                        mFirebaseRef.child("background").setValue("grid");
                         break;
                     case R.id.action_floor_tile:
-                        mOfficeCanvasView.setFloor("tile");
+                        mFirebaseRef.child("background").setValue("tile");
                         break;
                     case R.id.action_floor_wood:
-                        mOfficeCanvasView.setFloor("wood");
+                        mFirebaseRef.child("background").setValue("wood");
                         break;
                     default:
                         throw new RuntimeException();
@@ -250,7 +308,6 @@ public class OfficeMoverActivity extends Activity {
         mFirebaseRef.child("furniture").child(key).setValue(officeThing);
     }
 
-
     /**
      * Adds a thing to the local model used in rendering
      * @param key
@@ -271,4 +328,10 @@ public class OfficeMoverActivity extends Activity {
         mOfficeCanvasView.invalidate();
     }
 
+    public boolean signOut(MenuItem item) {
+        Intent signOutIntent = new Intent(this, LoginActivity.class);
+        signOutIntent.putExtra("SIGNOUT", true);
+        startActivity(signOutIntent);
+        return true;
+    }
 }

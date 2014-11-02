@@ -1,5 +1,6 @@
 var Utils  = require('./helpers/utils');
 var data  = require('./helpers/data');
+var userProfile = require('./components/user-profile');
 var Dropdown = require('./components/dropdown');
 var Furniture  = require('./components/furniture');
 var welcome = require('./components/welcome');
@@ -33,6 +34,7 @@ var app = {
     this.$welcome = $("#welcome");
     this.$app = $("#app");
     this.$officeSpace = $("#office-space");
+    this.$officeSpaceWrapper = $("#office-space-wrapper");
     this.$signInButtons = $(".welcome-hero-signin");
     this.$alert = $(".alert");
     this.$signOutButton = $(".toolbar-sign-out");
@@ -52,6 +54,7 @@ var app = {
       if (authData) {
         self.hideWelcomeScreen();
         self.renderFurniture();
+        userProfile.init(authData);
       }
       else {
         self.showWelcomeScreen();
@@ -91,7 +94,7 @@ var app = {
       var value = snapshot.val();
       var pattern = value ? 'background-' + value : '';
 
-      self.$officeSpace.removeClass().addClass('editor ' +  pattern);
+      self.$officeSpaceWrapper.removeClass().addClass('l-canvas-wrapper l-center-canvas ' +  pattern);
     });
   },
 
