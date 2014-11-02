@@ -8,11 +8,6 @@
 
 import UIKit
 
-@objc protocol PopoverDelegate {
-    func dismissPopover()
-    var closePopover: (() -> ())? { get set }
-}
-
 class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewItemDelegate, ChangeBackgroundDelegate {
     
     @IBOutlet weak var roomView: UIView!
