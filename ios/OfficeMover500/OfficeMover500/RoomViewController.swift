@@ -16,6 +16,7 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     @IBOutlet weak var addItemButton: UIBarButtonItem!
     @IBOutlet weak var backgroundButton: UIBarButtonItem!
     
+    var closePopover: (() -> ())?
     var popoverController: UIPopoverController?
     
     override func viewWillAppear(animated: Bool) {
@@ -34,26 +35,27 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        popoverController?.dismissPopoverAnimated(false)
+        // If opening a new popover, preemtively close the old one
+        popoverController?.dismissPopoverAnimated(false) // iOS 7
+        closePopover?() // iOS 8
         
-        // This is to support closing popovers in iOS 7
+        // This is to support closing popovers in iOS 7 and to set frosted menu
         if let popoverSegue = segue as? UIStoryboardPopoverSegue {
             self.popoverController = popoverSegue.popoverController
             self.popoverController?.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
         }
         
-        if segue.identifier == "addItemPopoverSegue" {
-            if let controller = segue.destinationViewController as? AddItemController {
-                controller.delegate = self
-            }
-        } else if segue.identifier == "changeBackgroundPopoverSegue" {
-            if let popoverController = segue.destinationViewController as? ChangeBackgroundController {
-                popoverController.delegate = self
-            }
+        if let controller = segue.destinationViewController as? AddItemController {
+            controller.delegate = self
+            closePopover = controller.closePopover // to support iOS 8 preemptive closing
+        } else if let controller = segue.destinationViewController as? ChangeBackgroundController {
+            controller.delegate = self
+            closePopover = controller.closePopover // to support iOS 8 preemptive closing
         }
     }
     
     func dismissPopover() {
+        // Close popover in iOS 8
         popoverController?.dismissPopoverAnimated(true)
         popoverController = nil
     }
