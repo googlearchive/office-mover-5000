@@ -13,10 +13,11 @@ class PopoverMenuItemCell : UITableViewCell {
     
     override func setHighlighted(highlighted: Bool, animated: Bool) {
         if highlighted {
-            backgroundColor = BorderBlue
+//            backgroundColor = BorderBlue.colorWithAlphaComponent(0.5)
         } else {
-            backgroundColor = UIColor.whiteColor()
+//            backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         }
+        backgroundColor = UIColor.clearColor()
         
         if let imageName = name {
             let selected = highlighted ? "_selected.png" : "_unselected.png"

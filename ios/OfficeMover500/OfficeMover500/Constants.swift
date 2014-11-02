@@ -36,5 +36,5 @@ let Floors = [
     ("Carpet", "carpet"),
     ("Grid", "grid"),
     ("Tile", "tile"),
-    ("Wood", "wood")
+    ("Wood", "wood"),
 ]

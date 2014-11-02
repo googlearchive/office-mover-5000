@@ -16,6 +16,11 @@ class AddItemController : UITableViewController {
     
     var delegate: AddNewItemDelegate?
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        view.superview?.layer.cornerRadius = 0
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         preferredContentSize.height = 70 * CGFloat(Items.count)
