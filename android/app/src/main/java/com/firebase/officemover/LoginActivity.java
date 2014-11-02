@@ -23,7 +23,7 @@ public class LoginActivity extends Activity  implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     /***************************************
      *               GOOGLE                *
@@ -87,10 +87,15 @@ public class LoginActivity extends Activity  implements
     @Override
     protected void onStart() {
         super.onStart();
-        if (!mGoogleIntentInProgress) {
+        Intent intent = getIntent();
+        boolean signout = intent.getBooleanExtra("SIGNOUT", false);
+        if(signout) {
+            signOut();
+        } else if (!mGoogleIntentInProgress) {
             // auto sign in
             mGoogleApiClient.connect();
         }
+
     }
 
     @Override
@@ -202,5 +207,14 @@ public class LoginActivity extends Activity  implements
             }
         };
         task.execute();
+    }
+
+
+    public void signOut() {
+        if (mGoogleApiClient.isConnected()) {
+            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
+            mGoogleApiClient.connect();
+        }
     }
 }

@@ -19,6 +19,11 @@ var data = {
       name: 'tile',
       description: 'Tile Flooring',
       background: 'background-preview-tile'
+    },
+    {
+      name: '',
+      description: 'No Background',
+      background: ''
     }
   ],
 

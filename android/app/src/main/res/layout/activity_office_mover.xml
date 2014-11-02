@@ -7,17 +7,25 @@
 
 
     <FrameLayout
-        android:id="@+id/office_lot"
+        android:id="@+id/office_floor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/office_border">
+        android:layout_gravity="center">
 
-        <com.firebase.officemover.OfficeCanvasView
-            android:id="@+id/office_canvas"
-            android:layout_width="270dp"
-            android:layout_height="360dp"
-            android:layout_gravity="center" />
+        <FrameLayout
+            android:id="@+id/office_walls"
+            android:layout_width="276dp"
+            android:layout_height="368dp"
+            android:layout_gravity="center"
+            android:background="@drawable/office">
+
+            <com.firebase.officemover.OfficeCanvasView
+                android:id="@+id/office_canvas"
+                android:layout_width="270dp"
+                android:layout_height="360dp"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
     </FrameLayout>
 
 </FrameLayout>
