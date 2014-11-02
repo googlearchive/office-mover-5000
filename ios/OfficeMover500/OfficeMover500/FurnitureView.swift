@@ -14,7 +14,7 @@ enum DragState: Int {
     case None = 0, Maybe, Dragging
 }
 
-class FurnitureView : UIButton, UIAlertViewDelegate {
+class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
     
     // -- Model state handlers
     var moveHandler: ((Int, Int) -> ())?
@@ -233,6 +233,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         alert.alertViewStyle = UIAlertViewStyle.PlainTextInput;
         alert.textFieldAtIndex(0)?.text = name
         alert.textFieldAtIndex(0)?.placeholder = "Name"
+        alert.textFieldAtIndex(0)?.delegate = self
         alert.show()
     }
     
@@ -244,6 +245,11 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
                 editHandler?(newName)
             }
         }
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range:NSRange, replacementString string:NSString) {
+        let newName = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string) as String
+        editHandler?(newName)
     }
     
     // --- Selected shadow
