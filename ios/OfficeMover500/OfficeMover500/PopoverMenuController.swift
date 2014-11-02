@@ -13,14 +13,16 @@ import UIKit
 
 class PopoverMenuController : UITableViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        preferredContentSize.height = 70 * CGFloat(numItems)
-    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         view.superview?.layer.cornerRadius = 0
+        view.backgroundColor = UIColor.clearColor()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        preferredContentSize.height = 70 * CGFloat(numItems)
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
