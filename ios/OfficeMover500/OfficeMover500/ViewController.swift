@@ -8,7 +8,8 @@
 
 import UIKit
 
-let OfficeMoverFirebaseUrl = "https://mover-app-5000-demo.firebaseio.com"
+// let OfficeMoverFirebaseUrl = "https://mover-app-5000-demo.firebaseio.com"
+let OfficeMoverFirebaseUrl = "https://office-mover.firebaseio.com"
 
 class ViewController: RoomViewController {
     
@@ -51,6 +52,7 @@ class ViewController: RoomViewController {
                 view.left = furniture.left
                 view.rotation = furniture.rotation
                 view.name = furniture.name
+                view.zIndex = furniture.zIndex
             }
         })
         
@@ -87,6 +89,12 @@ class ViewController: RoomViewController {
         view.editHandler = { name in
             currentFurnitureRef.updateChildValues([
                 "name": name
+            ])
+        }
+        
+        view.moveToTopHandler = {
+            currentFurnitureRef.updateChildValues([
+                "z-index": ++maxZIndex
             ])
         }
         
