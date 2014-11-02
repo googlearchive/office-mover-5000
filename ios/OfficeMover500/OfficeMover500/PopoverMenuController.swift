@@ -16,8 +16,7 @@ class PopoverMenuController : UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        view.superview?.layer.cornerRadius = 0
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clearColor() // iOS 8 
     }
     
     override func viewDidLoad() {

@@ -38,7 +38,7 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
         popoverController?.dismissPopoverAnimated(false) // iOS 7
         closePopover?() // iOS 8
         
-        // This is to support closing popovers in iOS 7
+        // This is to support closing popovers in iOS 7 and to set frosted menu
         if let popoverSegue = segue as? UIStoryboardPopoverSegue {
             self.popoverController = popoverSegue.popoverController
             self.popoverController?.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
