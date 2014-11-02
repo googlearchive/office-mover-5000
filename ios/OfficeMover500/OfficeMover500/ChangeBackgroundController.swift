@@ -8,8 +8,8 @@
 import UIKit
 
 @objc protocol ChangeBackgroundDelegate {
-    func setBackground(type: String)
-    optional func changeBackground(type: String)
+    func setBackgroundLocally(type: String)
+    optional func setBackground(type: String)
     func dismissPopover()
 }
 
@@ -52,8 +52,16 @@ class ChangeBackgroundController : UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var type = Floors[indexPath.row].1
         
-        delegate?.setBackground(type)
-        delegate?.changeBackground?(type)
+        // Set background on Firebase
+        delegate?.setBackground?(type)
+
+        // Actually change background locally
+        delegate?.setBackgroundLocally(type)
+        
+        // This works for iOS 7
         delegate?.dismissPopover()
+        
+        // This works for iOS 8
+        dismissViewControllerAnimated(true, nil)
     }
 }
