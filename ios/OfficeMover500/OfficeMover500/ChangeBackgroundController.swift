@@ -7,10 +7,9 @@
 //
 import UIKit
 
-@objc protocol ChangeBackgroundDelegate {
+@objc protocol ChangeBackgroundDelegate : PopoverDelegate {
     func setBackgroundLocally(type: String)
     optional func setBackground(type: String)
-    func dismissPopover()
 }
 
 class ChangeBackgroundController : UITableViewController {
@@ -63,5 +62,9 @@ class ChangeBackgroundController : UITableViewController {
         
         // This works for iOS 8
         dismissViewControllerAnimated(true, nil)
+    }
+    
+    func closePopover() {
+        dismissViewControllerAnimated(false, nil)
     }
 }

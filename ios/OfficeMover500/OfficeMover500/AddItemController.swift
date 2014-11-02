@@ -7,15 +7,19 @@
 //
 import UIKit
 
-@objc protocol AddNewItemDelegate {
+@objc protocol AddNewItemDelegate : PopoverDelegate {
     optional func addNewItem(type: String)
-    func dismissPopover()
 }
 
 class AddItemController : UITableViewController {
     
     var delegate: AddNewItemDelegate?
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        view.superview?.layer.cornerRadius = 0
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         preferredContentSize.height = 70 * CGFloat(Items.count)
@@ -57,5 +61,9 @@ class AddItemController : UITableViewController {
         
         // This works for iOS 8
         dismissViewControllerAnimated(true, nil)
+    }
+    
+    func closePopover() {
+        dismissViewControllerAnimated(false, nil)
     }
 }
