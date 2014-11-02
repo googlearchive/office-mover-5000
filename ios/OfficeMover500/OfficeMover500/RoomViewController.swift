@@ -35,17 +35,20 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         popoverController?.dismissPopoverAnimated(false)
+        
+        // This is to support closing popovers in iOS 7
         if let popoverSegue = segue as? UIStoryboardPopoverSegue {
             self.popoverController = popoverSegue.popoverController
             self.popoverController?.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
-            if segue.identifier == "addItemPopoverSegue" {
-                if let controller = segue.destinationViewController as? AddItemController {
-                    controller.delegate = self
-                }
-            } else if segue.identifier == "changeBackgroundPopoverSegue" {
-                if let popoverController = segue.destinationViewController as? ChangeBackgroundController {
-                    popoverController.delegate = self
-                }
+        }
+        
+        if segue.identifier == "addItemPopoverSegue" {
+            if let controller = segue.destinationViewController as? AddItemController {
+                controller.delegate = self
+            }
+        } else if segue.identifier == "changeBackgroundPopoverSegue" {
+            if let popoverController = segue.destinationViewController as? ChangeBackgroundController {
+                popoverController.delegate = self
             }
         }
     }
@@ -55,7 +58,7 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
         popoverController = nil
     }
     
-    func setBackground(type: String) {
+    func setBackgroundLocally(type: String) {
         if let image = UIImage(named:"\(type).png") {
             backgroundView.backgroundColor = UIColor(patternImage: image)
         }

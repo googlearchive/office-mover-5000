@@ -56,6 +56,11 @@ class AddItemController : UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var type = Items[indexPath.row].2
         delegate?.addNewItem?(type)
+        
+        // This works for iOS 7
         delegate?.dismissPopover()
+        
+        // This works for iOS 8
+        dismissViewControllerAnimated(true, nil)
     }
 }

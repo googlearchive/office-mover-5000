@@ -30,7 +30,7 @@ class ViewController: RoomViewController {
         // Observe bacakground changes
         backgroundRef.observeEventType(.Value, withBlock: { [unowned self] snapshot in
             if let background = snapshot.value as? String {
-                self.setBackground(background)
+                self.setBackgroundLocally(background)
             }
         })
     }
@@ -99,7 +99,7 @@ class ViewController: RoomViewController {
         itemRef.setValue(furniture.toJson())
     }
     
-    func changeBackground(type: String) {
+    func setBackground(type: String) {
         backgroundRef.setValue(type)
     }
 }
