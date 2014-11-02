@@ -40,14 +40,10 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
             self.popoverController = popoverSegue.popoverController
         }
         
-        if segue.identifier == "addItemPopoverSegue" {
-            if let controller = segue.destinationViewController as? AddItemController {
-                controller.delegate = self
-            }
-        } else if segue.identifier == "changeBackgroundPopoverSegue" {
-            if let popoverController = segue.destinationViewController as? ChangeBackgroundController {
-                popoverController.delegate = self
-            }
+        if let controller = segue.destinationViewController as? AddItemController {
+            controller.delegate = self
+        } else if let controller = segue.destinationViewController as? ChangeBackgroundController {
+            controller.delegate = self
         }
     }
     
