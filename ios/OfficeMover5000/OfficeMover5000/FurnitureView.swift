@@ -114,17 +114,22 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         frame.size = image!.size
         
         // Setup other properties
-        name = furniture.name
-        rotation = furniture.rotation // rotation needs to be set before top, left
-        top = furniture.top
-        left = furniture.left
-        zIndex = furniture.zIndex
+        setViewState(furniture)
         self.titleLabel?.font = UIFont(name: "Proxima Nova", size: 20)
         
         // Add touch events
         addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
         addTarget(self, action:Selector("touchDown:withEvent:"), forControlEvents:.TouchDown)
         addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside)
+    }
+    
+    // set state
+    func setViewState(model: Furniture) {
+        self.rotation = model.rotation
+        self.top = model.top
+        self.left = model.left
+        self.name = model.name
+        self.zIndex = model.zIndex
     }
     
     // -- Methods for updating the view

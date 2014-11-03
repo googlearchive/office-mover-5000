@@ -25,7 +25,6 @@
 		63BBF8FD1A001E5300F74141 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8FC1A001E5300F74141 /* SystemConfiguration.framework */; };
 		63BBF8FF1A001E5800F74141 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8FE1A001E5800F74141 /* Security.framework */; };
 		63BBF9011A001E5E00F74141 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9001A001E5E00F74141 /* libc++.dylib */; };
-		63BBF9091A0023C400F74141 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BBF9081A0023C400F74141 /* Room.swift */; };
 		63BBF90B1A0045EF00F74141 /* Furniture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BBF90A1A0045EF00F74141 /* Furniture.swift */; };
 		63BBF93B1A02C7A500F74141 /* ProximaNova-Sbold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63BBF93A1A02C74500F74141 /* ProximaNova-Sbold.ttf */; };
 		63BBF93D1A02EFF100F74141 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63BBF93C1A02EFE700F74141 /* ProximaNova-Light.ttf */; };
@@ -78,7 +77,6 @@
 		63BBF8FE1A001E5800F74141 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63BBF9001A001E5E00F74141 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		63BBF9021A001F1A00F74141 /* OfficeMover5000-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OfficeMover5000-Bridging-Header.h"; sourceTree = "<group>"; };
-		63BBF9081A0023C400F74141 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		63BBF90A1A0045EF00F74141 /* Furniture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Furniture.swift; sourceTree = "<group>"; };
 		63BBF93A1A02C74500F74141 /* ProximaNova-Sbold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Sbold.ttf"; sourceTree = "<group>"; };
 		63BBF93C1A02EFE700F74141 /* ProximaNova-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Light.ttf"; sourceTree = "<group>"; };
@@ -220,7 +218,6 @@
 		63BBF8F51A001D2200F74141 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				63BBF9081A0023C400F74141 /* Room.swift */,
 				63BBF90A1A0045EF00F74141 /* Furniture.swift */,
 			);
 			name = Models;
@@ -362,7 +359,6 @@
 				5F05DA291A0022BB0076D47C /* FurnitureView.swift in Sources */,
 				5F4E89011A03152900F925D7 /* PopoverMenuItemCell.swift in Sources */,
 				5F2C88611A02E722008F77F7 /* AddItemController.swift in Sources */,
-				63BBF9091A0023C400F74141 /* Room.swift in Sources */,
 				5F1F991B1A06289A00EFDB68 /* PopoverMenuController.swift in Sources */,
 				5F2C885F1A02DE64008F77F7 /* Constants.swift in Sources */,
 			);
