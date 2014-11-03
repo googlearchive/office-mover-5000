@@ -52,7 +52,6 @@ public class OfficeCanvasView extends View {
         DESK_LABEL_PAINT.setTextSize(50);
         DESK_LABEL_PAINT.setTextAlign(Paint.Align.CENTER);
         DESK_LABEL_PAINT.setTypeface(Typeface.DEFAULT);
-
     }
 
     @Override
@@ -62,8 +61,7 @@ public class OfficeCanvasView extends View {
             return;
         }
 
-        // TODO: draw from bottom z-index to top z-index (use queries?)
-        for (OfficeThing thing : mOfficeLayout.values()) {
+        for (OfficeThing thing : mOfficeLayout.getThingsBottomUp()) {
             Bitmap thingBitmap = thing.getBitmap(getContext());
 
             // If it's the selected thing, make it GLOW!
@@ -160,6 +158,8 @@ public class OfficeCanvasView extends View {
 
 
                 mSelectedThingKey = touchedThing.getKey();
+                touchedThing.setzIndex(mOfficeLayout.getHighestzIndex() + 1);
+
                 Log.v(TAG, "Selected " + touchedThing);
                 handled = true;
                 break;
@@ -260,8 +260,7 @@ public class OfficeCanvasView extends View {
 
         OfficeThing touched = null;
 
-        //TODO: get the item with highest zindex, instead of a random one
-        for (OfficeThing thing : mOfficeLayout.values()) {
+        for (OfficeThing thing : mOfficeLayout.getThingsTopDown()) {
             int top = thing.getTop();
             int left = thing.getLeft();
             int bottom = thing.getTop() + thing.getHeight(getContext());
