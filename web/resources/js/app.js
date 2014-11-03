@@ -20,7 +20,7 @@ var app = {
   $signInButtons: null,
   $alert: null,
   $signOutButton: null,
-
+  maxZIndex: 0,
 
   /*
   * Initalize the application
@@ -105,24 +105,28 @@ var app = {
       type: type,
       rotation: 0,
       locked: false,
+      zIndex: this.maxZIndex + 1,
       name: ""
     });
   },
 
   createFurniture: function(snapshot) {
-    new Furniture(snapshot);
+    new Furniture(snapshot, this);
   },
 
   renderFurniture: function(){
     var self = this;
 
     furnitureRef.once("value", function(snapshot){
+      self.setMaxZIndex(snapshot, true);
+
       snapshot.forEach(function(childSnapshot) {
-        new Furniture(childSnapshot);
+        self.createFurniture(snapshot);
       });
     });
 
     furnitureRef.on("child_added", function(snapshot){
+      self.setMaxZIndex(snapshot);
       self.createFurniture(snapshot);
     });
   },
@@ -141,6 +145,22 @@ var app = {
   hideWelcomeScreen: function(){
     this.$welcome.addClass("is-hidden");
     this.$app.removeClass("is-hidden");
+  },
+
+  setMaxZIndex: function(snapshot, hasChildren) {
+    var value = snapshot.val();
+
+    if (hasChildren) {
+      var maxItem = _.max(value, function(item){
+        return item.zIndex;
+      });
+
+      this.maxZIndex = maxItem.zIndex;
+    }
+    else {
+      var zIndex = (value.zIndex >= this.maxZIndex) ? value.zIndex : this.maxZIndex;
+      this.maxZIndex = zIndex;
+    }
   }
 };
 
