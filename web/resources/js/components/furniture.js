@@ -8,8 +8,7 @@ var furnitureRef = new Firebase(utils.urls.furniture);
 * a normal class with the "new" keyword.
 */
 
-var Furniture = function(snapshot, options) {
-  options = options || {};
+var Furniture = function(snapshot, app) {
   var self = this;
   var data = snapshot.val();
   var elementTemplate = _.template($('#template-furniture-item').html());
@@ -24,7 +23,7 @@ var Furniture = function(snapshot, options) {
   this.element = $(element);
   this.tooltip = this.element.find(".tooltip");
   this.nameEl = this.element.find(".furniture-name");
-
+  this.app = app;
   this.id = snapshot.name();
   this.ref = snapshot.ref();
   this.type = data.type;
@@ -33,6 +32,7 @@ var Furniture = function(snapshot, options) {
   this.top = data.top;
   this.left = data.left;
   this.name = data.name;
+  this.zIndex = data.zIndex;
 
 
   /*
@@ -49,7 +49,6 @@ var Furniture = function(snapshot, options) {
   */
 
   this.render = function(){
-
     var rotateCCW = "rotate(" + (this.rotation * -1) + "deg)";  // CCW ROTATION
     var rotateCW = "translate(-29.5px, 0) rotate(" + (this.rotation) + "deg)";   // CCW ROTATION
 
@@ -59,7 +58,8 @@ var Furniture = function(snapshot, options) {
     // SET CURRENT LOCATION AND ROTATION
     this.element.css({
       "top": parseInt(this.top, 10),
-      "left": parseInt(this.left, 10)
+      "left": parseInt(this.left, 10),
+      "zIndex": parseInt(this.zIndex, 10),
     });
 
 
@@ -70,7 +70,7 @@ var Furniture = function(snapshot, options) {
 
     // SET ACTIVE STATE
     if (this.locked){
-      this.element.addClass("is-active");
+      this.element.addClass("is-active is-top");
     }
     else {
       this.element.removeClass("is-active");
@@ -79,6 +79,7 @@ var Furniture = function(snapshot, options) {
     // ADD TO DOM
     this.officeSpace.append(this.element);
   };
+
 
   /*
   * Show tooltip
@@ -104,7 +105,6 @@ var Furniture = function(snapshot, options) {
 
   this.rotate = function(){
     var rotate = (this.rotation >= 270) ? 0 : this.rotation + 90;
-
     this.ref.child("rotation").set(rotate);
   };
 
@@ -161,8 +161,8 @@ var Furniture = function(snapshot, options) {
     this.element.draggable({
       containment: self.officeSpace,
       start: function(event, ui){
-        self.element.addClass("is-active");
         self.tooltip.addClass("is-hidden");
+        self.element.addClass("is-active is-top");
         self.ref.child("locked").set(true);
       },
 
@@ -172,8 +172,13 @@ var Furniture = function(snapshot, options) {
       },
 
       stop: function(event, ui){
-        self.element.removeClass("is-active");
+        var zIndex = self.app.maxZIndex + 1;
+
+        self.element.removeClass("is-active is-top");
         self.ref.child("locked").set(false);
+        self.ref.child("zIndex").set(zIndex);
+
+        self.app.maxZIndex = zIndex;
       }
     });
 
@@ -194,11 +199,13 @@ var Furniture = function(snapshot, options) {
     this.element.remove();
   };
 
+
   /*
   * Create Furniture Element
   */
 
   this.initElement();
+
 
   /*
   * Listen for updates
@@ -217,6 +224,7 @@ var Furniture = function(snapshot, options) {
     }
     else {
       _.extend(self, value);
+      self.app.setMaxZIndex(snap);
       self.render();
     }
   });

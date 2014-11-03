@@ -8,7 +8,8 @@
 
 import UIKit
 
-let OfficeMoverFirebaseUrl = "https://mover-app-5000-demo.firebaseio.com"
+// let OfficeMoverFirebaseUrl = "https://mover-app-5000-demo.firebaseio.com"
+let OfficeMoverFirebaseUrl = "https://office-mover.firebaseio.com"
 
 class ViewController: RoomViewController {
     
@@ -30,7 +31,7 @@ class ViewController: RoomViewController {
         // Observe bacakground changes
         backgroundRef.observeEventType(.Value, withBlock: { [unowned self] snapshot in
             if let background = snapshot.value as? String {
-                self.setBackground(background)
+                self.setBackgroundLocally(background)
             }
         })
     }
@@ -51,6 +52,7 @@ class ViewController: RoomViewController {
                 view.left = furniture.left
                 view.rotation = furniture.rotation
                 view.name = furniture.name
+                view.zIndex = furniture.zIndex
             }
         })
         
@@ -90,6 +92,12 @@ class ViewController: RoomViewController {
             ])
         }
         
+        view.moveToTopHandler = {
+            currentFurnitureRef.updateChildValues([
+                "z-index": ++maxZIndex
+            ])
+        }
+        
         roomView.addSubview(view)
     }
     
@@ -99,7 +107,7 @@ class ViewController: RoomViewController {
         itemRef.setValue(furniture.toJson())
     }
     
-    func changeBackground(type: String) {
+    func setBackground(type: String) {
         backgroundRef.setValue(type)
     }
 }

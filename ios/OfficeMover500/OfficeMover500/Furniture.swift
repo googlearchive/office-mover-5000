@@ -8,26 +8,30 @@
 
 import UIKit
 
+var maxZIndex = 0
+
 class Furniture {
     
     var key : String
     var name: String
     var top : Int
     var left : Int
-    //var zIndex: Int
+    var zIndex: Int
     var rotation: Int
     var type : String
-    var locked : Bool
 
     init(key: String, json: Dictionary<String, AnyObject>) {
         self.key = key
         self.name = json["name"] as String
         self.top = json["top"] as Int
         self.left = json["left"] as Int
-        //self.zIndex = json["z-index"] as Int
+        self.zIndex = json["z-index"] as Int
         self.rotation = json["rotation"] as Int
         self.type = json["type"] as String
-        self.locked = json["locked"] as Bool
+        
+        if self.zIndex > maxZIndex {
+            maxZIndex = self.zIndex
+        }
     }
     
     // Use this when adding one locally
@@ -37,7 +41,7 @@ class Furniture {
         self.name = ""
         self.rotation = 0
         self.type = type
-        self.locked = false
+        self.zIndex = ++maxZIndex
         
         // This is a huge hack to get the right top / left location of the object
         if let image = UIImage(named:"\(type).png") {
@@ -62,16 +66,12 @@ class Furniture {
     
     func toJson() -> Dictionary<String, AnyObject> {
         return [
-            "key" : self.key,
             "top" : self.top,
             "left" : self.left,
-            //"z-index" : self.zIndex,
+            "z-index" : self.zIndex,
             "name" : self.name,
             "rotation" : self.rotation,
             "type" : self.type,
-            "locked" : self.locked
         ];
-    }
-
-    
+    }       
 }
