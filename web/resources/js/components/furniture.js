@@ -21,8 +21,8 @@ var Furniture = function(snapshot, app) {
 
   this.officeSpace = $('#office-space');
   this.element = $(element);
-  this.tooltip = this.element.children(".tooltip");
-  this.nameEl = this.element.children(".furniture-name");
+  this.tooltip = this.element.find(".tooltip");
+  this.nameEl = this.element.find(".furniture-name");
   this.app = app;
   this.id = snapshot.name();
   this.ref = snapshot.ref();
@@ -32,7 +32,7 @@ var Furniture = function(snapshot, app) {
   this.top = data.top;
   this.left = data.left;
   this.name = data.name;
-  this.zIndex = data.zIndex;
+  this.zIndex = data['z-index'];
 
 
   /*
@@ -50,7 +50,7 @@ var Furniture = function(snapshot, app) {
 
   this.render = function(){
     var rotateCCW = "rotate(" + (this.rotation * -1) + "deg)";  // CCW ROTATION
-    var rotateCW = "rotate(" + (this.rotation) + "deg)";   // CCW ROTATION
+    var rotateCW = "translate(-29.5px, 0) rotate(" + (this.rotation) + "deg)";   // CCW ROTATION
 
     // SET NAME ON DESK
     this.nameEl.text(this.name);
@@ -60,25 +60,34 @@ var Furniture = function(snapshot, app) {
       "top": parseInt(this.top, 10),
       "left": parseInt(this.left, 10),
       "zIndex": parseInt(this.zIndex, 10),
-      "transform": rotateCCW
     });
 
-    this.tooltip.css({
-      "transform": rotateCW
-    });
+
+    this.element.removeClass('rotate-0 rotate-90 rotate-180 rotate-270')
+    .addClass('rotate-' + this.rotation);
+
+    this.element.draggable('enable');
 
     // SET ACTIVE STATE
     if (this.locked){
       this.element.addClass("is-active is-top");
     }
     else {
-      this.element.removeClass("is-active");
+      this.element.removeClass("is-active  is-top");
     }
 
     // ADD TO DOM
     this.officeSpace.append(this.element);
   };
 
+
+  /*
+  * Show tooltip
+  */
+
+  this.showTooltip = function() {
+
+  };
 
   /*
   * Edit name on desk
@@ -93,20 +102,17 @@ var Furniture = function(snapshot, app) {
   /*
   * Rotate furniture
   */
+
   this.rotate = function(){
-    var rotation = this.rotation + 90;
-
-    if (rotation === 360) {
-      rotation = 0;
-    }
-
-    this.ref.child("rotation").set(rotation);
+    var rotate = (this.rotation >= 270) ? 0 : this.rotation + 90;
+    this.ref.child("rotation").set(rotate);
   };
 
 
   /*
   * Delete furniture and remove from screen
   */
+
   this.delete = function(){
     this.ref.remove();
   };
@@ -119,21 +125,21 @@ var Furniture = function(snapshot, app) {
   this.initListeners = function(){
     // SET CLICK HANDLER TO CREATE TOOLTIP
     this.element.on("click", function(e){
-
-      var $el = $(e.target);
-      var $tooltip = $el.children(".tooltip");
-      var $edit = $tooltip.children("[data-tooltip-action='edit']");
-
-      $tooltip.toggleClass("is-hidden");
+      self.tooltip.toggleClass("is-hidden");
+      self.element.toggleClass("is-active is-top");
 
       if (self.type === "desk") {
-        $edit.removeClass("is-hidden");
+        self.tooltip.addClass("has-edit");
       }
     });
 
     this.tooltip.on("click", function(e){
+      e.stopPropagation();
       var $el = $(e.target);
       var action = $el.data("tooltip-action");
+
+      self.tooltip.addClass("is-hidden");
+      self.element.removeClass("is-active is-top");
 
       switch (action) {
         case "edit": self.editName(); break;
@@ -155,6 +161,7 @@ var Furniture = function(snapshot, app) {
     this.element.draggable({
       containment: self.officeSpace,
       start: function(event, ui){
+        self.tooltip.addClass("is-hidden");
         self.element.addClass("is-active is-top");
         self.ref.child("locked").set(true);
       },
@@ -169,7 +176,7 @@ var Furniture = function(snapshot, app) {
 
         self.element.removeClass("is-active is-top");
         self.ref.child("locked").set(false);
-        self.ref.child("zIndex").set(zIndex);
+        self.ref.child("z-index").set(zIndex);
 
         self.app.maxZIndex = zIndex;
       }
@@ -216,7 +223,14 @@ var Furniture = function(snapshot, app) {
       }, 2000);
     }
     else {
-      _.extend(self, value);
+      self.type = value.type;
+      self.locked = value.locked;
+      self.rotation = value.rotation;
+      self.top = value.top;
+      self.left = value.left;
+      self.name = value.name;
+      self.zIndex = value['z-index'];
+
       self.app.setMaxZIndex(snap);
       self.render();
     }
