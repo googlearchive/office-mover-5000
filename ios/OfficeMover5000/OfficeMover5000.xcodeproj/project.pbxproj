@@ -173,7 +173,6 @@
 				5F05DA061A0018C50076D47C /* Supporting Files */,
 				63BBF9401A04112C00F74141 /* LoginViewController.swift */,
 			);
-			name = OfficeMover5000;
 			path = OfficeMover5000;
 			sourceTree = "<group>";
 		};
@@ -194,7 +193,6 @@
 				5F05DA1E1A0018C50076D47C /* OfficeMover5000Tests.swift */,
 				5F05DA1C1A0018C50076D47C /* Supporting Files */,
 			);
-			name = OfficeMover5000Tests;
 			path = OfficeMover5000Tests;
 			sourceTree = "<group>";
 		};

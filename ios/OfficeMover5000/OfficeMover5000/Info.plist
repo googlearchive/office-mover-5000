@@ -2,15 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>ProximaNova-Sbold.ttf</string>
-		<string>ProximaNova-Reg.ttf</string>
-		<string>ProximaNova-Light.ttf</string>
-		<string>ProximaNova-Bold.ttf</string>
-		<string>ProximaNova-Black.ttf</string>
-		<string>ProximaNova-Xblod.ttf</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -27,10 +18,34 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string></string>
+			<key>CFBundleURLName</key>
+			<string>com.firebase.OfficeMover5000</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.firebase.OfficeMover5000</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>ProximaNova-Sbold.ttf</string>
+		<string>ProximaNova-Reg.ttf</string>
+		<string>ProximaNova-Light.ttf</string>
+		<string>ProximaNova-Bold.ttf</string>
+		<string>ProximaNova-Black.ttf</string>
+		<string>ProximaNova-Xblod.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Main</string>
 	<key>UIMainStoryboardFile</key>

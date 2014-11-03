@@ -17,7 +17,7 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
     @IBAction func login(sender: AnyObject) {
         var signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
-        signIn.clientID = "311395164163-63vmjap9t8dsotc5hm8fmvt2ivd9m5df.apps.googleusercontent.com"
+        signIn.clientID = "311395164163-bhjoq6cb43hh1n92l7ntb8180uplbcll.apps.googleusercontent.com"
         signIn.scopes = [ kGTLAuthScopePlusLogin ]
         signIn.delegate = self
         // authenticate will do a callback to finishedWithAuth:error:
