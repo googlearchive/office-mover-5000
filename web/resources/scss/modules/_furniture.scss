@@ -6,6 +6,7 @@ $height: 62px;
   background-color: $concrete;
 
   .furniture-name {
+    display: none;
     overflow: hidden;
     width: 100%;
     margin: ($height - $basefont)/2 auto;
@@ -13,7 +14,6 @@ $height: 62px;
     line-height: $basefont;
     color: $white;
   }
-
 
   &.is-active {
     border: 2px solid $azure;
@@ -28,6 +28,10 @@ $height: 62px;
     background-size: 116px $height;
     width: 116px;
     height: $height;
+
+    .furniture-name {
+      display: block;
+    }
   }
 
   &.plant1 {
