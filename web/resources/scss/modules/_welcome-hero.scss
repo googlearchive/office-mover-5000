@@ -18,10 +18,7 @@
     padding: 10px 15px;
     margin: 0 auto;
     border-radius: 3px;
-
-    &[data-provider="google"]{
-      background-color: $google-red;
-      border: 1px solid $google-red;
-    }
+    background-color: $google-red;
+    border: 1px solid $google-red;
   }
 }

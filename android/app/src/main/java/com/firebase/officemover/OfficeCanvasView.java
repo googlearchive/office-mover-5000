@@ -3,7 +3,9 @@ package com.firebase.officemover;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -18,6 +20,7 @@ public class OfficeCanvasView extends View {
     private static final String TAG = OfficeCanvasView.class.getSimpleName();
 
     private static final Paint DEFAULT_PAINT = new Paint();
+    private static final Paint DESK_LABEL_PAINT = new Paint();
 
     /**
      * All available things
@@ -30,19 +33,31 @@ public class OfficeCanvasView extends View {
 
     public OfficeCanvasView(final Context ct) {
         super(ct);
+        init();
     }
 
     public OfficeCanvasView(final Context ct, final AttributeSet attrs) {
         super(ct, attrs);
+        init();
     }
 
     public OfficeCanvasView(final Context ct, final AttributeSet attrs, final int defStyle) {
         super(ct, attrs, defStyle);
+        init();
+    }
+
+    private void init() {
+        Log.v(TAG, "init new canvas");
+        DESK_LABEL_PAINT.setColor(Color.WHITE);
+        DESK_LABEL_PAINT.setTextSize(50);
+        DESK_LABEL_PAINT.setTextAlign(Paint.Align.CENTER);
+        DESK_LABEL_PAINT.setTypeface(Typeface.DEFAULT);
+
     }
 
     @Override
     public void onDraw(final Canvas canv) {
-        if(null == mOfficeLayout) {
+        if (null == mOfficeLayout) {
             Log.w(TAG, "Tried to render empty office");
             return;
         }
@@ -52,11 +67,30 @@ public class OfficeCanvasView extends View {
             Bitmap thingBitmap = thing.getBitmap(getContext());
 
             // If it's the selected thing, make it GLOW!
-            if(thing.getKey().equals(mSelectedThingKey)) {
+            if (thing.getKey().equals(mSelectedThingKey)) {
                 thingBitmap = thing.getGlowingBitmap(getContext());
             }
 
             canv.drawBitmap(thingBitmap, modelToScreen(thing.getLeft()), modelToScreen(thing.getTop()), DEFAULT_PAINT);
+
+            if (thing.getType().equals("desk") && thing.getName() != null) {
+                // TODO: these offset numbers are empirically determined. Calculate them instead
+                float centerX = modelToScreen(thing.getLeft()) + 102;
+                float centerY = modelToScreen(thing.getTop()) + 70;
+
+                canv.save();
+                // TODO: OMG this is so hacky. Fix it. These numbers were also empirically determined
+                if (thing.getRotation() == 180) {
+                    canv.rotate(-thing.getRotation(), centerX, centerY - 10);
+                } else if (thing.getRotation() == 90) {
+                    canv.rotate(-thing.getRotation(), centerX, centerY + 45);
+                } else if (thing.getRotation() == 270) {
+                    canv.rotate(-thing.getRotation(), centerX - 40, centerY);
+                }
+
+                canv.drawText(thing.getName(), centerX, centerY, DESK_LABEL_PAINT);
+                canv.restore();
+            }
         }
     }
 
@@ -71,6 +105,12 @@ public class OfficeCanvasView extends View {
         int pointerId;
         int actionIndex = event.getActionIndex();
 
+        int newTop;
+        int newLeft;
+        int newBottom;
+        int newRight;
+
+
         // primitive throttling
         // TODO: Make this less stupid. Use a timer for updates to firebase model every 40ms
         synchronized (mOfficeThingPointer) {
@@ -80,6 +120,7 @@ public class OfficeCanvasView extends View {
                 //noop
             }
         }
+
 
         // get touch event coordinates and make transparent wrapper from it
         switch (event.getActionMasked()) {
@@ -99,15 +140,25 @@ public class OfficeCanvasView extends View {
                     break;
                 }
 
-                //TODO: decouple this from the local model
-                touchedThing.setX(xTouch, getContext());
-                touchedThing.setY(yTouch, getContext());
-
-                if(null != this.mThingChangedListener) {
-                    mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
-                }
+                //TODO: These numbers were empirically determined for the Nexus 7. Replace with proper math
+                newTop = yTouch - touchedThing.getHeight(getContext()) / 2;
+                newLeft = xTouch - touchedThing.getWidth(getContext()) / 2;
+                newBottom = yTouch + (int) (touchedThing.getHeight(getContext()) / 3.7D);
+                newRight = xTouch + (int) (touchedThing.getWidth(getContext()) / 4.15D);
 
                 mOfficeThingPointer.put(event.getPointerId(0), touchedThing);
+
+                if (newTop >= 0 && newLeft >= 0 && newBottom <= 800 && newRight <= 600) {
+                    //TODO: decouple this from the local model
+                    touchedThing.setX(xTouch, getContext());
+                    touchedThing.setY(yTouch, getContext());
+
+                    if (null != this.mThingChangedListener) {
+                        mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                    }
+                }
+
+
                 mSelectedThingKey = touchedThing.getKey();
                 Log.v(TAG, "Selected " + touchedThing);
                 handled = true;
@@ -127,19 +178,27 @@ public class OfficeCanvasView extends View {
                     break;
                 }
 
-                mOfficeThingPointer.put(pointerId, touchedThing);
-                touchedThing.setX(xTouch, getContext());
-                touchedThing.setY(yTouch, getContext());
+                //TODO: These numbers were empirically determined for the Nexus 7. Replace with proper math
+                newTop = yTouch - touchedThing.getHeight(getContext()) / 2;
+                newLeft = xTouch - touchedThing.getWidth(getContext()) / 2;
+                newBottom = yTouch + (int) (touchedThing.getHeight(getContext()) / 3.7D);
+                newRight = xTouch + (int) (touchedThing.getWidth(getContext()) / 4.15D);
 
-                if(null != this.mThingChangedListener) {
-                    mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                mOfficeThingPointer.put(pointerId, touchedThing);
+
+                if (newTop >= 0 && newLeft >= 0 && newBottom <= 800 && newRight <= 600) {
+                    touchedThing.setX(xTouch, getContext());
+                    touchedThing.setY(yTouch, getContext());
+
+                    if (null != this.mThingChangedListener) {
+                        mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+                    }
                 }
 
                 handled = true;
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                //TODO: keep thing from getting dragged outside the board
                 final int pointerCount = event.getPointerCount();
 
                 for (actionIndex = 0; actionIndex < pointerCount; actionIndex++) {
@@ -151,21 +210,26 @@ public class OfficeCanvasView extends View {
 
                     touchedThing = mOfficeThingPointer.get(pointerId);
 
-                    if (null != touchedThing) {
-                        int newTop = yTouch - touchedThing.getHeight(getContext()) / 2;
-                        int newLeft = xTouch - touchedThing.getWidth(getContext()) / 2;
-                        int newBottom = yTouch + touchedThing.getHeight(getContext()) / 2;
-                        int newRight = xTouch + touchedThing.getWidth(getContext()) / 2;
+                    if (null == touchedThing) {
+                        break;
+                    }
 
-                        if(newTop >= 0 && newLeft >= 0 && newBottom <= 800 && newRight <= 600) {
-                            touchedThing.setX(xTouch, getContext());
-                            touchedThing.setY(yTouch, getContext());
+                    //TODO: These numbers were empirically determined for the Nexus 7. Replace with proper math
+                    newTop = yTouch - touchedThing.getHeight(getContext()) / 2;
+                    newLeft = xTouch - touchedThing.getWidth(getContext()) / 2;
+                    newBottom = yTouch + (int) (touchedThing.getHeight(getContext()) / 3.7D);
+                    newRight = xTouch + (int) (touchedThing.getWidth(getContext()) / 4.15D);
 
-                            if(null != this.mThingChangedListener) {
-                                mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
-                            }
+
+                    if (newTop >= 0 && newLeft >= 0 && newBottom <= 800 && newRight <= 600) {
+                        touchedThing.setX(xTouch, getContext());
+                        touchedThing.setY(yTouch, getContext());
+
+                        if (null != this.mThingChangedListener) {
+                            mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
                         }
                     }
+
                 }
                 handled = true;
                 break;

@@ -7,6 +7,11 @@ var userProfile = {
   template: _.template($('#template-profile').html()),
   container: $('#profile'),
 
+  /*
+  * Initalize Profile Module
+  *
+  */
+
   init: function(data) {
     var hasData = (data && data.google && data.google.cachedUserProfile);
 
@@ -16,6 +21,12 @@ var userProfile = {
     }
   },
 
+
+  /*
+  * Render Profile to DOM
+  *
+  */
+
   render: function() {
     var $profile = this.template(this.data);
 
@@ -23,4 +34,6 @@ var userProfile = {
   }
 };
 
+
+// EXPORT MODULE
 module.exports = userProfile;

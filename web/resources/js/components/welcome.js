@@ -7,15 +7,14 @@ var rootRef = new Firebase(utils.urls.root);
 * This is the module that sets up the welcome page and Google login
 */
 
-
 var welcome = {
-
   $alert: null,
   $signInButtons: null,
 
   init: function(){
     var self = this;
 
+    // REGISTER ELEMENTS
     this.$alert = $(".alert");
     this.$signInButtons = $(".welcome-hero-signin");
 
@@ -32,8 +31,9 @@ var welcome = {
         }
       });
     });
-
   }
 };
 
+
+// EXPORT MODULE
 module.exports = welcome;

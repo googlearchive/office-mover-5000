@@ -15,6 +15,12 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var addItemButton: UIBarButtonItem!
     @IBOutlet weak var backgroundButton: UIBarButtonItem!
+    @IBOutlet weak var logoutButton: UIBarButtonItem!
+    
+    
+    @IBAction func logout(sender: AnyObject) {
+        println("Logging out")
+    }
     
     var closePopover: (() -> ())?
     var popoverController: UIPopoverController?
@@ -32,6 +38,7 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
         
         navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
+        logoutButton.setTitleTextAttributes([NSFontAttributeName:font], forState: UIControlState.Normal)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
