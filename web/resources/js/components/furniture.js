@@ -144,6 +144,7 @@ var Furniture = function(snapshot, app) {
       var $el = $(e.target);
       var action = $el.data("tooltip-action");
 
+      // HIDE TOOLTIP AND DESELECT
       self.tooltip.addClass("is-hidden");
       self.element.removeClass("is-active is-top");
 

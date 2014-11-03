@@ -1,14 +1,11 @@
 .buzzwords {
   position: relative;
-  width: 100%;
+  display: block;
   height: auto;
   padding: 10px;
-  margin: 0 auto;
-
+  margin: 0px;
   line-height: 20px;
   text-align: center;
-  z-index: 1;
-
   background-color: $deep-ocean;
   color: $azure;
   font-size: $basefont + 2;
@@ -16,7 +13,7 @@
 
   span {
     display: inline-block;
-    margin: 0 5px;
+    margin: 0px 5px;
     letter-spacing: 2px;
     text-transform: uppercase;
   }
