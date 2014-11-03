@@ -32,7 +32,7 @@ var Furniture = function(snapshot, app) {
   this.top = data.top;
   this.left = data.left;
   this.name = data.name;
-  this.zIndex = data.zIndex;
+  this.zIndex = data['z-index'];
 
 
   /*
@@ -176,7 +176,7 @@ var Furniture = function(snapshot, app) {
 
         self.element.removeClass("is-active is-top");
         self.ref.child("locked").set(false);
-        self.ref.child("zIndex").set(zIndex);
+        self.ref.child("z-index").set(zIndex);
 
         self.app.maxZIndex = zIndex;
       }
