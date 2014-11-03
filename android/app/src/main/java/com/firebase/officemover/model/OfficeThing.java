@@ -11,13 +11,15 @@ import android.graphics.PorterDuff;
 import android.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OfficeThing {
 
     private static final String TAG = OfficeThing.class.getSimpleName();
     private int top;
     private int left;
-    private int zIndex;
+    @JsonProperty("z-index")
+    private int zIndex = 1;
     private String type;
     private String name;
     private int rotation;

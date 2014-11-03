@@ -22,6 +22,7 @@ class PopoverMenuController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         preferredContentSize.height = 70 * CGFloat(numItems)
+        tableView.separatorStyle = .SingleLine
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
