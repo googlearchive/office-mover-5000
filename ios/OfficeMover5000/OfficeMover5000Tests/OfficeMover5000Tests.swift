@@ -1,6 +1,6 @@
 //
-//  OfficeMover500Tests.swift
-//  OfficeMover500Tests
+//  OfficeMover5000Tests.swift
+//  OfficeMover5000Tests
 //
 //  Created by Katherine Fang on 10/28/14.
 //  Copyright (c) 2014 Firebase. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import XCTest
 
-class OfficeMover500Tests: XCTestCase {
+class OfficeMover5000Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()

@@ -11,15 +11,15 @@
 		5F05DA0B1A0018C50076D47C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA0A1A0018C50076D47C /* ViewController.swift */; };
 		5F05DA0E1A0018C50076D47C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F05DA0C1A0018C50076D47C /* Main.storyboard */; };
 		5F05DA101A0018C50076D47C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F05DA0F1A0018C50076D47C /* Images.xcassets */; };
-		5F05DA1F1A0018C50076D47C /* OfficeMover500Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA1E1A0018C50076D47C /* OfficeMover500Tests.swift */; };
+		5F05DA1F1A0018C50076D47C /* OfficeMover5000Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA1E1A0018C50076D47C /* OfficeMover5000Tests.swift */; };
 		5F05DA291A0022BB0076D47C /* FurnitureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05DA281A0022BB0076D47C /* FurnitureView.swift */; };
 		5F1F991B1A06289A00EFDB68 /* PopoverMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1F991A1A06289A00EFDB68 /* PopoverMenuController.swift */; };
 		5F2C885F1A02DE64008F77F7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C885E1A02DE64008F77F7 /* Constants.swift */; };
 		5F2C88611A02E722008F77F7 /* AddItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C88601A02E722008F77F7 /* AddItemController.swift */; };
 		5F350F271A040701003E5281 /* ChangeBackgroundController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F350F261A040701003E5281 /* ChangeBackgroundController.swift */; };
 		5F4E89011A03152900F925D7 /* PopoverMenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4E89001A03152900F925D7 /* PopoverMenuItemCell.swift */; };
+		5F7107B21A08146D0007A90B /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F7107B11A08146D0007A90B /* Firebase.framework */; };
 		5F999E681A01C01800208956 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F999E671A01C01800208956 /* RoomViewController.swift */; };
-		63BBF8F71A001E0800F74141 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8F61A001E0800F74141 /* Firebase.framework */; };
 		63BBF8F91A001E4500F74141 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8F81A001E4500F74141 /* CFNetwork.framework */; };
 		63BBF8FB1A001E4D00F74141 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8FA1A001E4D00F74141 /* libicucore.dylib */; };
 		63BBF8FD1A001E5300F74141 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF8FC1A001E5300F74141 /* SystemConfiguration.framework */; };
@@ -56,29 +56,29 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5F05DA031A0018C50076D47C /* OfficeMover500.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfficeMover500.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F05DA031A0018C50076D47C /* OfficeMover5000.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfficeMover5000.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F05DA071A0018C50076D47C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5F05DA081A0018C50076D47C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5F05DA0A1A0018C50076D47C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5F05DA0D1A0018C50076D47C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5F05DA0F1A0018C50076D47C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		5F05DA181A0018C50076D47C /* OfficeMover500Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OfficeMover500Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F05DA181A0018C50076D47C /* OfficeMover5000Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OfficeMover5000Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F05DA1D1A0018C50076D47C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5F05DA1E1A0018C50076D47C /* OfficeMover500Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeMover500Tests.swift; sourceTree = "<group>"; };
+		5F05DA1E1A0018C50076D47C /* OfficeMover5000Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeMover5000Tests.swift; sourceTree = "<group>"; };
 		5F05DA281A0022BB0076D47C /* FurnitureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FurnitureView.swift; sourceTree = "<group>"; };
 		5F1F991A1A06289A00EFDB68 /* PopoverMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverMenuController.swift; sourceTree = "<group>"; };
 		5F2C885E1A02DE64008F77F7 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5F2C88601A02E722008F77F7 /* AddItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemController.swift; sourceTree = "<group>"; };
 		5F350F261A040701003E5281 /* ChangeBackgroundController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeBackgroundController.swift; sourceTree = "<group>"; };
 		5F4E89001A03152900F925D7 /* PopoverMenuItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverMenuItemCell.swift; sourceTree = "<group>"; };
+		5F7107B11A08146D0007A90B /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		5F999E671A01C01800208956 /* RoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
-		63BBF8F61A001E0800F74141 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Firebase.framework; path = OfficeMover500/Firebase.framework; sourceTree = "<group>"; };
 		63BBF8F81A001E4500F74141 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		63BBF8FA1A001E4D00F74141 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		63BBF8FC1A001E5300F74141 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		63BBF8FE1A001E5800F74141 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63BBF9001A001E5E00F74141 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		63BBF9021A001F1A00F74141 /* OfficeMover500-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OfficeMover500-Bridging-Header.h"; sourceTree = "<group>"; };
+		63BBF9021A001F1A00F74141 /* OfficeMover5000-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OfficeMover5000-Bridging-Header.h"; sourceTree = "<group>"; };
 		63BBF9081A0023C400F74141 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		63BBF90A1A0045EF00F74141 /* Furniture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Furniture.swift; sourceTree = "<group>"; };
 		63BBF90D1A00538700F74141 /* RoomSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomSync.swift; sourceTree = "<group>"; };
@@ -117,10 +117,10 @@
 				63BBF9451A07BBDC00F74141 /* AssetsLibrary.framework in Frameworks */,
 				63BBF9431A07BBD500F74141 /* AddressBook.framework in Frameworks */,
 				63BBF9011A001E5E00F74141 /* libc++.dylib in Frameworks */,
+				5F7107B21A08146D0007A90B /* Firebase.framework in Frameworks */,
 				63BBF9571A07BC7600F74141 /* GoogleOpenSource.framework in Frameworks */,
 				63BBF8FB1A001E4D00F74141 /* libicucore.dylib in Frameworks */,
 				63BBF8F91A001E4500F74141 /* CFNetwork.framework in Frameworks */,
-				63BBF8F71A001E0800F74141 /* Firebase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				63BBF9051A00227700F74141 /* Frameworks */,
-				5F05DA051A0018C50076D47C /* OfficeMover500 */,
-				5F05DA1B1A0018C50076D47C /* OfficeMover500Tests */,
+				5F05DA051A0018C50076D47C /* OfficeMover5000 */,
+				5F05DA1B1A0018C50076D47C /* OfficeMover5000Tests */,
 				5F05DA041A0018C50076D47C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -147,13 +147,13 @@
 		5F05DA041A0018C50076D47C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5F05DA031A0018C50076D47C /* OfficeMover500.app */,
-				5F05DA181A0018C50076D47C /* OfficeMover500Tests.xctest */,
+				5F05DA031A0018C50076D47C /* OfficeMover5000.app */,
+				5F05DA181A0018C50076D47C /* OfficeMover5000Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5F05DA051A0018C50076D47C /* OfficeMover500 */ = {
+		5F05DA051A0018C50076D47C /* OfficeMover5000 */ = {
 			isa = PBXGroup;
 			children = (
 				63BBF90C1A00537500F74141 /* Adapters */,
@@ -169,11 +169,12 @@
 				5F05DA0A1A0018C50076D47C /* ViewController.swift */,
 				5F05DA0C1A0018C50076D47C /* Main.storyboard */,
 				5F05DA0F1A0018C50076D47C /* Images.xcassets */,
-				63BBF9021A001F1A00F74141 /* OfficeMover500-Bridging-Header.h */,
+				63BBF9021A001F1A00F74141 /* OfficeMover5000-Bridging-Header.h */,
 				5F05DA061A0018C50076D47C /* Supporting Files */,
 				63BBF9401A04112C00F74141 /* LoginViewController.swift */,
 			);
-			path = OfficeMover500;
+			name = OfficeMover5000;
+			path = OfficeMover5000;
 			sourceTree = "<group>";
 		};
 		5F05DA061A0018C50076D47C /* Supporting Files */ = {
@@ -187,13 +188,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5F05DA1B1A0018C50076D47C /* OfficeMover500Tests */ = {
+		5F05DA1B1A0018C50076D47C /* OfficeMover5000Tests */ = {
 			isa = PBXGroup;
 			children = (
-				5F05DA1E1A0018C50076D47C /* OfficeMover500Tests.swift */,
+				5F05DA1E1A0018C50076D47C /* OfficeMover5000Tests.swift */,
 				5F05DA1C1A0018C50076D47C /* Supporting Files */,
 			);
-			path = OfficeMover500Tests;
+			name = OfficeMover5000Tests;
+			path = OfficeMover5000Tests;
 			sourceTree = "<group>";
 		};
 		5F05DA1C1A0018C50076D47C /* Supporting Files */ = {
@@ -216,6 +218,7 @@
 		63BBF9051A00227700F74141 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F7107B11A08146D0007A90B /* Firebase.framework */,
 				63BBF9561A07BC7600F74141 /* GoogleOpenSource.framework */,
 				63BBF9541A07BC5900F74141 /* GooglePlus.framework */,
 				63BBF9521A07BC2B00F74141 /* UIKit.framework */,
@@ -227,7 +230,6 @@
 				63BBF9461A07BBE200F74141 /* Foundation.framework */,
 				63BBF9441A07BBDC00F74141 /* AssetsLibrary.framework */,
 				63BBF9421A07BBD500F74141 /* AddressBook.framework */,
-				63BBF8F61A001E0800F74141 /* Firebase.framework */,
 				63BBF9001A001E5E00F74141 /* libc++.dylib */,
 				63BBF8FE1A001E5800F74141 /* Security.framework */,
 				63BBF8FC1A001E5300F74141 /* SystemConfiguration.framework */,
@@ -248,9 +250,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5F05DA021A0018C50076D47C /* OfficeMover500 */ = {
+		5F05DA021A0018C50076D47C /* OfficeMover5000 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5F05DA221A0018C50076D47C /* Build configuration list for PBXNativeTarget "OfficeMover500" */;
+			buildConfigurationList = 5F05DA221A0018C50076D47C /* Build configuration list for PBXNativeTarget "OfficeMover5000" */;
 			buildPhases = (
 				5F05D9FF1A0018C50076D47C /* Sources */,
 				5F05DA001A0018C50076D47C /* Frameworks */,
@@ -260,14 +262,14 @@
 			);
 			dependencies = (
 			);
-			name = OfficeMover500;
-			productName = OfficeMover500;
-			productReference = 5F05DA031A0018C50076D47C /* OfficeMover500.app */;
+			name = OfficeMover5000;
+			productName = OfficeMover5000;
+			productReference = 5F05DA031A0018C50076D47C /* OfficeMover5000.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5F05DA171A0018C50076D47C /* OfficeMover500Tests */ = {
+		5F05DA171A0018C50076D47C /* OfficeMover5000Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5F05DA251A0018C50076D47C /* Build configuration list for PBXNativeTarget "OfficeMover500Tests" */;
+			buildConfigurationList = 5F05DA251A0018C50076D47C /* Build configuration list for PBXNativeTarget "OfficeMover5000Tests" */;
 			buildPhases = (
 				5F05DA141A0018C50076D47C /* Sources */,
 				5F05DA151A0018C50076D47C /* Frameworks */,
@@ -278,9 +280,9 @@
 			dependencies = (
 				5F05DA1A1A0018C50076D47C /* PBXTargetDependency */,
 			);
-			name = OfficeMover500Tests;
-			productName = OfficeMover500Tests;
-			productReference = 5F05DA181A0018C50076D47C /* OfficeMover500Tests.xctest */;
+			name = OfficeMover5000Tests;
+			productName = OfficeMover5000Tests;
+			productReference = 5F05DA181A0018C50076D47C /* OfficeMover5000Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -302,7 +304,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5F05D9FE1A0018C50076D47C /* Build configuration list for PBXProject "OfficeMover500" */;
+			buildConfigurationList = 5F05D9FE1A0018C50076D47C /* Build configuration list for PBXProject "OfficeMover5000" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -315,8 +317,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5F05DA021A0018C50076D47C /* OfficeMover500 */,
-				5F05DA171A0018C50076D47C /* OfficeMover500Tests */,
+				5F05DA021A0018C50076D47C /* OfficeMover5000 */,
+				5F05DA171A0018C50076D47C /* OfficeMover5000Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -348,6 +350,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F05DA091A0018C50076D47C /* AppDelegate.swift in Sources */,
 				63BBF9411A04112C00F74141 /* LoginViewController.swift in Sources */,
 				5F350F271A040701003E5281 /* ChangeBackgroundController.swift in Sources */,
 				63BBF90E1A00538700F74141 /* RoomSync.swift in Sources */,
@@ -355,7 +358,6 @@
 				5F999E681A01C01800208956 /* RoomViewController.swift in Sources */,
 				5F05DA0B1A0018C50076D47C /* ViewController.swift in Sources */,
 				5F05DA291A0022BB0076D47C /* FurnitureView.swift in Sources */,
-				5F05DA091A0018C50076D47C /* AppDelegate.swift in Sources */,
 				5F4E89011A03152900F925D7 /* PopoverMenuItemCell.swift in Sources */,
 				5F2C88611A02E722008F77F7 /* AddItemController.swift in Sources */,
 				63BBF9091A0023C400F74141 /* Room.swift in Sources */,
@@ -368,7 +370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F05DA1F1A0018C50076D47C /* OfficeMover500Tests.swift in Sources */,
+				5F05DA1F1A0018C50076D47C /* OfficeMover5000Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,7 +379,7 @@
 /* Begin PBXTargetDependency section */
 		5F05DA1A1A0018C50076D47C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5F05DA021A0018C50076D47C /* OfficeMover500 */;
+			target = 5F05DA021A0018C50076D47C /* OfficeMover5000 */;
 			targetProxy = 5F05DA191A0018C50076D47C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -482,16 +484,16 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/OfficeMover500",
+					"$(PROJECT_DIR)/OfficeMover5000",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = OfficeMover500/Info.plist;
+				INFOPLIST_FILE = OfficeMover5000/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OfficeMover5000;
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "OfficeMover500/OfficeMover500-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "OfficeMover5000/OfficeMover5000-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -506,16 +508,16 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/OfficeMover500",
+					"$(PROJECT_DIR)/OfficeMover5000",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = OfficeMover500/Info.plist;
+				INFOPLIST_FILE = OfficeMover5000/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OfficeMover5000;
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "OfficeMover500/OfficeMover500-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "OfficeMover5000/OfficeMover5000-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
@@ -532,10 +534,10 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = OfficeMover500Tests/Info.plist;
+				INFOPLIST_FILE = OfficeMover5000Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OfficeMover500.app/OfficeMover500";
+				PRODUCT_NAME = OfficeMover5000Tests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OfficeMover5000.app/OfficeMover5000";
 			};
 			name = Debug;
 		};
@@ -547,17 +549,17 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = OfficeMover500Tests/Info.plist;
+				INFOPLIST_FILE = OfficeMover5000Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OfficeMover500.app/OfficeMover500";
+				PRODUCT_NAME = OfficeMover5000Tests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OfficeMover5000.app/OfficeMover5000";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5F05D9FE1A0018C50076D47C /* Build configuration list for PBXProject "OfficeMover500" */ = {
+		5F05D9FE1A0018C50076D47C /* Build configuration list for PBXProject "OfficeMover5000" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5F05DA201A0018C50076D47C /* Debug */,
@@ -566,7 +568,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5F05DA221A0018C50076D47C /* Build configuration list for PBXNativeTarget "OfficeMover500" */ = {
+		5F05DA221A0018C50076D47C /* Build configuration list for PBXNativeTarget "OfficeMover5000" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5F05DA231A0018C50076D47C /* Debug */,
@@ -575,7 +577,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5F05DA251A0018C50076D47C /* Build configuration list for PBXNativeTarget "OfficeMover500Tests" */ = {
+		5F05DA251A0018C50076D47C /* Build configuration list for PBXNativeTarget "OfficeMover5000Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5F05DA261A0018C50076D47C /* Debug */,

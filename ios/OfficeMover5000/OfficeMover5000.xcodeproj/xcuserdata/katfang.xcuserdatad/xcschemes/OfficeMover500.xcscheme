@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5F05DA021A0018C50076D47C"
-               BuildableName = "OfficeMover500.app"
-               BlueprintName = "OfficeMover500"
-               ReferencedContainer = "container:OfficeMover500.xcodeproj">
+               BuildableName = "OfficeMover5000.app"
+               BlueprintName = "OfficeMover5000"
+               ReferencedContainer = "container:OfficeMover5000.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5F05DA171A0018C50076D47C"
-               BuildableName = "OfficeMover500Tests.xctest"
-               BlueprintName = "OfficeMover500Tests"
-               ReferencedContainer = "container:OfficeMover500.xcodeproj">
+               BuildableName = "OfficeMover5000Tests.xctest"
+               BlueprintName = "OfficeMover5000Tests"
+               ReferencedContainer = "container:OfficeMover5000.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5F05DA171A0018C50076D47C"
-               BuildableName = "OfficeMover500Tests.xctest"
-               BlueprintName = "OfficeMover500Tests"
-               ReferencedContainer = "container:OfficeMover500.xcodeproj">
+               BuildableName = "OfficeMover5000Tests.xctest"
+               BlueprintName = "OfficeMover5000Tests"
+               ReferencedContainer = "container:OfficeMover5000.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5F05DA021A0018C50076D47C"
-            BuildableName = "OfficeMover500.app"
-            BlueprintName = "OfficeMover500"
-            ReferencedContainer = "container:OfficeMover500.xcodeproj">
+            BuildableName = "OfficeMover5000.app"
+            BlueprintName = "OfficeMover5000"
+            ReferencedContainer = "container:OfficeMover5000.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5F05DA021A0018C50076D47C"
-            BuildableName = "OfficeMover500.app"
-            BlueprintName = "OfficeMover500"
-            ReferencedContainer = "container:OfficeMover500.xcodeproj">
+            BuildableName = "OfficeMover5000.app"
+            BlueprintName = "OfficeMover5000"
+            ReferencedContainer = "container:OfficeMover5000.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5F05DA021A0018C50076D47C"
-            BuildableName = "OfficeMover500.app"
-            BlueprintName = "OfficeMover500"
-            ReferencedContainer = "container:OfficeMover500.xcodeproj">
+            BuildableName = "OfficeMover5000.app"
+            BlueprintName = "OfficeMover5000"
+            ReferencedContainer = "container:OfficeMover5000.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
