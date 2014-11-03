@@ -2,6 +2,8 @@
 .furniture {
   position: absolute !important;
   background-color: $concrete;
+  border: 2px solid transparent;
+  box-sizing: border-box;
 
   .furniture-name {
     display: none;

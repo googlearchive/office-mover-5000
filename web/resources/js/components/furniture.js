@@ -126,6 +126,7 @@ var Furniture = function(snapshot, options) {
     // SET CLICK HANDLER TO CREATE TOOLTIP
     this.element.on("click", function(e){
       self.tooltip.toggleClass("is-hidden");
+      self.element.toggleClass("is-active");
 
       if (self.type === "desk") {
         self.tooltip.addClass("has-edit");
@@ -133,8 +134,12 @@ var Furniture = function(snapshot, options) {
     });
 
     this.tooltip.on("click", function(e){
+      e.stopPropagation();
       var $el = $(e.target);
       var action = $el.data("tooltip-action");
+
+      self.tooltip.addClass("is-hidden");
+      self.element.removeClass("is-active");
 
       switch (action) {
         case "edit": self.editName(); break;
@@ -157,6 +162,7 @@ var Furniture = function(snapshot, options) {
       containment: self.officeSpace,
       start: function(event, ui){
         self.element.addClass("is-active");
+        self.tooltip.addClass("is-hidden");
         self.ref.child("locked").set(true);
       },
 
