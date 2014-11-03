@@ -4,3 +4,6 @@
 .is-visible {
   display: block !important;
 }
+.is-top {
+  z-index: 2147483647 !important;
+}

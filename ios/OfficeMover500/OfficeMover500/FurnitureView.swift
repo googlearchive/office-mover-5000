@@ -231,9 +231,12 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
     func triggerEdit(sender:AnyObject) {
         let alert = UIAlertView(title: "Who sits here?", message: "Enter name below", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK")
         alert.alertViewStyle = UIAlertViewStyle.PlainTextInput;
-        alert.textFieldAtIndex(0)?.text = name
-        alert.textFieldAtIndex(0)?.placeholder = "Name"
-        alert.textFieldAtIndex(0)?.delegate = self
+        if let textField = alert.textFieldAtIndex(0) {
+            textField.text = name
+            textField.placeholder = "Name"
+            textField.delegate = self
+            textField.autocapitalizationType = .Words
+        }
         alert.show()
     }
     
@@ -313,10 +316,10 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         }
         menuListener = NSNotificationCenter.defaultCenter().addObserverForName(UIMenuControllerWillHideMenuNotification, object:nil, queue: nil, usingBlock: {
             notification in
-            if self.dragging == .Dragging {
+            if self.dragging == .Dragging || self.dragging == .None {
                 self.menuShowing = false
             }
-            if self.dragging == .None || self.dragging == .Maybe {
+            if self.dragging == .None {
                 self.hideShadow()
             }
             NSNotificationCenter.defaultCenter().removeObserver(self.menuListener!)

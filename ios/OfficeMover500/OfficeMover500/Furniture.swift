@@ -19,7 +19,6 @@ class Furniture {
     var zIndex: Int
     var rotation: Int
     var type : String
-    var locked : Bool
 
     init(key: String, json: Dictionary<String, AnyObject>) {
         self.key = key
@@ -29,7 +28,6 @@ class Furniture {
         self.zIndex = json["z-index"] as Int
         self.rotation = json["rotation"] as Int
         self.type = json["type"] as String
-        self.locked = json["locked"] as Bool
         
         if self.zIndex > maxZIndex {
             maxZIndex = self.zIndex
@@ -43,7 +41,6 @@ class Furniture {
         self.name = ""
         self.rotation = 0
         self.type = type
-        self.locked = false
         self.zIndex = ++maxZIndex
         
         // This is a huge hack to get the right top / left location of the object
@@ -75,9 +72,6 @@ class Furniture {
             "name" : self.name,
             "rotation" : self.rotation,
             "type" : self.type,
-            "locked" : self.locked
         ];
-    }
-
-    
+    }       
 }
