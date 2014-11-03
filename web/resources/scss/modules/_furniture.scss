@@ -3,6 +3,7 @@
   position: absolute !important;
   border: 2px solid transparent;
   box-sizing: border-box;
+  cursor: pointer;
 
   &.is-active {
     border: 2px solid $azure;
@@ -71,6 +72,7 @@
       height: 62px;
       margin-left: -58px;
       margin-top: -31px;
+      overflow: hidden;
     }
   }
 

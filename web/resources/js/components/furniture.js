@@ -11,36 +11,42 @@ var furnitureRef = new Firebase(utils.urls.furniture);
 var Furniture = function(snapshot, app) {
   var self = this;
   var data = snapshot.val();
-  var elementTemplate = _.template($('#template-furniture-item').html());
-  var element = elementTemplate().trim();
-
-  /*
-  * Register Furniture Values
-  *
-  */
-
-  this.officeSpace = $('#office-space');
-  this.element = $(element);
-  this.tooltip = this.element.find(".tooltip");
-  this.nameEl = this.element.find(".furniture-name");
+  var template = _.template($('#template-furniture-item').html());
   this.app = app;
   this.id = snapshot.name();
   this.ref = snapshot.ref();
-  this.type = data.type;
-  this.locked = data.locked;
-  this.rotation = data.rotation;
-  this.top = data.top;
-  this.left = data.left;
-  this.name = data.name;
-  this.zIndex = data['z-index'];
-
 
   /*
-  * Create Firebase Reference
+  * Update Furniture Values
   *
   */
 
-  this.ref  = new Firebase(utils.urls.furniture + this.id);
+  this.updateValues = function (data) {
+    this.type = data.type;
+    this.locked = data.locked;
+    this.rotation = data.rotation;
+    this.top = data.top;
+    this.left = data.left;
+    this.name = data.name;
+    this.zIndex = data['z-index'];
+  };
+
+  this.updateValues(data);
+
+
+  /*
+  * Register DOM ELEMENTS
+  *
+  */
+  var furniture = template({
+    type: this.type,
+    name: this.name
+  });
+
+  this.officeSpace = $('#office-space');
+  this.element = $(furniture.trim());
+  this.tooltip = this.element.find(".tooltip");
+  this.nameEl = this.element.find(".furniture-name");
 
 
   /*
@@ -49,31 +55,28 @@ var Furniture = function(snapshot, app) {
   */
 
   this.render = function(){
-    var rotateCCW = "rotate(" + (this.rotation * -1) + "deg)";  // CCW ROTATION
-    var rotateCW = "translate(-29.5px, 0) rotate(" + (this.rotation) + "deg)";   // CCW ROTATION
+    // SET DESK NAME
+    if(this.type === 'desk') {
+      this.nameEl.text(this.name);
+    }
 
-    // SET NAME ON DESK
-    this.nameEl.text(this.name);
-
-    // SET CURRENT LOCATION AND ROTATION
+    // SET CURRENT LOCATION ON CANVAS
     this.element.css({
       "top": parseInt(this.top, 10),
       "left": parseInt(this.left, 10),
       "zIndex": parseInt(this.zIndex, 10),
     });
 
-
+    // ROTATE ELEMENT
     this.element.removeClass('rotate-0 rotate-90 rotate-180 rotate-270')
     .addClass('rotate-' + this.rotation);
-
-    this.element.draggable('enable');
 
     // SET ACTIVE STATE
     if (this.locked){
       this.element.addClass("is-active is-top");
     }
     else {
-      this.element.removeClass("is-active  is-top");
+      this.element.removeClass("is-active is-top");
     }
 
     // ADD TO DOM
@@ -88,6 +91,7 @@ var Furniture = function(snapshot, app) {
   this.showTooltip = function() {
 
   };
+
 
   /*
   * Edit name on desk
@@ -115,6 +119,20 @@ var Furniture = function(snapshot, app) {
 
   this.delete = function(){
     this.ref.remove();
+  };
+
+
+  /*
+  * Destroy element
+  */
+
+  this.destroy = function() {
+    this.ref.off();
+    this.element.addClass('animated fadeOut');
+
+    setTimeout(function() {
+      self.element.remove();
+    }, 2000);
   };
 
 
@@ -151,12 +169,32 @@ var Furniture = function(snapshot, app) {
 
 
   /*
+  * Listen for updates
+  */
+
+  this.ref.on("value", function(snap){
+    var value = snap.val();
+
+    if(value === null) {
+      //FURNITURE HAS BEEN DELETED
+      self.destroy();
+    }
+    else {
+      // FURNITURE UPDATED WITH NEW VALUES
+      self.updateValues(value);
+
+      self.app.setMaxZIndex(snap);
+      self.render();
+    }
+  });
+
+
+  /*
   * Initialize furniture module
   *
   */
 
   this.initElement = function() {
-
     //SET DRAG OPTIONS
     this.element.draggable({
       containment: self.officeSpace,
@@ -173,69 +211,27 @@ var Furniture = function(snapshot, app) {
 
       stop: function(event, ui){
         var zIndex = self.app.maxZIndex + 1;
-
         self.element.removeClass("is-active is-top");
         self.ref.child("locked").set(false);
         self.ref.child("z-index").set(zIndex);
-
         self.app.maxZIndex = zIndex;
       }
     });
 
     // SET IMAGE FOR ELEMENT AND INIT TOOLTIP
-    this.element.addClass(this.type);
     this.initListeners();
 
     // RENDER
     this.render();
   };
 
-
-  /*
-  * Destroy element
-  */
-
-  this.destroy = function() {
-    this.element.remove();
-  };
-
-
   /*
   * Create Furniture Element
   */
 
   this.initElement();
-
-
-  /*
-  * Listen for updates
-  */
-
-  this.ref.on("value", function(snap){
-    var value = snap.val();
-
-    if(value === null) {
-      self.ref.off();
-      self.element.addClass('animated fadeOut');
-
-      setTimeout(function() {
-        self.destroy();
-      }, 2000);
-    }
-    else {
-      self.type = value.type;
-      self.locked = value.locked;
-      self.rotation = value.rotation;
-      self.top = value.top;
-      self.left = value.left;
-      self.name = value.name;
-      self.zIndex = value['z-index'];
-
-      self.app.setMaxZIndex(snap);
-      self.render();
-    }
-  });
-
 };
 
+
+// EXPORT MODULE
 module.exports = Furniture;
