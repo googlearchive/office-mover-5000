@@ -43,6 +43,7 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
         if let popoverSegue = segue as? UIStoryboardPopoverSegue {
             self.popoverController = popoverSegue.popoverController
             self.popoverController?.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
+
         }
         
         if let controller = segue.destinationViewController as? AddItemController {

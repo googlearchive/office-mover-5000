@@ -18,6 +18,13 @@ class ChangeBackgroundController : PopoverMenuController {
     
     override var numItems: Int { return Floors.count }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.contentInset = UIEdgeInsetsMake(15, 0, 15, 15);
+        preferredContentSize.height += 30
+
+    }
+    
     override func dismissIOS7Popover() {
         delegate?.dismissPopover()
     }
