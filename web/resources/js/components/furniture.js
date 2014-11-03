@@ -73,7 +73,7 @@ var Furniture = function(snapshot, app) {
       this.element.addClass("is-active is-top");
     }
     else {
-      this.element.removeClass("is-active");
+      this.element.removeClass("is-active  is-top");
     }
 
     // ADD TO DOM
@@ -126,7 +126,7 @@ var Furniture = function(snapshot, app) {
     // SET CLICK HANDLER TO CREATE TOOLTIP
     this.element.on("click", function(e){
       self.tooltip.toggleClass("is-hidden");
-      self.element.toggleClass("is-active");
+      self.element.toggleClass("is-active is-top");
 
       if (self.type === "desk") {
         self.tooltip.addClass("has-edit");
@@ -139,7 +139,7 @@ var Furniture = function(snapshot, app) {
       var action = $el.data("tooltip-action");
 
       self.tooltip.addClass("is-hidden");
-      self.element.removeClass("is-active");
+      self.element.removeClass("is-active is-top");
 
       switch (action) {
         case "edit": self.editName(); break;
@@ -223,7 +223,14 @@ var Furniture = function(snapshot, app) {
       }, 2000);
     }
     else {
-      _.extend(self, value);
+      self.type = value.type;
+      self.locked = value.locked;
+      self.rotation = value.rotation;
+      self.top = value.top;
+      self.left = value.left;
+      self.name = value.name;
+      self.zIndex = value['z-index'];
+
       self.app.setMaxZIndex(snap);
       self.render();
     }
