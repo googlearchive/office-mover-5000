@@ -1,32 +1,8 @@
 
 .furniture {
   position: absolute !important;
-  background-color: $concrete;
   border: 2px solid transparent;
   box-sizing: border-box;
-
-  .furniture-name {
-    display: none;
-    text-align: center;
-    line-height: 62px;
-    display: block;
-    color: $white;
-  }
-
-  &.rotate-90 {
-    transform: rotate(90deg);
-    transform-origin: 50% 50%;
-  }
-
-  &.rotate-180 {
-    transform: rotate(180deg);
-    transform-origin: 50% 50%;
-  }
-
-  &.rotate-270 {
-    transform: rotate(270deg);
-    transform-origin: 50% 50%;
-  }
 
   &.is-active {
     border: 2px solid $azure;
@@ -36,92 +12,273 @@
     opacity: .75
   }
 
+  .furniture-name {
+    display: none;
+    text-align: center;
+    line-height: 62px;
+    display: block;
+    color: $white;
+  }
+
+  .furniture-background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+  }
+
+  &.rotate-90 {
+    .furniture-background {
+      transform: rotate(90deg);
+      transform-origin: 50% 50%;
+
+    }
+  }
+
+  &.rotate-180 {
+    .furniture-background {
+      transform: rotate(180deg);
+      transform-origin: 50% 50%;
+    }
+  }
+
+
+  &.rotate-270 {
+    .furniture-background {
+      transform: rotate(270deg);
+      transform-origin: 50% 50%;
+    }
+  }
+
   &.desk {
-    background: url('../images/furniture/desk.png') center center no-repeat;
-    background-size: 116px 62px;
     width: 116px;
     height: 62px;
-    border-radius: 3px;
+
+    &.rotate-270,
+    &.rotate-90  {
+      width: 62px;
+      height: 116px;
+    }
 
     .furniture-name {
       display: block;
     }
+
+    .furniture-background {
+      background: url('../images/furniture/desk.png') center center no-repeat;
+      background-size: 116px 62px;
+      width: 116px;
+      height: 62px;
+      margin-left: -58px;
+      margin-top: -31px;
+    }
   }
 
   &.plant1 {
-    background: url('../images/furniture/plant1.png') center center no-repeat;
-    background-size: 50px 53px;
     width: 50px;
     height: 53px;
+
+    &.rotate-270,
+    &.rotate-90  {
+      width: 53px;
+      height: 50px;
+    }
+
+    .furniture-background {
+      background: url('../images/furniture/plant1.png') center center no-repeat;
+      background-size: 50px 53px;
+      width: 50px;
+      height: 53px;
+      margin-left: -25px;
+      margin-top: -26.5px;
+    }
   }
 
   &.plant2 {
-    background: url('../images/furniture/plant2.png') center center no-repeat;
-    background-size: 50px 50px;
     width: 50px;
     height: 50px;
+
+    .furniture-background {
+      background: url('../images/furniture/plant2.png') center center no-repeat;
+      background-size: 50px 50px;
+      width: 50px;
+      height: 50px;
+      margin-left: -25px;
+      margin-top: -25px;
+    }
   }
 
   &.pingpong {
-    background: url('../images/furniture/pingpong.png') center center no-repeat;
-    background-size: 192px 125px;
     width: 192px;
     height: 125px;
+
+    &.rotate-270,
+    &.rotate-90  {
+      width: 125px;
+      height: 192px;
+    }
+
+    .furniture-background {
+      background: url('../images/furniture/pingpong.png') center center no-repeat;
+      background-size: 192px 125px;
+      width: 192px;
+      height: 125px;
+      margin-left: -96px;
+      margin-top: -62.5px;
+    }
   }
 
   &.ballpit {
-    background: url('../images/furniture/ballpit.png') center center no-repeat;
-    background-size: 113px 113px;
     width: 113px;
     height: 113px;
+
+    .furniture-background {
+      background: url('../images/furniture/ballpit.png') center center no-repeat;
+      background-size: 113px 113px;
+      width: 113px;
+      height: 113px;
+      margin-left: -56.5px;
+      margin-top: -56.5px;
+    }
   }
 
   &.pacman {
-    background: url('../images/furniture/pacman.png') center center no-repeat;
-    background-size: 100px 67px;
     width: 100px;
     height: 67px;
+
+    &.rotate-270,
+    &.rotate-90  {
+      width: 67px;
+      height: 100px;
+    }
+
+    .furniture-background {
+      background: url('../images/furniture/pacman.png') center center no-repeat;
+      background-size: 100px 67px;
+      width: 100px;
+      height: 67px;
+      margin-left: -50px;
+      margin-top: -33.5px;
+    }
   }
 
   &.laptop {
-    background: url('../images/furniture/laptop.png') center center no-repeat;
-    background-size: 40px 29px;
     width: 40px;
     height: 29px;
+
+    &.rotate-270,
+    &.rotate-90  {
+      width: 29px;
+      height: 40px;
+    }
+
+    .furniture-background {
+      background: url('../images/furniture/laptop.png') center center no-repeat;
+      background-size: 40px 29px;
+      width: 40px;
+      height: 29px;
+      margin-left: -20px;
+      margin-top: -14.5px;
+    }
   }
 
   &.nerfgun {
-    background: url('../images/furniture/nerfgun.png') center center no-repeat;
-    background-size: 40px 36px;
     width: 40px;
     height: 36px;
+
+    &.rotate-270,
+    &.rotate-90  {
+      width: 36px;
+      height: 40px;
+    }
+
+    .furniture-background {
+      background: url('../images/furniture/nerfgun.png') center center no-repeat;
+      background-size: 40px 36px;
+      width: 40px;
+      height: 36px;
+      margin-left: -20px;
+      margin-top: -16px;
+    }
   }
 
   &.android {
-    background: url('../images/furniture/android.png') center center no-repeat;
-    background-size: 45px 50px;
     width: 45px;
     height: 50px;
+
+    &.rotate-270,
+    &.rotate-90  {
+      width: 50px;
+      height: 45px;
+    }
+
+    .furniture-background {
+      background: url('../images/furniture/android.png') center center no-repeat;
+      background-size: 45px 50px;
+      width: 45px;
+      height: 50px;
+      margin-left: -22.5px;
+      margin-top: -25px;
+    }
   }
 
   &.dog_corgi {
-    background: url('../images/furniture/dog_corgi.png') center center no-repeat;
-    background-size: 32px 63px;
     width: 32px;
     height: 63px;
+
+    &.rotate-270,
+    &.rotate-90  {
+      width: 63px;
+      height: 32px;
+    }
+
+    .furniture-background {
+      background: url('../images/furniture/dog_corgi.png') center center no-repeat;
+      background-size: 32px 63px;
+      width: 32px;
+      height: 63px;
+      margin-left: -16px;
+      margin-top: -31.5px;
+    }
   }
 
   &.dog_retriever {
-    background: url('../images/furniture/dog_retriever.png') center center no-repeat;
-    background-size: 90px 49px;
     width: 90px;
     height: 49px;
+
+    &.rotate-270,
+    &.rotate-90  {
+      width: 49px;
+      height: 90px;
+    }
+
+    .furniture-background {
+      background: url('../images/furniture/dog_retriever.png') center center no-repeat;
+      background-size: 90px 49px;
+      width: 90px;
+      height: 49px;
+      margin-left: -45px;
+      margin-top: -24.5px;
+    }
   }
 
   &.redstapler {
-    background: url('../images/furniture/redstapler.png') center center no-repeat;
-    background-size: 32px 12px;
     width: 32px;
     height: 12px;
+
+    &.rotate-270,
+    &.rotate-90  {
+      width: 12px;
+      height: 32px;
+    }
+
+    .furniture-background {
+      background: url('../images/furniture/redstapler.png') center center no-repeat;
+      background-size: 32px 12px;
+      width: 32px;
+      height: 12px;
+      margin-left: -16px;
+      margin-top: -6px;
+    }
   }
 }
