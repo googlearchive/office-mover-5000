@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9RZ-A7-6QH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dZX-Lh-g6S">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -29,7 +29,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5k-YH-Fp7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1663" y="-313"/>
+            <point key="canvasLocation" x="2475" y="-313"/>
         </scene>
         <!--Change Background Controller-->
         <scene sceneID="PV8-ow-I6Y">
@@ -55,7 +55,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ogs-Lo-LXz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1677" y="409"/>
+            <point key="canvasLocation" x="2489" y="409"/>
         </scene>
         <!--Office Mover 5000-->
         <scene sceneID="tne-QT-ifu">
@@ -121,29 +121,75 @@
                     </connections>
                 </barButtonItem>
             </objects>
-            <point key="canvasLocation" x="741" y="-8"/>
+            <point key="canvasLocation" x="1553" y="-8"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="lPV-n8-7z6">
+            <objects>
+                <viewController id="JKf-eg-aUL" customClass="LoginViewController" customModule="OfficeMover500" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Vfp-mp-Zfg"/>
+                        <viewControllerLayoutGuide type="bottom" id="eqc-HO-aBd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="afa-bN-DFA">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="logoAndName" translatesAutoresizingMaskIntoConstraints="NO" id="HdE-fJ-c8y">
+                                <rect key="frame" x="0.0" y="-8" width="600" height="600"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="swF-rL-myt">
+                                <rect key="frame" x="219" y="515" width="163" height="42"/>
+                                <color key="backgroundColor" red="0.8901960784313725" green="0.30588235294117649" blue="0.20000000000000001" alpha="1" colorSpace="deviceRGB"/>
+                                <inset key="contentEdgeInsets" minX="14" minY="14" maxX="14" maxY="14"/>
+                                <state key="normal" title="Sign in with Google">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="login:" destination="JKf-eg-aUL" eventType="touchUpInside" id="ohO-Xa-d2z"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="HdE-fJ-c8y" secondAttribute="centerX" id="417-fE-BpF"/>
+                            <constraint firstAttribute="centerY" secondItem="HdE-fJ-c8y" secondAttribute="centerY" id="b2v-Tr-zSy"/>
+                            <constraint firstAttribute="centerX" secondItem="swF-rL-myt" secondAttribute="centerX" id="hFk-oR-KbO"/>
+                            <constraint firstAttribute="centerY" secondItem="swF-rL-myt" secondAttribute="centerY" constant="-240" id="r2C-Ii-bWN"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="RiH-f3-UJP"/>
+                    <connections>
+                        <outlet property="btLogin" destination="swF-rL-myt" id="hqV-y0-Uhj"/>
+                        <segue destination="BYZ-38-t0r" kind="show" id="mPT-2n-KZB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bUf-NS-TmY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="708" y="-8"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="fHv-e3-sM1">
+        <scene sceneID="Ahb-fG-dUz">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9RZ-A7-6QH" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dZX-Lh-g6S" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lHN-Ua-zaJ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="V2F-NV-2NG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Uuu-ZM-SJR"/>
+                        <segue destination="JKf-eg-aUL" kind="relationship" relationship="rootViewController" id="yMZ-lU-uUQ"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PwV-3L-3l5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XdM-z0-nie" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-71" y="-8"/>
+            <point key="canvasLocation" x="-104" y="-8"/>
         </scene>
     </scenes>
     <resources>
         <image name="add" width="22" height="22"/>
         <image name="backgrounds" width="29" height="22"/>
+        <image name="logoAndName" width="250" height="350"/>
     </resources>
 </document>

@@ -28,7 +28,7 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
         nav?.barTintColor = TopbarBlue
         nav?.barStyle = UIBarStyle.Default
         nav?.tintColor = UIColor.whiteColor()
-        var font: UIFont = UIFont(name: "Proxima Nova", size: 20)!
+        var font: UIFont = UIFont(name: "ProximaNova-Light", size: 20)!
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
         
         navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]

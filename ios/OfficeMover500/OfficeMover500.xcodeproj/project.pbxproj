@@ -29,6 +29,20 @@
 		63BBF90B1A0045EF00F74141 /* Furniture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BBF90A1A0045EF00F74141 /* Furniture.swift */; };
 		63BBF90E1A00538700F74141 /* RoomSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BBF90D1A00538700F74141 /* RoomSync.swift */; };
 		63BBF93B1A02C7A500F74141 /* ProximaNova-Sbold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63BBF93A1A02C74500F74141 /* ProximaNova-Sbold.ttf */; };
+		63BBF93D1A02EFF100F74141 /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63BBF93C1A02EFE700F74141 /* ProximaNova-Light.ttf */; };
+		63BBF93F1A02F0D200F74141 /* ProximaNova-Reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63BBF93E1A02F0C000F74141 /* ProximaNova-Reg.ttf */; };
+		63BBF9411A04112C00F74141 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BBF9401A04112C00F74141 /* LoginViewController.swift */; };
+		63BBF9431A07BBD500F74141 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9421A07BBD500F74141 /* AddressBook.framework */; };
+		63BBF9451A07BBDC00F74141 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9441A07BBDC00F74141 /* AssetsLibrary.framework */; };
+		63BBF9471A07BBE200F74141 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9461A07BBE200F74141 /* Foundation.framework */; };
+		63BBF9491A07BBE900F74141 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9481A07BBE900F74141 /* CoreLocation.framework */; };
+		63BBF94B1A07BBF000F74141 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF94A1A07BBF000F74141 /* CoreMotion.framework */; };
+		63BBF94D1A07BBF600F74141 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF94C1A07BBF600F74141 /* CoreGraphics.framework */; };
+		63BBF94F1A07BBFE00F74141 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF94E1A07BBFE00F74141 /* CoreText.framework */; };
+		63BBF9511A07BC0700F74141 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9501A07BC0700F74141 /* MediaPlayer.framework */; };
+		63BBF9531A07BC2B00F74141 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9521A07BC2B00F74141 /* UIKit.framework */; };
+		63BBF9551A07BC5900F74141 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9541A07BC5900F74141 /* GooglePlus.framework */; };
+		63BBF9571A07BC7600F74141 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BBF9561A07BC7600F74141 /* GoogleOpenSource.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +83,20 @@
 		63BBF90A1A0045EF00F74141 /* Furniture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Furniture.swift; sourceTree = "<group>"; };
 		63BBF90D1A00538700F74141 /* RoomSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomSync.swift; sourceTree = "<group>"; };
 		63BBF93A1A02C74500F74141 /* ProximaNova-Sbold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Sbold.ttf"; sourceTree = "<group>"; };
+		63BBF93C1A02EFE700F74141 /* ProximaNova-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Light.ttf"; sourceTree = "<group>"; };
+		63BBF93E1A02F0C000F74141 /* ProximaNova-Reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Reg.ttf"; sourceTree = "<group>"; };
+		63BBF9401A04112C00F74141 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		63BBF9421A07BBD500F74141 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		63BBF9441A07BBDC00F74141 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		63BBF9461A07BBE200F74141 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		63BBF9481A07BBE900F74141 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		63BBF94A1A07BBF000F74141 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		63BBF94C1A07BBF600F74141 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		63BBF94E1A07BBFE00F74141 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		63BBF9501A07BC0700F74141 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		63BBF9521A07BC2B00F74141 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		63BBF9541A07BC5900F74141 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlus.framework; sourceTree = "<group>"; };
+		63BBF9561A07BC7600F74141 /* GoogleOpenSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleOpenSource.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,9 +104,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63BBF9011A001E5E00F74141 /* libc++.dylib in Frameworks */,
-				63BBF8FF1A001E5800F74141 /* Security.framework in Frameworks */,
+				63BBF9531A07BC2B00F74141 /* UIKit.framework in Frameworks */,
+				63BBF9551A07BC5900F74141 /* GooglePlus.framework in Frameworks */,
 				63BBF8FD1A001E5300F74141 /* SystemConfiguration.framework in Frameworks */,
+				63BBF8FF1A001E5800F74141 /* Security.framework in Frameworks */,
+				63BBF9511A07BC0700F74141 /* MediaPlayer.framework in Frameworks */,
+				63BBF94F1A07BBFE00F74141 /* CoreText.framework in Frameworks */,
+				63BBF94D1A07BBF600F74141 /* CoreGraphics.framework in Frameworks */,
+				63BBF94B1A07BBF000F74141 /* CoreMotion.framework in Frameworks */,
+				63BBF9491A07BBE900F74141 /* CoreLocation.framework in Frameworks */,
+				63BBF9471A07BBE200F74141 /* Foundation.framework in Frameworks */,
+				63BBF9451A07BBDC00F74141 /* AssetsLibrary.framework in Frameworks */,
+				63BBF9431A07BBD500F74141 /* AddressBook.framework in Frameworks */,
+				63BBF9011A001E5E00F74141 /* libc++.dylib in Frameworks */,
+				63BBF9571A07BC7600F74141 /* GoogleOpenSource.framework in Frameworks */,
 				63BBF8FB1A001E4D00F74141 /* libicucore.dylib in Frameworks */,
 				63BBF8F91A001E4500F74141 /* CFNetwork.framework in Frameworks */,
 				63BBF8F71A001E0800F74141 /* Firebase.framework in Frameworks */,
@@ -132,6 +171,7 @@
 				5F05DA0F1A0018C50076D47C /* Images.xcassets */,
 				63BBF9021A001F1A00F74141 /* OfficeMover500-Bridging-Header.h */,
 				5F05DA061A0018C50076D47C /* Supporting Files */,
+				63BBF9401A04112C00F74141 /* LoginViewController.swift */,
 			);
 			path = OfficeMover500;
 			sourceTree = "<group>";
@@ -139,7 +179,9 @@
 		5F05DA061A0018C50076D47C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				63BBF93C1A02EFE700F74141 /* ProximaNova-Light.ttf */,
 				63BBF93A1A02C74500F74141 /* ProximaNova-Sbold.ttf */,
+				63BBF93E1A02F0C000F74141 /* ProximaNova-Reg.ttf */,
 				5F05DA071A0018C50076D47C /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -174,6 +216,17 @@
 		63BBF9051A00227700F74141 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63BBF9561A07BC7600F74141 /* GoogleOpenSource.framework */,
+				63BBF9541A07BC5900F74141 /* GooglePlus.framework */,
+				63BBF9521A07BC2B00F74141 /* UIKit.framework */,
+				63BBF9501A07BC0700F74141 /* MediaPlayer.framework */,
+				63BBF94E1A07BBFE00F74141 /* CoreText.framework */,
+				63BBF94C1A07BBF600F74141 /* CoreGraphics.framework */,
+				63BBF94A1A07BBF000F74141 /* CoreMotion.framework */,
+				63BBF9481A07BBE900F74141 /* CoreLocation.framework */,
+				63BBF9461A07BBE200F74141 /* Foundation.framework */,
+				63BBF9441A07BBDC00F74141 /* AssetsLibrary.framework */,
+				63BBF9421A07BBD500F74141 /* AddressBook.framework */,
 				63BBF8F61A001E0800F74141 /* Firebase.framework */,
 				63BBF9001A001E5E00F74141 /* libc++.dylib */,
 				63BBF8FE1A001E5800F74141 /* Security.framework */,
@@ -276,6 +329,8 @@
 				5F05DA0E1A0018C50076D47C /* Main.storyboard in Resources */,
 				5F05DA101A0018C50076D47C /* Images.xcassets in Resources */,
 				63BBF93B1A02C7A500F74141 /* ProximaNova-Sbold.ttf in Resources */,
+				63BBF93D1A02EFF100F74141 /* ProximaNova-Light.ttf in Resources */,
+				63BBF93F1A02F0D200F74141 /* ProximaNova-Reg.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63BBF9411A04112C00F74141 /* LoginViewController.swift in Sources */,
 				5F350F271A040701003E5281 /* ChangeBackgroundController.swift in Sources */,
 				63BBF90E1A00538700F74141 /* RoomSync.swift in Sources */,
 				63BBF90B1A0045EF00F74141 /* Furniture.swift in Sources */,
@@ -427,6 +483,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OfficeMover500",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = OfficeMover500/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -450,6 +507,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OfficeMover500",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = OfficeMover500/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
