@@ -17,13 +17,11 @@ class ViewController: RoomViewController {
         let view = FurnitureView(furniture: furniture)
         
         let furnitureRef = furnitureListRef.childByAppendingPath(furniture.key)
+        let furnitureNameRef = furnitureRef.childByAppendingPath("name")
 
-        furnitureRef.observeEventType(.Value, withBlock: { snapshot in
-            if snapshot.value as? NSNull != NSNull() {
-                let furniture = Furniture(snap: snapshot)
-                view.setViewState(furniture)
-            }
-        })
+        view.editHandler = { name in
+            furnitureNameRef.setValue(name)
+        }
         
         view.moveHandler = { top, left in
             furnitureRef.updateChildValues([
@@ -40,11 +38,11 @@ class ViewController: RoomViewController {
             ])
         }
         
-        view.editHandler = { name in
-            furnitureRef.updateChildValues([
-                "name": name
-            ])
-        }
+        furnitureRef.observeEventType(.Value, withBlock: { snapshot in
+            let furniture = Furniture(snap: snapshot)
+            view.setViewState(furniture)
+        })
+        
         self.roomView.addSubview(view)
     }
 }
