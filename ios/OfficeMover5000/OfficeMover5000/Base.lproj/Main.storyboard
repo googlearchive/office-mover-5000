@@ -29,7 +29,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5k-YH-Fp7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2475" y="-313"/>
+            <point key="canvasLocation" x="3287" y="-313"/>
         </scene>
         <!--Change Background Controller-->
         <scene sceneID="PV8-ow-I6Y">
@@ -55,7 +55,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ogs-Lo-LXz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2489" y="409"/>
+            <point key="canvasLocation" x="3301" y="409"/>
         </scene>
         <!--Office Mover 5000-->
         <scene sceneID="tne-QT-ifu">
@@ -108,20 +108,20 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <barButtonItem image="add" id="YPx-24-DjD">
                     <connections>
-                        <segue destination="Iv4-t6-v02" kind="popoverPresentation" identifier="addItemPopoverSegue" popoverAnchorBarButtonItem="YPx-24-DjD" id="d6F-OU-wtz">
+                        <segue destination="Iv4-t6-v02" kind="popoverPresentation" identifier="ADD_ITEM" popoverAnchorBarButtonItem="YPx-24-DjD" id="d6F-OU-wtz">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
                     </connections>
                 </barButtonItem>
                 <barButtonItem image="backgrounds" id="ep3-aJ-GKY">
                     <connections>
-                        <segue destination="wof-UY-25b" kind="popoverPresentation" identifier="changeBackgroundPopoverSegue" popoverAnchorBarButtonItem="ep3-aJ-GKY" id="tUS-gq-6tE">
+                        <segue destination="wof-UY-25b" kind="popoverPresentation" identifier="CHANGE_BACKGROUND" popoverAnchorBarButtonItem="ep3-aJ-GKY" id="tUS-gq-6tE">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
                     </connections>
                 </barButtonItem>
             </objects>
-            <point key="canvasLocation" x="1553" y="-8"/>
+            <point key="canvasLocation" x="2365" y="-8"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="lPV-n8-7z6">
@@ -161,7 +161,7 @@
                     <navigationItem key="navigationItem" id="RiH-f3-UJP"/>
                     <connections>
                         <outlet property="btLogin" destination="swF-rL-myt" id="hqV-y0-Uhj"/>
-                        <segue destination="BYZ-38-t0r" kind="show" id="mPT-2n-KZB"/>
+                        <segue destination="q0H-Of-M7c" kind="show" identifier="LOGGED_IN" id="mPT-2n-KZB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bUf-NS-TmY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -185,6 +185,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XdM-z0-nie" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-104" y="-8"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="VXq-jK-ehR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="q0H-Of-M7c" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wu1-4w-BRE">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Dmf-uc-79c"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vVE-c9-2u1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1553" y="-8"/>
         </scene>
     </scenes>
     <resources>

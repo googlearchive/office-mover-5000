@@ -9,10 +9,25 @@
 import UIKit
 
 class LoginViewController: UIViewController, GPPSignInDelegate {
-    
-    let OfficeMoverFirebaseUrl = "https://office-mover.firebaseio.com"
+
+    let ref = Firebase(url: OfficeMoverFirebaseUrl)
+    var authData: FAuthData?
+    var authHandler: UInt!
     
     @IBOutlet var btLogin: UIButton!
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Automatically log in when we are auth'd
+        authHandler = ref.observeAuthEventWithBlock({
+            [unowned self] authData in
+            if authData != nil {
+                self.ref.removeAuthEventObserverWithHandle(self.authHandler)
+                self.performSegueWithIdentifier("LOGGED_IN", sender: self)
+            }
+        })
+    }
     
     @IBAction func login(sender: AnyObject) {
         var signIn = GPPSignIn.sharedInstance()
@@ -25,12 +40,10 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
     }
     
     func finishedWithAuth(auth: GTMOAuth2Authentication!, error: NSError!) {
-        
         if error != nil {
             // There was an error obtaining the Google+ OAuth Token
         } else {
             // We successfully obtained an OAuth token, authenticate on Firebase with it
-            let ref = Firebase(url: OfficeMoverFirebaseUrl)
             ref.authWithOAuthProvider("google", token: auth.accessToken,
                 withCompletionBlock: { error, authData in
                     if error != nil {

@@ -16,7 +16,6 @@ class ViewController: RoomViewController {
     let ref = Firebase(url: OfficeMoverFirebaseUrl)
     let furnitureRef = Firebase(url: "\(OfficeMoverFirebaseUrl)/furniture")
     let backgroundRef = Firebase(url: "\(OfficeMoverFirebaseUrl)/background")
-    var room = Room(json: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +23,6 @@ class ViewController: RoomViewController {
         // Load the furniture items from Firebase
         furnitureRef.observeEventType(.ChildAdded, withBlock: { [unowned self] snapshot in
             var furniture = Furniture(snap: snapshot)
-            self.room.addFurniture(furniture)
             self.createFurnitureView(furniture)
         })
         
