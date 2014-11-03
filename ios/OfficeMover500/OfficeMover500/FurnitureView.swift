@@ -127,6 +127,15 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside)
     }
     
+    // set state
+    func setViewState(model: Furniture) {
+        self.top = model.top
+        self.left = model.left
+        self.rotation = model.rotation
+        self.name = model.name
+        self.zIndex = model.zIndex
+    }
+    
     // -- Methods for updating the view
     func delete() {
         if menuShowing {
