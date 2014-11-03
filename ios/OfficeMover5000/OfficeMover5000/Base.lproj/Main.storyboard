@@ -123,7 +123,7 @@
             </objects>
             <point key="canvasLocation" x="2365" y="-8"/>
         </scene>
-        <!--Login View Controller-->
+        <!--SYNERGY, THOUGHT LEADERSHIP, TPS REPORTS ...-->
         <scene sceneID="lPV-n8-7z6">
             <objects>
                 <viewController id="JKf-eg-aUL" customClass="LoginViewController" customModule="OfficeMover5000" customModuleProvider="target" sceneMemberID="viewController">
@@ -158,7 +158,7 @@
                             <constraint firstAttribute="centerY" secondItem="swF-rL-myt" secondAttribute="centerY" constant="-240" id="r2C-Ii-bWN"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="RiH-f3-UJP"/>
+                    <navigationItem key="navigationItem" title="SYNERGY, THOUGHT LEADERSHIP, TPS REPORTS ..." id="RiH-f3-UJP"/>
                     <connections>
                         <outlet property="btLogin" destination="swF-rL-myt" id="hqV-y0-Uhj"/>
                         <segue destination="q0H-Of-M7c" kind="show" identifier="LOGGED_IN" id="mPT-2n-KZB"/>

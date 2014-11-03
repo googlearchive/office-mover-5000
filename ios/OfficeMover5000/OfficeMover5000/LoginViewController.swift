@@ -18,6 +18,13 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        var nav = self.navigationController?.navigationBar
+        nav?.barTintColor = TopbarBlue
+        nav?.barStyle = UIBarStyle.Default
+        nav?.tintColor = UIColor.whiteColor()
+        var font: UIFont = UIFont(name: "ProximaNova-Light", size: 20)!
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
         
         // Automatically log in when we are auth'd
         authHandler = ref.observeAuthEventWithBlock({
