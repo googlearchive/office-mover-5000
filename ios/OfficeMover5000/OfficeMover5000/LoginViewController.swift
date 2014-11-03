@@ -30,6 +30,7 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
     }
     
     func autoLogin() {
+        println("autoLogin")
         // If we already have an auth observer, remove that one.
         if authHandler != nil {
             ref.removeAuthEventObserverWithHandle(authHandler)
@@ -39,6 +40,7 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
         authHandler = ref.observeAuthEventWithBlock({
             [unowned self] authData in
             if authData != nil {
+                println("LOGGED_IN")
                 self.ref.removeAuthEventObserverWithHandle(self.authHandler)
                 self.performSegueWithIdentifier("LOGGED_IN", sender: self)
             }
@@ -46,6 +48,7 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
     }
     
     @IBAction func login(sender: AnyObject) {
+        println("Logging in!")
         var signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
         signIn.clientID = "311395164163-bhjoq6cb43hh1n92l7ntb8180uplbcll.apps.googleusercontent.com"

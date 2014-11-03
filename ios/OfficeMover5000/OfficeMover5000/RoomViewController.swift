@@ -17,9 +17,10 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     @IBOutlet weak var backgroundButton: UIBarButtonItem!
     @IBOutlet weak var logoutButton: UIBarButtonItem!
     
-    
     @IBAction func logout(sender: AnyObject) {
-        println("Logging out")
+        let ref = Firebase(url: OfficeMoverFirebaseUrl)
+        ref.unauth()
+        self.performSegueWithIdentifier("LOGGED_OUT", sender: self)
     }
     
     var closePopover: (() -> ())?
@@ -38,7 +39,10 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
         
         navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
+        navigationItem.setHidesBackButton(true, animated: false)
+        
         logoutButton.setTitleTextAttributes([NSFontAttributeName:font], forState: UIControlState.Normal)
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
