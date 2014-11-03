@@ -75,14 +75,16 @@
                             </view>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tzx-AT-yQs" userLabel="Layout">
                                 <rect key="frame" x="0.0" y="-132" width="620" height="820"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H65-Mr-WCT" userLabel="Room">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="800"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="800" id="CJf-aH-cTO"/>
+                                            <constraint firstAttribute="width" constant="600" id="EN3-vt-O2i"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H65-Mr-WCT" userLabel="Room">
-                                <rect key="frame" x="0.0" y="-132" width="600" height="800"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="800" id="CJf-aH-cTO"/>
-                                    <constraint firstAttribute="width" constant="600" id="EN3-vt-O2i"/>
-                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -90,18 +92,38 @@
                             <constraint firstAttribute="centerX" secondItem="CVe-pd-Xax" secondAttribute="centerX" id="49S-ze-b81"/>
                             <constraint firstAttribute="centerX" secondItem="Tzx-AT-yQs" secondAttribute="centerX" id="VNK-YZ-Oi1"/>
                             <constraint firstAttribute="centerY" secondItem="CVe-pd-Xax" secondAttribute="centerY" id="WsX-CD-HnG"/>
-                            <constraint firstAttribute="centerY" secondItem="H65-Mr-WCT" secondAttribute="centerY" id="XKy-e2-AhY"/>
-                            <constraint firstAttribute="centerX" secondItem="H65-Mr-WCT" secondAttribute="centerX" id="Y27-U7-P3W"/>
                             <constraint firstAttribute="centerY" secondItem="Tzx-AT-yQs" secondAttribute="centerY" id="ir0-xP-DPD"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Office Mover 5000" id="b7u-bo-S1M"/>
+                    <navigationItem key="navigationItem" title="Inetech Executive Mover 5000" id="b7u-bo-S1M">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="3hu-j7-M5n">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="q0d-4l-J13">
+                                <rect key="frame" x="524" y="7" width="70" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <bool key="isElement" value="NO"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <state key="normal" title="Sign Out" backgroundImage="logoutbtn">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logout:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7FD-el-bsg"/>
+                                </connections>
+                            </button>
+                            <connections>
+                                <action selector="logout:" destination="BYZ-38-t0r" id="7Aa-pw-wlq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="addItemButton" destination="YPx-24-DjD" id="ET4-UG-AVH"/>
                         <outlet property="backgroundButton" destination="ep3-aJ-GKY" id="JMP-EN-66w"/>
                         <outlet property="backgroundView" destination="CVe-pd-Xax" id="IsV-oW-Zr0"/>
                         <outlet property="layoutView" destination="Tzx-AT-yQs" id="I2f-yE-jsX"/>
+                        <outlet property="logoutButton" destination="3hu-j7-M5n" id="Xcs-I2-DhA"/>
                         <outlet property="roomView" destination="H65-Mr-WCT" id="rpl-Q4-vmj"/>
                     </connections>
                 </viewController>
@@ -123,7 +145,7 @@
             </objects>
             <point key="canvasLocation" x="2365" y="-8"/>
         </scene>
-        <!--Login View Controller-->
+        <!--SYNERGY, THOUGHT LEADERSHIP, TPS REPORTS ...-->
         <scene sceneID="lPV-n8-7z6">
             <objects>
                 <viewController id="JKf-eg-aUL" customClass="LoginViewController" customModule="OfficeMover5000" customModuleProvider="target" sceneMemberID="viewController">
@@ -158,7 +180,7 @@
                             <constraint firstAttribute="centerY" secondItem="swF-rL-myt" secondAttribute="centerY" constant="-240" id="r2C-Ii-bWN"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="RiH-f3-UJP"/>
+                    <navigationItem key="navigationItem" title="SYNERGY, THOUGHT LEADERSHIP, TPS REPORTS ..." id="RiH-f3-UJP"/>
                     <connections>
                         <outlet property="btLogin" destination="swF-rL-myt" id="hqV-y0-Uhj"/>
                         <segue destination="q0H-Of-M7c" kind="show" identifier="LOGGED_IN" id="mPT-2n-KZB"/>
@@ -209,5 +231,6 @@
         <image name="add" width="22" height="22"/>
         <image name="backgrounds" width="29" height="22"/>
         <image name="logoAndName" width="250" height="350"/>
+        <image name="logoutbtn" width="36" height="16"/>
     </resources>
 </document>

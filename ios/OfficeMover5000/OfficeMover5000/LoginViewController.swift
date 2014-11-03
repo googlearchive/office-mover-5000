@@ -18,6 +18,22 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        var nav = self.navigationController?.navigationBar
+        nav?.barTintColor = TopbarBlue
+        nav?.barStyle = UIBarStyle.Default
+        nav?.tintColor = UIColor.whiteColor()
+        var font: UIFont = UIFont(name: "ProximaNova-Light", size: 20)!
+        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
+        
+        autoLogin()
+    }
+    
+    func autoLogin() {
+        // If we already have an auth observer, remove that one.
+        if authHandler != nil {
+            ref.removeAuthEventObserverWithHandle(authHandler)
+        }
         
         // Automatically log in when we are auth'd
         authHandler = ref.observeAuthEventWithBlock({
@@ -33,7 +49,7 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
         var signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
         signIn.clientID = "311395164163-bhjoq6cb43hh1n92l7ntb8180uplbcll.apps.googleusercontent.com"
-        signIn.scopes = [ kGTLAuthScopePlusLogin ]
+        signIn.scopes = [] // We pass an empty array to force Google login instead of Google+ login
         signIn.delegate = self
         // authenticate will do a callback to finishedWithAuth:error:
         signIn.authenticate()
@@ -45,7 +61,8 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
         } else {
             // We successfully obtained an OAuth token, authenticate on Firebase with it
             ref.authWithOAuthProvider("google", token: auth.accessToken,
-                withCompletionBlock: { error, authData in
+                withCompletionBlock: { [unowned self] error, authData in
+                    self.autoLogin()
                     if error != nil {
                         // Error authenticating with Firebase with OAuth token
                     } else {

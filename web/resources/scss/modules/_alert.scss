@@ -1,17 +1,11 @@
-@import 'options';
-
 .alert {
-  position: relative;
   width: 300px;
-  padding: 5px 10px;
-  margin: 10px auto 0;
-
+  padding: 10px 20px;
+  margin: 40px auto 0px auto;
   line-height: 20px;
   text-align: center;
-  z-index: 1;
-
-  color: $salmon;
+  color: $google-red;
   background-color: $pink;
-  border: 2px solid $salmon;
-  border-radius: $border-radius;
+  border: 2px solid $google-red;
+  border-radius: 5px;
 }
