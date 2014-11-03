@@ -163,6 +163,7 @@
 				5F05DA281A0022BB0076D47C /* FurnitureView.swift */,
 				5F999E671A01C01800208956 /* RoomViewController.swift */,
 				5F1F991A1A06289A00EFDB68 /* PopoverMenuController.swift */,
+				63BBF9401A04112C00F74141 /* LoginViewController.swift */,
 				5F2C88601A02E722008F77F7 /* AddItemController.swift */,
 				5F350F261A040701003E5281 /* ChangeBackgroundController.swift */,
 				5F4E89001A03152900F925D7 /* PopoverMenuItemCell.swift */,
@@ -171,7 +172,6 @@
 				5F05DA0F1A0018C50076D47C /* Images.xcassets */,
 				63BBF9021A001F1A00F74141 /* OfficeMover5000-Bridging-Header.h */,
 				5F05DA061A0018C50076D47C /* Supporting Files */,
-				63BBF9401A04112C00F74141 /* LoginViewController.swift */,
 			);
 			path = OfficeMover5000;
 			sourceTree = "<group>";

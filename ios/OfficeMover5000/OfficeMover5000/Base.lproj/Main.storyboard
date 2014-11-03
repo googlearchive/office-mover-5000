@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="q0H-Of-M7c">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dZX-Lh-g6S">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -108,14 +108,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <barButtonItem image="add" id="YPx-24-DjD">
                     <connections>
-                        <segue destination="Iv4-t6-v02" kind="popoverPresentation" identifier="addItemPopoverSegue" popoverAnchorBarButtonItem="YPx-24-DjD" id="d6F-OU-wtz">
+                        <segue destination="Iv4-t6-v02" kind="popoverPresentation" identifier="ADD_ITEM" popoverAnchorBarButtonItem="YPx-24-DjD" id="d6F-OU-wtz">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
                     </connections>
                 </barButtonItem>
                 <barButtonItem image="backgrounds" id="ep3-aJ-GKY">
                     <connections>
-                        <segue destination="wof-UY-25b" kind="popoverPresentation" identifier="changeBackgroundPopoverSegue" popoverAnchorBarButtonItem="ep3-aJ-GKY" id="tUS-gq-6tE">
+                        <segue destination="wof-UY-25b" kind="popoverPresentation" identifier="CHANGE_BACKGROUND" popoverAnchorBarButtonItem="ep3-aJ-GKY" id="tUS-gq-6tE">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
                     </connections>
@@ -161,7 +161,7 @@
                     <navigationItem key="navigationItem" id="RiH-f3-UJP"/>
                     <connections>
                         <outlet property="btLogin" destination="swF-rL-myt" id="hqV-y0-Uhj"/>
-                        <segue destination="q0H-Of-M7c" kind="show" id="mPT-2n-KZB"/>
+                        <segue destination="q0H-Of-M7c" kind="show" identifier="LOGGED_IN" id="mPT-2n-KZB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bUf-NS-TmY" userLabel="First Responder" sceneMemberID="firstResponder"/>
