@@ -63,6 +63,8 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     func setBackgroundLocally(type: String) {
         if let image = UIImage(named:"\(type).png") {
             backgroundView.backgroundColor = UIColor(patternImage: image)
+        } else {
+            backgroundView.backgroundColor = UIColor.clearColor()
         }
     }
 }
