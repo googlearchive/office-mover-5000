@@ -11,6 +11,19 @@ class PopoverMenuItemCell : UITableViewCell {
     
     var name: String?
     
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        println(textLabel.font)
+        textLabel.font = UIFont(name: "ProximaNova-Light", size: 20)
+        textLabel.textColor = UnselectedGrey
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    
     override func setHighlighted(highlighted: Bool, animated: Bool) {
         if highlighted {
             backgroundColor = BorderBlue.colorWithAlphaComponent(0.5)

@@ -50,6 +50,7 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
         if let popoverSegue = segue as? UIStoryboardPopoverSegue {
             self.popoverController = popoverSegue.popoverController
             self.popoverController?.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
+
         }
         
         if let controller = segue.destinationViewController as? AddItemController {
@@ -70,6 +71,8 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     func setBackgroundLocally(type: String) {
         if let image = UIImage(named:"\(type).png") {
             backgroundView.backgroundColor = UIColor(patternImage: image)
+        } else {
+            backgroundView.backgroundColor = UIColor.clearColor()
         }
     }
 }

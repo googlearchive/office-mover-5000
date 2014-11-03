@@ -99,7 +99,9 @@ var Furniture = function(snapshot, app) {
   */
 
   this.rotate = function(){
-    var rotate = (this.rotation >= 270) ? 0 : this.rotation + 90;
+    var rotate = (this.rotation <= 0) ? 270 : this.rotation - 90;
+
+
     this.ref.child("rotation").set(rotate);
   };
 

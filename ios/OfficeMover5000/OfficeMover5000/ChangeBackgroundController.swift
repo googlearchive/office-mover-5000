@@ -18,6 +18,13 @@ class ChangeBackgroundController : PopoverMenuController {
     
     override var numItems: Int { return Floors.count }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.contentInset = UIEdgeInsetsMake(15, 0, 15, 15);
+        preferredContentSize.height += 30
+
+    }
+    
     override func dismissIOS7Popover() {
         delegate?.dismissPopover()
     }
@@ -26,7 +33,19 @@ class ChangeBackgroundController : PopoverMenuController {
         cell.textLabel.text = Floors[row].0
         cell.name = Floors[row].1
         let imageName = Floors[row].1
-        cell.imageView.image = UIImage(named: "\(imageName)_unselected.png")
+        if let image = UIImage(named: "\(imageName)_unselected.png") {
+            cell.imageView.image = image
+        } else if imageName == "" {
+            // Create blank image ths size of wood
+            if let woodImage = UIImage(named: "wood_unselected.png") {
+                UIGraphicsBeginImageContextWithOptions(woodImage.size, false, 0.0)
+                let blankImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                cell.imageView.image = blankImage
+            }
+
+        }
+        
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
