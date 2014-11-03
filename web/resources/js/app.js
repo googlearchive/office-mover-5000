@@ -149,13 +149,16 @@ var app = {
 
   setMaxZIndex: function(snapshot, hasChildren) {
     var value = snapshot.val();
-    var zIndex = (value.zIndex >= this.maxZIndex) ? value.zIndex : this.maxZIndex;
 
-    if(hasChildren) {
-      var maxItem = _.max(value, function(item) { return item.zIndex; });
-      this.maxZIndex = zIndex;
+    if (hasChildren) {
+      var maxItem = _.max(value, function(item){
+        return item.zIndex;
+      });
+
+      this.maxZIndex = maxItem.zIndex;
     }
     else {
+      var zIndex = (value.zIndex >= this.maxZIndex) ? value.zIndex : this.maxZIndex;
       this.maxZIndex = zIndex;
     }
   }
