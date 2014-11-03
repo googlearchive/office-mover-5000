@@ -59,13 +59,14 @@ var Furniture = function(snapshot, options) {
     // SET CURRENT LOCATION AND ROTATION
     this.element.css({
       "top": parseInt(this.top, 10),
-      "left": parseInt(this.left, 10),
-      "transform": rotateCCW
+      "left": parseInt(this.left, 10)
     });
 
-    this.tooltip.css({
-      "transform": rotateCW
-    });
+
+    this.element.removeClass('rotate-0 rotate-90 rotate-180 rotate-270')
+    .addClass('rotate-' + this.rotation);
+
+    this.element.draggable('enable');
 
     // SET ACTIVE STATE
     if (this.locked){
@@ -100,8 +101,11 @@ var Furniture = function(snapshot, options) {
   /*
   * Rotate furniture
   */
+
   this.rotate = function(){
-    this.ref.child("rotation").set(this.rotation + 90);
+    var rotate = (this.rotation >= 270) ? 0 : this.rotation + 90;
+
+    this.ref.child("rotation").set(rotate);
   };
 
 

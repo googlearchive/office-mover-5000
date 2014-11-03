@@ -1,18 +1,29 @@
-$height: 62px;
 
 .furniture {
   position: absolute !important;
-  border-radius: $border-radius;
   background-color: $concrete;
 
   .furniture-name {
     display: none;
-    overflow: hidden;
-    width: 100%;
-    margin: ($height - $basefont)/2 auto;
     text-align: center;
-    line-height: $basefont;
+    line-height: 62px;
+    display: block;
     color: $white;
+  }
+
+  &.rotate-90 {
+    transform: rotate(90deg);
+    transform-origin: 50% 50%;
+  }
+
+  &.rotate-180 {
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+  }
+
+  &.rotate-270 {
+    transform: rotate(270deg);
+    transform-origin: 50% 50%;
   }
 
   &.is-active {
@@ -25,9 +36,10 @@ $height: 62px;
 
   &.desk {
     background: url('../images/furniture/desk.png') center center no-repeat;
-    background-size: 116px $height;
+    background-size: 116px 62px;
     width: 116px;
-    height: $height;
+    height: 62px;
+    border-radius: 3px;
 
     .furniture-name {
       display: block;
