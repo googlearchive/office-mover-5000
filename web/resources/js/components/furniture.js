@@ -85,15 +85,6 @@ var Furniture = function(snapshot, app) {
 
 
   /*
-  * Show tooltip
-  */
-
-  this.showTooltip = function() {
-
-  };
-
-
-  /*
   * Edit name on desk
   */
 
@@ -137,20 +128,17 @@ var Furniture = function(snapshot, app) {
 
 
   /*
-  * Initialize click listeners
+  * Activated Tooltip Menu
   */
 
-  this.initListeners = function(){
-    // SET CLICK HANDLER TO CREATE TOOLTIP
+  this.activateTooltip = function(){
+    // SHOW TOOLTIP WHEN CLICKING ON FURNITURE
     this.element.on("click", function(e){
       self.tooltip.toggleClass("is-hidden");
       self.element.toggleClass("is-active is-top");
-
-      if (self.type === "desk") {
-        self.tooltip.addClass("has-edit");
-      }
     });
 
+    // ADD CLICK EVENT TO BUTTONS
     this.tooltip.on("click", function(e){
       e.stopPropagation();
       var $el = $(e.target);
@@ -182,7 +170,6 @@ var Furniture = function(snapshot, app) {
     else {
       // FURNITURE UPDATED WITH NEW VALUES
       self.updateValues(value);
-
       self.app.setMaxZIndex(snap);
       self.render();
     }
@@ -218,8 +205,8 @@ var Furniture = function(snapshot, app) {
       }
     });
 
-    // SET IMAGE FOR ELEMENT AND INIT TOOLTIP
-    this.initListeners();
+    // ACTIVATE TOOLTIP MENU
+    this.activateTooltip();
 
     // RENDER
     this.render();
