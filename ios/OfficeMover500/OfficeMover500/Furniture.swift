@@ -20,7 +20,7 @@ class Furniture {
     var rotation: Int
     var type : String
     var locked : Bool
-
+    
     init(key: String, json: Dictionary<String, AnyObject>) {
         self.key = key
         self.name = json["name"] as String
@@ -30,6 +30,22 @@ class Furniture {
         self.rotation = json["rotation"] as Int
         self.type = json["type"] as String
         self.locked = json["locked"] as Bool
+        
+        if self.zIndex > maxZIndex {
+            maxZIndex = self.zIndex
+        }
+    }
+    
+    //use this one if you want to hardcode some values.
+    init(key: String, name: String, top: Int, left: Int, rotation: Int, type: String) {
+        self.key = key
+        self.name = name
+        self.top = top
+        self.left = left
+        self.zIndex = maxZIndex + 1
+        self.rotation = rotation
+        self.type = type
+        self.locked = false
         
         if self.zIndex > maxZIndex {
             maxZIndex = self.zIndex
@@ -78,6 +94,22 @@ class Furniture {
             "locked" : self.locked
         ];
     }
-
-    
 }
+
+let TheFurniture: [Furniture] = [
+    Furniture(key: "-J_nWxmnt3Je0ceSDHUB", name: "", top: 667, left: 245, rotation: 0, type: "ballpit"),
+    Furniture(key: "-J_ndeaMFZvHRGX7_yTl", name: "Andrew", top: 0, left: 0, rotation: 0, type: "desk"),
+    Furniture(key: "-J_ndfk3cXdCP2y8hXmL", name: "Vikrum", top: 0, left: 484, rotation: 0, type: "desk"),
+    Furniture(key: "-J_ndglOTQxqQdIxcgBT", name: "James", top: 195, left: 538, rotation: 270, type: "desk"),
+    Furniture(key: "-J_ndio23J23Fa1tx3cw", name: "", top: 742, left: 546, rotation: 0, type: "plant1"),
+    Furniture(key: "-J_ndklSKsTrUCZIAd-R", name: "", top: 292, left: 562, rotation: 0, type: "redstapler"),
+    Furniture(key: "-J_ndltujoa6CWFIvCCu", name: "", top: 513, left: 0, rotation: 0, type: "plant2"),
+    Furniture(key: "-J_ndnh4auwKcvwR5I7o", name: "", top: 168, left: 251, rotation: 90, type: "pingpong"),
+    Furniture(key: "-J_ndyztgX58yc1b3VUF", name: "", top: 467, left: 534, rotation: 90, type: "pacman"),
+    Furniture(key: "-J_ne2gXw0TQXsmO8AaJ", name: "", top: 289, left: 133, rotation: 0, type: "nerfgun"),
+    Furniture(key: "-J_ne3Z2pkmWg5KXcvaK", name: "", top: 331, left: 499, rotation: 0, type: "dog_retriever"),
+    Furniture(key: "-J_ne56hm2QjyEg77Ond", name: "Michael", top: 198, left: 0, rotation: 90, type: "desk"),
+    Furniture(key: "-J_ne82h4lFQH0Y1xKFd", name: "", top: 63, left: 270, rotation: 0, type: "android"),
+    Furniture(key: "-J_ne9mxULmvrVeQ7XXa", name: "", top: 0, left: 477, rotation: 0, type: "laptop"),
+    Furniture(key: "-J_neAQmSvs3ckVH7Mha", name: "", top: 33, left: 74, rotation: 0, type: "laptop")
+]
