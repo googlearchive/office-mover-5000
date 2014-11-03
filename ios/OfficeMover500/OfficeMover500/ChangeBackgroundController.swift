@@ -7,53 +7,37 @@
 //
 import UIKit
 
-@objc protocol ChangeBackgroundDelegate {
-    func setBackground(type: String)
-    optional func changeBackground(type: String)
-    func dismissPopover()
+@objc protocol ChangeBackgroundDelegate : PopoverMenuDelegate {
+    func setBackgroundLocally(type: String)
+    optional func setBackground(type: String)
 }
 
-class ChangeBackgroundController : UITableViewController {
+class ChangeBackgroundController : PopoverMenuController {
     
     var delegate: ChangeBackgroundDelegate?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        preferredContentSize.height = 70 * CGFloat(Floors.count)
+    override var numItems: Int { return Floors.count }
+    
+    override func dismissIOS7Popover() {
+        delegate?.dismissPopover()
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 70
-    }
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Floors.count
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell: PopoverMenuItemCell! = tableView.dequeueReusableCellWithIdentifier("menuItemCell") as? PopoverMenuItemCell
-        if cell == nil {
-            cell = PopoverMenuItemCell(style: .Default, reuseIdentifier: "menuItemCell")
-        }
-        
-        // Definitely populated now
-        cell.textLabel.text = Floors[indexPath.row].0
-        cell.name = Floors[indexPath.row].1
-        let imageName = Floors[indexPath.row].1
+    override func populateCell(cell: PopoverMenuItemCell, row: Int) {
+        cell.textLabel.text = Floors[row].0
+        cell.name = Floors[row].1
+        let imageName = Floors[row].1
         cell.imageView.image = UIImage(named: "\(imageName)_unselected.png")
-        
-        return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var type = Floors[indexPath.row].1
         
-        delegate?.setBackground(type)
-        delegate?.changeBackground?(type)
-        delegate?.dismissPopover()
+        // Set background on Firebase
+        delegate?.setBackground?(type)
+
+        // Actually change background locally
+        delegate?.setBackgroundLocally(type)
+        
+        dismissPopover()
     }
 }

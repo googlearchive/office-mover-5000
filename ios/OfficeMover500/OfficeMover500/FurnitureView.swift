@@ -14,13 +14,14 @@ enum DragState: Int {
     case None = 0, Maybe, Dragging
 }
 
-class FurnitureView : UIButton, UIAlertViewDelegate {
+class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
     
     // -- Model state handlers
     var moveHandler: ((Int, Int) -> ())?
     var rotateHandler: ((Int, Int, Int) -> ())?
     var deleteHandler: (() -> ())?
     var editHandler: ((String) -> ())?
+    var moveToTopHandler: (() -> ())?
     
     // Calculated propeties
     var top:Int {
@@ -82,6 +83,15 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         }
     }
     
+    var zIndex:Int {
+        get {
+            return Int(layer.zPosition)
+        }
+        set (newValue) {
+            layer.zPosition = CGFloat(newValue)
+        }
+    }
+    
     // --- Handling UI state
     var dragging = DragState.None
     var menuShowing = false
@@ -105,9 +115,10 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         
         // Setup other properties
         name = furniture.name
-        rotation = furniture.rotation
+        rotation = furniture.rotation // rotation needs to be set before top, left
         top = furniture.top
         left = furniture.left
+        zIndex = furniture.zIndex
         self.titleLabel?.font = UIFont(name: "Proxima Nova", size: 20)
         
         // Add touch events
@@ -169,7 +180,10 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         startDown = center
         dragging = .Maybe
         showShadow()
+        
         superview?.bringSubviewToFront(self)
+        moveToTopHandler?()
+        
         NSTimer.scheduledTimerWithTimeInterval(0.04, target:self, selector: Selector("debouncedMove:"), userInfo: nil, repeats:true)
     }
     
@@ -200,24 +214,18 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
     }
     
     func triggerMove() {
-        if let handler = moveHandler {
-            handler(top, left)
-        }
+        moveHandler?(top, left)
     }
     
     // --- Edit buttons were clicked
     func triggerRotate(sender: AnyObject) {
         transform = CGAffineTransformRotate(transform, CGFloat(M_PI / -2))
         hideShadow()
-        if let handler = rotateHandler {
-            handler(top, left, rotation)
-        }
+        rotateHandler?(top, left, rotation)
     }
     
     func triggerDelete(sender: AnyObject) {
-        if let handler = deleteHandler {
-            handler()
-        }
+        deleteHandler?()
     }
     
     func triggerEdit(sender:AnyObject) {
@@ -225,6 +233,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         alert.alertViewStyle = UIAlertViewStyle.PlainTextInput;
         alert.textFieldAtIndex(0)?.text = name
         alert.textFieldAtIndex(0)?.placeholder = "Name"
+        alert.textFieldAtIndex(0)?.delegate = self
         alert.show()
     }
     
@@ -233,11 +242,14 @@ class FurnitureView : UIButton, UIAlertViewDelegate {
         if buttonIndex == 1 { // This is the ok button, and not the cancel button
             if let newName = alertView.textFieldAtIndex(0)?.text {
                 name = newName
-                if let handler = editHandler {
-                    handler(newName)
-                }
+                editHandler?(newName)
             }
         }
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range:NSRange, replacementString string:NSString) {
+        let newName = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string) as String
+        editHandler?(newName)
     }
     
     // --- Selected shadow

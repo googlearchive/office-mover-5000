@@ -16,5 +16,6 @@
     <item
         android:id="@+id/action_sign_out"
         android:showAsAction="ifRoom"
-        android:title="@string/action_sign_out" />
+        android:title="@string/action_sign_out"
+        android:onClick="signOut"/>
 </menu>
