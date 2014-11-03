@@ -56,13 +56,13 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
     }
     
     func finishedWithAuth(auth: GTMOAuth2Authentication!, error: NSError!) {
+        autoLogin()
         if error != nil {
             // There was an error obtaining the Google+ OAuth Token
         } else {
             // We successfully obtained an OAuth token, authenticate on Firebase with it
             ref.authWithOAuthProvider("google", token: auth.accessToken,
-                withCompletionBlock: { [unowned self] error, authData in
-                    self.autoLogin()
+                withCompletionBlock: { error, authData in
                     if error != nil {
                         // Error authenticating with Firebase with OAuth token
                     } else {

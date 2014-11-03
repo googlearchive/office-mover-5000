@@ -38,8 +38,9 @@ let Items = [
 ]
 
 let Floors = [
-    ("Carpet", "carpet"),
-    ("Grid", "grid"),
-    ("Tile", "tile"),
-    ("Wood", "wood"),
+    ("Casino Carpet", "carpet"),
+    ("Grid Pattern", "grid"),
+    ("Tile Flooring", "tile"),
+    ("Hardwood Floor", "wood"),
+    ("No Background", "")
 ]
