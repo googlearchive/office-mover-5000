@@ -3,7 +3,9 @@ package com.firebase.officemover;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -18,6 +20,7 @@ public class OfficeCanvasView extends View {
     private static final String TAG = OfficeCanvasView.class.getSimpleName();
 
     private static final Paint DEFAULT_PAINT = new Paint();
+    private static final Paint DESK_LABEL_PAINT = new Paint();
 
     /**
      * All available things
@@ -30,14 +33,26 @@ public class OfficeCanvasView extends View {
 
     public OfficeCanvasView(final Context ct) {
         super(ct);
+        init();
     }
 
     public OfficeCanvasView(final Context ct, final AttributeSet attrs) {
         super(ct, attrs);
+        init();
     }
 
     public OfficeCanvasView(final Context ct, final AttributeSet attrs, final int defStyle) {
         super(ct, attrs, defStyle);
+        init();
+    }
+
+    private void init() {
+        Log.v(TAG, "init new canvas");
+        DESK_LABEL_PAINT.setColor(Color.WHITE);
+        DESK_LABEL_PAINT.setTextSize(50);
+        DESK_LABEL_PAINT.setTextAlign(Paint.Align.CENTER);
+        DESK_LABEL_PAINT.setTypeface(Typeface.DEFAULT);
+
     }
 
     @Override
@@ -57,6 +72,25 @@ public class OfficeCanvasView extends View {
             }
 
             canv.drawBitmap(thingBitmap, modelToScreen(thing.getLeft()), modelToScreen(thing.getTop()), DEFAULT_PAINT);
+
+            if (thing.getType().equals("desk") && thing.getName() != null) {
+                // TODO: these offset numbers are empirically determined. Calculate them instead
+                float centerX = modelToScreen(thing.getLeft()) + 102;
+                float centerY = modelToScreen(thing.getTop()) + 70;
+
+                canv.save();
+                // TODO: OMG this is so hacky. Fix it. These numbers were also empirically determined
+                if (thing.getRotation() == 180) {
+                    canv.rotate(-thing.getRotation(), centerX, centerY - 10);
+                } else if (thing.getRotation() == 90) {
+                    canv.rotate(-thing.getRotation(), centerX, centerY + 45);
+                } else if (thing.getRotation() == 270) {
+                    canv.rotate(-thing.getRotation(), centerX - 40, centerY);
+                }
+
+                canv.drawText(thing.getName(), centerX, centerY, DESK_LABEL_PAINT);
+                canv.restore();
+            }
         }
     }
 
