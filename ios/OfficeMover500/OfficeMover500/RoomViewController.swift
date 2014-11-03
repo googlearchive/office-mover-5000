@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewItemDelegate, ChangeBackgroundDelegate {
+class RoomViewController: UIViewController, UIPopoverControllerDelegate {
     
     @IBOutlet weak var roomView: UIView!
     @IBOutlet weak var layoutView: UIView!
@@ -32,6 +32,8 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
         
         navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
+        
+        self.setBackgroundLocally("wood")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -43,14 +45,6 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
         if let popoverSegue = segue as? UIStoryboardPopoverSegue {
             self.popoverController = popoverSegue.popoverController
             self.popoverController?.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
-        }
-        
-        if let controller = segue.destinationViewController as? AddItemController {
-            controller.delegate = self
-            closePopover = controller.closePopover // to support iOS 8 preemptive closing
-        } else if let controller = segue.destinationViewController as? ChangeBackgroundController {
-            controller.delegate = self
-            closePopover = controller.closePopover // to support iOS 8 preemptive closing
         }
     }
     

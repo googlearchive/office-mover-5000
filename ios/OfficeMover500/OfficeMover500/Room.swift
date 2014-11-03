@@ -9,15 +9,9 @@
 import Foundation
 
 class Room {
-    
-    var furniture = Array<Furniture>()
 
     init(json: Dictionary<String, AnyObject>?) {
         
-    }
-    
-    func addFurniture(item: Furniture) {
-        self.furniture.append(item);
     }
     
     func toJson() -> String {

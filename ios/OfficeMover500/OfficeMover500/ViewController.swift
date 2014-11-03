@@ -1,21 +1,9 @@
-//
-//  ViewController.swift
-//  OfficeMover500
-//
-//  Created by Katherine Fang on 10/28/14.
-//  Copyright (c) 2014 Firebase. All rights reserved.
-//
-
 import UIKit
-
-// let OfficeMoverFirebaseUrl = "https://mover-app-5000-demo.firebaseio.com"
-let OfficeMoverFirebaseUrl = "https://office-mover.firebaseio.com"
 
 class ViewController: RoomViewController {
     
-    let ref = Firebase(url: OfficeMoverFirebaseUrl)
-    let furnitureRef = Firebase(url: "\(OfficeMoverFirebaseUrl)/furniture")
-    let backgroundRef = Firebase(url: "\(OfficeMoverFirebaseUrl)/background")
+    let furnitureRef = Firebase(url: "https://gcp-office-demo.firebaseio.com/furniture")
+
     var room = Room(json: nil)
     
     override func viewDidLoad() {
@@ -24,15 +12,8 @@ class ViewController: RoomViewController {
         // Load the furniture items from Firebase
         furnitureRef.observeEventType(.ChildAdded, withBlock: { [unowned self] snapshot in
             var furniture = Furniture(snap: snapshot)
-            self.room.addFurniture(furniture)
+          //  self.room.addFurniture(furniture)
             self.createFurnitureView(furniture)
-        })
-        
-        // Observe bacakground changes
-        backgroundRef.observeEventType(.Value, withBlock: { [unowned self] snapshot in
-            if let background = snapshot.value as? String {
-                self.setBackgroundLocally(background)
-            }
         })
     }
     
@@ -99,15 +80,5 @@ class ViewController: RoomViewController {
         }
         
         roomView.addSubview(view)
-    }
-    
-    func addNewItem(type: String) {
-        let itemRef = furnitureRef.childByAutoId()
-        let furniture = Furniture(key: itemRef.name, type: type)
-        itemRef.setValue(furniture.toJson())
-    }
-    
-    func setBackground(type: String) {
-        backgroundRef.setValue(type)
     }
 }
