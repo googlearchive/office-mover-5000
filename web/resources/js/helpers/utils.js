@@ -1,9 +1,11 @@
+// APP FIREBASE URL
+var root = 'https://office-mover.firebaseio.com/';
+
+
 /*
-* Helper
+* Helper Utilities
 *
 */
-
-var root = 'https://office-mover.firebaseio.com/';
 
 var utils = {
   urls: {
@@ -13,4 +15,6 @@ var utils = {
   }
 };
 
+
+// EXPORT MODULE
 module.exports = utils;

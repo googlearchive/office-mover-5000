@@ -22,6 +22,7 @@ var app = {
   $signOutButton: null,
   maxZIndex: 0,
 
+
   /*
   * Initalize the application
   *
@@ -29,7 +30,6 @@ var app = {
   */
 
   init: function() {
-
     // REGISTER ELEMENTS
     this.$welcome = $("#welcome");
     this.$app = $("#app");
@@ -47,6 +47,13 @@ var app = {
     this.logout();
   },
 
+
+  /*
+  * Check User Authentication
+  *
+  * Hide/Show if user is loggedin/loggedout
+  */
+
   checkUserAuthentication: function(){
     var self = this;
 
@@ -62,14 +69,23 @@ var app = {
     });
   },
 
+
+  /*
+  * Create Dropdowns
+  *
+  * Create add furniture and background dropdowns
+  */
+
   createDropdowns: function() {
     var self = this;
     var $addFurniture = $('#add-furniture');
     var $addBackground = $('#select-background');
 
+    //CREATE NEW FURNITURE OBJECTS
     this.furnitureDropdown = new Dropdown($addFurniture, data.furniture, 'furniture');
     this.backgroundDropdown = new Dropdown($addBackground, data.backgrounds, 'background');
 
+    // LISTEN FOR CLICK EVENT ON DROPDOWNS
     $('.dropdown').on('click', '.dropdown-button', function(e) {
       e.preventDefault();
       var button = $(e.currentTarget);
@@ -83,13 +99,26 @@ var app = {
     });
   },
 
+
+  /*
+  * Change Office Space Background
+  *
+  */
+
   changeBackground: function(name) {
     backgroundRef.set(name);
   },
 
+
+  /*
+  * Set Office Space Background
+  *
+  */
+
   setOfficeBackground: function() {
     var self = this;
 
+    // LISTEN FOR FIREBASE UPDATE
     backgroundRef.on('value', function(snapshot) {
       var value = snapshot.val();
       var pattern = value ? 'background-' + value : '';
@@ -98,6 +127,13 @@ var app = {
     });
   },
 
+
+  /*
+  * Add Furniture
+  *
+  * Adds a blank piece of new furniture
+  */
+
   addFurniture: function(type) {
     furnitureRef.push({
       top: 400,
@@ -105,18 +141,34 @@ var app = {
       type: type,
       rotation: 0,
       locked: false,
-      zIndex: this.maxZIndex + 1,
+      "z-index": this.maxZIndex + 1,
       name: ""
     });
   },
+
+
+  /*
+  * Create Furniture
+  *
+  * Adds a piece of furniture using a Firebase data snapshot
+  */
 
   createFurniture: function(snapshot) {
     new Furniture(snapshot, this);
   },
 
+
+  /*
+  * Render Furniture
+  *
+  * Renders all existing furnture and adds new items
+  * when the Firebase is updated
+  */
+
   renderFurniture: function(){
     var self = this;
 
+    // ADD ALL EXISTING FURNITURE
     furnitureRef.once("value", function(snapshot){
       self.setMaxZIndex(snapshot, true);
 
@@ -125,11 +177,18 @@ var app = {
       });
     });
 
+    // LISTEN FOR NEW FURNITURE AND ADD IT
     furnitureRef.on("child_added", function(snapshot){
       self.setMaxZIndex(snapshot);
       self.createFurniture(snapshot);
     });
   },
+
+
+  /*
+  * Log out of App
+  *
+  */
 
   logout: function(){
     this.$signOutButton.on("click", function(e){
@@ -137,28 +196,46 @@ var app = {
     });
   },
 
+
+  /*
+  * Show App Welcome Screen
+  *
+  */
+
   showWelcomeScreen: function(){
     this.$welcome.removeClass("is-hidden");
     this.$app.addClass("is-hidden");
   },
+
+
+  /*
+  * Hide App Welcome Screen
+  *
+  */
 
   hideWelcomeScreen: function(){
     this.$welcome.addClass("is-hidden");
     this.$app.removeClass("is-hidden");
   },
 
+
+  /*
+  * Set Furniture Stacking Order (z-index)
+  *
+  */
+
   setMaxZIndex: function(snapshot, hasChildren) {
     var value = snapshot.val();
 
     if (hasChildren) {
       var maxItem = _.max(value, function(item){
-        return item.zIndex;
+        return item['z-index'];
       });
 
-      this.maxZIndex = maxItem.zIndex;
+      this.maxZIndex = maxItem['z-index'];
     }
     else {
-      var zIndex = (value.zIndex >= this.maxZIndex) ? value.zIndex : this.maxZIndex;
+      var zIndex = (value['z-index'] >= this.maxZIndex) ? value['z-index'] : this.maxZIndex;
       this.maxZIndex = zIndex;
     }
   }
@@ -175,9 +252,5 @@ $(document).ready(function() {
 });
 
 
-/*
-* Export App
-*
-*/
-
+// EXPORT MODULE
 module.exports = app;
