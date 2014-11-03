@@ -105,7 +105,7 @@ var app = {
       type: type,
       rotation: 0,
       locked: false,
-      zIndex: this.maxZIndex + 1,
+      "z-index": this.maxZIndex + 1,
       name: ""
     });
   },
@@ -152,13 +152,13 @@ var app = {
 
     if (hasChildren) {
       var maxItem = _.max(value, function(item){
-        return item.zIndex;
+        return item['z-index'];
       });
 
-      this.maxZIndex = maxItem.zIndex;
+      this.maxZIndex = maxItem['z-index'];
     }
     else {
-      var zIndex = (value.zIndex >= this.maxZIndex) ? value.zIndex : this.maxZIndex;
+      var zIndex = (value['z-index'] >= this.maxZIndex) ? value['z-index'] : this.maxZIndex;
       this.maxZIndex = zIndex;
     }
   }

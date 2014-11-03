@@ -72,11 +72,15 @@
 
     <script id="template-furniture-item" type="text/template">
       <div class='furniture'>
-        <span class='furniture-name'></span>
-        <div class='tooltip is-hidden'>
-          <button class='tooltip-button is-hidden' data-tooltip-action='edit'>Edit</button>
-          <button class='tooltip-button' data-tooltip-action='rotate'>Rotate</button>
-          <button class='tooltip-button' data-tooltip-action='delete'>Delete</button>
+        <div class="furniture-background">
+          <div class='furniture-name'></div>
+        </div>
+
+        <div class='tooltip clearfix is-hidden'>
+          <div class="tooltip-arrow"></div>
+          <a class='tooltip-button tooltip-button-edit' data-tooltip-action='edit'>Edit</a>
+          <a class='tooltip-button' data-tooltip-action='rotate'>Rotate</a>
+          <a class='tooltip-button' data-tooltip-action='delete'>Delete</a>
         </div>
       </div>
     </script>
