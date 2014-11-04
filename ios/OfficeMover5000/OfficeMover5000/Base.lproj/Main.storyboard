@@ -75,23 +75,23 @@
                             </view>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tzx-AT-yQs" userLabel="Layout">
                                 <rect key="frame" x="0.0" y="-132" width="620" height="820"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H65-Mr-WCT" userLabel="Room">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="800"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="800" id="CJf-aH-cTO"/>
-                                            <constraint firstAttribute="width" constant="600" id="EN3-vt-O2i"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H65-Mr-WCT" userLabel="Room">
+                                <rect key="frame" x="0.0" y="-132" width="600" height="800"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="800" id="CJf-aH-cTO"/>
+                                    <constraint firstAttribute="width" constant="600" id="EN3-vt-O2i"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="CVe-pd-Xax" secondAttribute="centerX" id="49S-ze-b81"/>
+                            <constraint firstAttribute="centerY" secondItem="H65-Mr-WCT" secondAttribute="centerY" id="87B-LP-jyU"/>
                             <constraint firstAttribute="centerX" secondItem="Tzx-AT-yQs" secondAttribute="centerX" id="VNK-YZ-Oi1"/>
                             <constraint firstAttribute="centerY" secondItem="CVe-pd-Xax" secondAttribute="centerY" id="WsX-CD-HnG"/>
+                            <constraint firstAttribute="centerX" secondItem="H65-Mr-WCT" secondAttribute="centerX" id="bHw-Ij-9hp"/>
                             <constraint firstAttribute="centerY" secondItem="Tzx-AT-yQs" secondAttribute="centerY" id="ir0-xP-DPD"/>
                         </constraints>
                     </view>

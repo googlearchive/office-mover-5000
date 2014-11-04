@@ -1,6 +1,10 @@
 package com.firebase.officemover.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 public class OfficeLayout extends HashMap<String, OfficeThing> {
 
@@ -16,5 +20,25 @@ public class OfficeLayout extends HashMap<String, OfficeThing> {
             }
             return runningHighest;
         }
+    }
+    public List<OfficeThing> getThingsTopDown() {
+        List<OfficeThing> things = new ArrayList<OfficeThing>(this.values());
+        Collections.sort(things, new Comparator<OfficeThing>() {
+            @Override
+            public int compare(OfficeThing lhs, OfficeThing rhs) {
+                return rhs.getzIndex() - lhs.getzIndex();
+            }
+        });
+        return things;
+    }
+    public List<OfficeThing> getThingsBottomUp() {
+        List<OfficeThing> things = new ArrayList<OfficeThing>(this.values());
+        Collections.sort(things, new Comparator<OfficeThing>() {
+            @Override
+            public int compare(OfficeThing lhs, OfficeThing rhs) {
+                return lhs.getzIndex() - rhs.getzIndex();
+            }
+        });
+        return things;
     }
 }
