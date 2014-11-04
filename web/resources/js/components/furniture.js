@@ -60,6 +60,11 @@ var Furniture = function(snapshot, app) {
       this.nameEl.text(this.name);
     }
 
+    // ROTATE ELEMENT
+    this.element.removeClass('rotate-0 rotate-90 rotate-180 rotate-270')
+    .addClass('rotate-' + this.rotation);
+
+
     // SET CURRENT LOCATION ON CANVAS
     this.element.css({
       "top": parseInt(this.top, 10),
@@ -67,9 +72,6 @@ var Furniture = function(snapshot, app) {
       "zIndex": parseInt(this.zIndex, 10),
     });
 
-    // ROTATE ELEMENT
-    this.element.removeClass('rotate-0 rotate-90 rotate-180 rotate-270')
-    .addClass('rotate-' + this.rotation);
 
     // SET ACTIVE STATE
     if (this.locked){
@@ -101,8 +103,24 @@ var Furniture = function(snapshot, app) {
   this.rotate = function(){
     var rotate = (this.rotation <= 0) ? 270 : this.rotation - 90;
 
+    //FIND CURRENT LOCATION
+    var left = parseInt(this.element.css('left'), 10);
+    var top = parseInt(this.element.css('top'), 10);
+    var height = parseInt(this.element.height(), 10);
+    var width = parseInt(this.element.width(), 10);
 
-    this.ref.child("rotation").set(rotate);
+    //TOP: ADD HALF OF HEIGHT SUBTRACT HALF WIDTH
+    var newTop = top + (height / 2) - (width / 2);
+
+    //LEFT: ADD HALF THE WIDTH SUBTRACT HALF THE HEIGHT
+    var newLeft = left + (width / 2) - (height / 2);
+
+
+    this.ref.update({
+      rotation: rotate,
+      left: newLeft,
+      top: newTop
+    });
   };
 
 

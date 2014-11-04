@@ -14,7 +14,6 @@ class PopoverMenuItemCell : UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        println(textLabel.font)
         textLabel.font = UIFont(name: "ProximaNova-Light", size: 20)
         textLabel.textColor = UnselectedGrey
     }

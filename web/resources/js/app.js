@@ -232,7 +232,7 @@ var app = {
         return item['z-index'];
       });
 
-      this.maxZIndex = maxItem['z-index'];
+      this.maxZIndex = maxItem['z-index'] || 0;
     }
     else {
       var zIndex = (value['z-index'] >= this.maxZIndex) ? value['z-index'] : this.maxZIndex;
