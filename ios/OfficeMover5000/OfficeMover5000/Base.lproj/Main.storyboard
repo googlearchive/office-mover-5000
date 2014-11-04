@@ -125,7 +125,7 @@
                         <outlet property="layoutView" destination="Tzx-AT-yQs" id="I2f-yE-jsX"/>
                         <outlet property="logoutButton" destination="3hu-j7-M5n" id="Xcs-I2-DhA"/>
                         <outlet property="roomView" destination="H65-Mr-WCT" id="rpl-Q4-vmj"/>
-                        <segue destination="dZX-Lh-g6S" kind="show" id="5jz-Lj-Hou"/>
+                        <segue destination="dZX-Lh-g6S" kind="show" identifier="LOGGED_OUT" id="5jz-Lj-Hou"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

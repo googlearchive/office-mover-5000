@@ -8,7 +8,7 @@
 
 import UIKit
 
-// let OfficeMoverFirebaseUrl = "https://mover-app-5000-demo.firebaseio.com"
+//let OfficeMoverFirebaseUrl = "https://mover-app-5000-demo.firebaseio.com"
 let OfficeMoverFirebaseUrl = "https://office-mover.firebaseio.com"
 
 class ViewController: RoomViewController {
@@ -22,6 +22,7 @@ class ViewController: RoomViewController {
         
         // Load the furniture items from Firebase
         furnitureRef.observeEventType(.ChildAdded, withBlock: { [unowned self] snapshot in
+            self.refLocations += ["furniture/\(snapshot.name)"]
             var furniture = Furniture(snap: snapshot)
             self.createFurnitureView(furniture)
         })
@@ -46,11 +47,7 @@ class ViewController: RoomViewController {
             // check if snapshot.value does not equal NSNull
             if snapshot.value as? NSNull != NSNull() {
                 var furniture = Furniture(snap: snapshot)
-                view.top = furniture.top
-                view.left = furniture.left
-                view.rotation = furniture.rotation
-                view.name = furniture.name
-                view.zIndex = furniture.zIndex
+                view.setViewState(furniture)
             }
         })
         

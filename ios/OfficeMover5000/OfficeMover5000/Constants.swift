@@ -21,6 +21,7 @@ let ErrorBodyRed = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(243.0/255.0
 let ErrorBorderRed = UIColor(red: CGFloat(249.0/255.0), green: CGFloat(208.0/255.0), blue: CGFloat(201.0/255.0), alpha: 1.0)
 let GooglePlusRed = UIColor(red: CGFloat(227.0/255.0), green: CGFloat(78.0/255.0), blue: CGFloat(51.0/255.0), alpha: 1.0)
 let UnselectedGrey = UIColor(red: CGFloat(148.0/255.0), green: CGFloat(165.0/255.0), blue: CGFloat(166.0/255.0), alpha: 1.0)
+let SynergyBlue = UIColor(red: CGFloat(40.0/255.0), green: CGFloat(165.0/255.0), blue: CGFloat(166.0/255.0), alpha: 1.0)
 
 // Each icon on the add menu should have one of these. The second value is the name of the asset
 let Items = [

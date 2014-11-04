@@ -17,10 +17,18 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     @IBOutlet weak var backgroundButton: UIBarButtonItem!
     @IBOutlet weak var logoutButton: UIBarButtonItem!
     
+    var refLocations = ["furniture", "background"] // Array of all locations that we'll need to remove observers for
+    
     @IBAction func logout(sender: AnyObject) {
         let ref = Firebase(url: OfficeMoverFirebaseUrl)
         ref.unauth()
+        GPPSignIn.sharedInstance().signOut()
         self.performSegueWithIdentifier("LOGGED_OUT", sender: self)
+        
+        // Hacks to remove observers
+        for loc in refLocations {
+            ref.childByAppendingPath(loc).removeAllObservers()
+        }
     }
     
     var closePopover: (() -> ())?
@@ -42,7 +50,6 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
         navigationItem.setHidesBackButton(true, animated: false)
         
         logoutButton.setTitleTextAttributes([NSFontAttributeName:font], forState: UIControlState.Normal)
-        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
