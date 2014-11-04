@@ -120,7 +120,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         // Add touch events
         addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
         addTarget(self, action:Selector("touchDown:withEvent:"), forControlEvents:.TouchDown)
-        addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside)
+        addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside | .TouchUpOutside)
     }
     
     // set state

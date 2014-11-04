@@ -45,14 +45,19 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
         })
     }
     
-    @IBAction func login(sender: AnyObject) {
-        println("Logging in!")
+    func signInInstance() -> GPPSignIn {
         var signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
-         signIn.clientID = "311395164163-bhjoq6cb43hh1n92l7ntb8180uplbcll.apps.googleusercontent.com"
-//        signIn.clientID = "33816672509-qcgp7s8onp38fmtedli3prli3ql3j2i3.apps.googleusercontent.com" // extra
+        signIn.clientID = "311395164163-bhjoq6cb43hh1n92l7ntb8180uplbcll.apps.googleusercontent.com"
+        //signIn.clientID = "33816672509-qcgp7s8onp38fmtedli3prli3ql3j2i3.apps.googleusercontent.com" // extra
         signIn.scopes = [] // We pass an empty array to force Google login instead of Google+ login
         signIn.delegate = self
+        return signIn
+    }
+    
+    @IBAction func login(sender: AnyObject) {
+        println("Logging in!")
+        let signIn = signInInstance()
         // authenticate will do a callback to finishedWithAuth:error:
         signIn.authenticate()
     }
