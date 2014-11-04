@@ -106,8 +106,8 @@ var Furniture = function(snapshot, app) {
     //FIND CURRENT LOCATION
     var left = parseInt(this.element.css('left'), 10);
     var top = parseInt(this.element.css('top'), 10);
-    var height = this.element.height();
-    var width = this.element.width();
+    var height = parseInt(this.element.height(), 10);
+    var width = parseInt(this.element.width(), 10);
 
     //TOP: ADD HALF OF HEIGHT SUBTRACT HALF WIDTH
     var newTop = top + (height / 2) - (width / 2);
@@ -115,13 +115,11 @@ var Furniture = function(snapshot, app) {
     //LEFT: ADD HALF THE WIDTH SUBTRACT HALF THE HEIGHT
     var newLeft = left + (width / 2) - (height / 2);
 
-    // SAVE TO FB
 
-    this.ref.update({rotation: rotate}, function() {
-      self.ref.update({
-        left: newLeft,
-        top: newTop,
-      });
+    this.ref.update({
+      rotation: rotate,
+      left: newLeft,
+      top: newTop
     });
   };
 
