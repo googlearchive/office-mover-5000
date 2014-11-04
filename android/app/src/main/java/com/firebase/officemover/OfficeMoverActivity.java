@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.PopupMenu;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -43,6 +44,7 @@ public class OfficeMoverActivity extends Activity {
     private Firebase mFirebaseRef;
     private Menu mActionMenu;
     private OfficeThing mSelectedThing;
+    private String authToken;
 
     private ScheduledExecutorService mFirebaseUpdateScheduler;
     private HashMap<String, OfficeThing> mStuffToUpdate = new HashMap<String, OfficeThing>();
@@ -61,6 +63,13 @@ public class OfficeMoverActivity extends Activity {
 
         setContentView(R.layout.activity_office_mover);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras != null ) {
+            authToken = extras.getString("authToken");
+        } else {
+            throw new RuntimeException("not auth'd");
+        }
+
         mOfficeLayout = new OfficeLayout();
         mOfficeCanvasView = (OfficeCanvasView) findViewById(R.id.office_canvas);
         mOfficeCanvasView.setOfficeLayout(mOfficeLayout);
@@ -70,6 +79,16 @@ public class OfficeMoverActivity extends Activity {
 
         // add an on child added listener for the table
         mFirebaseRef = new Firebase(FIREBASE);
+        mFirebaseRef.authWithOAuthToken("google", authToken, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                Log.v(TAG, "Authentication worked");
+            }
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+                throw new RuntimeException("Auth failed :(" + firebaseError.getMessage());
+            }
+        });
 
         // Listen for floor changes
         mFirebaseRef.child("background").addValueEventListener(new ValueEventListener() {
@@ -90,6 +109,7 @@ public class OfficeMoverActivity extends Activity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
+                Log.v(TAG, "Canceled!" + firebaseError);
 
             }
         });
@@ -360,7 +380,14 @@ public class OfficeMoverActivity extends Activity {
         Log.w(TAG, "Added thing to firebase " + newThing);
 
         Firebase newThingFirebaseRef = mFirebaseRef.child("furniture").push();
-        newThingFirebaseRef.setValue(newThing);
+        newThingFirebaseRef.setValue(newThing, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if(firebaseError != null) {
+                    Log.w(TAG, "Add failed! " + firebaseError.getMessage());
+                }
+            }
+        });
     }
 
     public void updateOfficeThing(String key, OfficeThing officeThing) {
@@ -369,7 +396,14 @@ public class OfficeMoverActivity extends Activity {
         // re-apply the cached key, just in case
         officeThing.setKey(key);
 
-        mFirebaseRef.child("furniture").child(key).setValue(officeThing);
+        mFirebaseRef.child("furniture").child(key).setValue(officeThing, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if(firebaseError != null) {
+                    Log.w(TAG, "Update failed! " + firebaseError.getMessage());
+                }
+            }
+        });
     }
 
     public void deleteOfficeThing(String key, OfficeThing officeThing) {

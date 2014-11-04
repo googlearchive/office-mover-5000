@@ -66,7 +66,7 @@ public class LoginActivity extends Activity  implements
                     if (mGoogleConnectionResult != null) {
                         resolveSignInError();
                     } else if (mGoogleApiClient.isConnected()) {
-                        startActivity(new Intent(LoginActivity.this, OfficeMoverActivity.class));
+                        getGoogleOAuthTokenAndLogin();
                     } else {
                     /* connect API now */
                         Log.d(TAG, "Trying to connect to Google API");
@@ -102,7 +102,8 @@ public class LoginActivity extends Activity  implements
     public void onConnected(Bundle bundle) {
         /* Connected with Google API, use this to authenticate with Firebase */
         Log.i(TAG, "Login Connected");
-        startActivity(new Intent(LoginActivity.this, OfficeMoverActivity.class));
+//        startActivity(new Intent(LoginActivity.this, OfficeMoverActivity.class));
+        getGoogleOAuthTokenAndLogin();
     }
 
     @Override
@@ -197,6 +198,10 @@ public class LoginActivity extends Activity  implements
             @Override
             protected void onPostExecute(String token) {
                 mGoogleLoginClicked = false;
+                Intent intentWithToken = new Intent(LoginActivity.this, OfficeMoverActivity.class);
+                intentWithToken.putExtra("authToken", token);
+                startActivity(intentWithToken);
+
 //                if (token != null) {
 //                    /* Successfully got OAuth token, now login with Google */
 //                    ref.authWithOAuthToken("google", token, new AuthResultHandler("google"));
