@@ -87,6 +87,7 @@ class ViewController: RoomViewController {
             ])
         }
         
+        // When furniture is moved, it should jump to the top
         view.moveToTopHandler = {
             currentFurnitureRef.updateChildValues([
                 "z-index": ++maxZIndex
@@ -96,12 +97,14 @@ class ViewController: RoomViewController {
         roomView.addSubview(view)
     }
     
+    // Handling adding a new item from the popover menu
     func addNewItem(type: String) {
         let itemRef = furnitureRef.childByAutoId()
         let furniture = Furniture(key: itemRef.name, type: type)
         itemRef.setValue(furniture.toJson())
     }
-    
+
+    // Handling changing the background from the popover menu
     func setBackground(type: String) {
         backgroundRef.setValue(type)
     }
