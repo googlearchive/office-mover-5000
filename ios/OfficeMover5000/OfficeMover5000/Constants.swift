@@ -23,6 +23,9 @@ let GooglePlusRed = UIColor(red: CGFloat(227.0/255.0), green: CGFloat(78.0/255.0
 let UnselectedGrey = UIColor(red: CGFloat(148.0/255.0), green: CGFloat(165.0/255.0), blue: CGFloat(166.0/255.0), alpha: 1.0)
 let SynergyBlue = UIColor(red: CGFloat(40.0/255.0), green: CGFloat(165.0/255.0), blue: CGFloat(166.0/255.0), alpha: 1.0)
 
+
+let ProximaNovaLight20 = UIFont(name: "ProximaNova-Light", size: 20)!
+
 // Each icon on the add menu should have one of these. The second value is the name of the asset
 let Items = [
     ("Android Toy", "android", "android"),

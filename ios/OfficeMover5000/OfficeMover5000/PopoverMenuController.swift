@@ -8,11 +8,17 @@
 import UIKit
 
 @objc protocol PopoverMenuDelegate {
-    func dismissPopover()
+    func dismissPopover(animated: Bool)
+
+    optional func addNewItem(type: String)
+
+    func setBackgroundLocally(type: String)
+    optional func setBackground(type: String)
 }
 
 class PopoverMenuController : UITableViewController {
     
+    var delegate: PopoverMenuDelegate?
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -48,21 +54,14 @@ class PopoverMenuController : UITableViewController {
         return 70
     }
     
-    // Animated
-    func dismissPopover() {
-        dismissIOS7Popover()
-        dismissViewControllerAnimated(true, nil) // iOS 8
-    }
-    
-    func closePopover() {
-        dismissViewControllerAnimated(false, nil)
+    // Dismiss the popover
+    func dismissPopover(animated: Bool) {
+        delegate?.dismissPopover(animated) // iOS 7
+        dismissViewControllerAnimated(animated, nil) // iOS 8
     }
     
     // Override this in subclass
     var numItems: Int { return 0 }
-    
-    // Override this in subclass
-    func dismissIOS7Popover() {}
     
     // Override this in subclass
     func populateCell(cell: PopoverMenuItemCell, row: Int) {}

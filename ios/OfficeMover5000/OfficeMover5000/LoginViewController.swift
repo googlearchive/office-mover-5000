@@ -19,12 +19,16 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        var nav = self.navigationController?.navigationBar
-        nav?.barTintColor = TopbarBlue
-        nav?.barStyle = UIBarStyle.Default
-        nav?.tintColor = UIColor.whiteColor()
-        var font: UIFont = UIFont(name: "ProximaNova-Light", size: 20)!
-        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
+        if let nav = self.navigationController?.navigationBar {
+            nav.barTintColor = TopbarBlue
+            nav.barStyle = UIBarStyle.Default
+            nav.tintColor = UIColor.whiteColor()
+            nav.titleTextAttributes = [
+                NSForegroundColorAttributeName: UIColor.whiteColor(),
+                NSFontAttributeName:ProximaNovaLight20
+            ]
+        }
+        
         navigationItem.setHidesBackButton(true, animated: false)
         autoLogin()
     }

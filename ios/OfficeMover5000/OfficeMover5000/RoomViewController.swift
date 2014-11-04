@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewItemDelegate, ChangeBackgroundDelegate {
+class RoomViewController: UIViewController, UIPopoverControllerDelegate, PopoverMenuDelegate {
     
     @IBOutlet weak var roomView: UIView!
     @IBOutlet weak var layoutView: UIView!
@@ -18,72 +18,75 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, AddNewI
     @IBOutlet weak var logoutButton: UIBarButtonItem!
     
     var refLocations = ["furniture", "background"] // Array of all locations that we'll need to remove observers for
-    
-    @IBAction func logout(sender: AnyObject) {
-        let ref = Firebase(url: OfficeMoverFirebaseUrl)
-        ref.unauth()
-        GPPSignIn.sharedInstance().signOut()
-        self.performSegueWithIdentifier("LOGGED_OUT", sender: self)
-        
-        // Hacks to remove observers
-        for loc in refLocations {
-            ref.childByAppendingPath(loc).removeAllObservers()
-        }
-    }
-    
-    var closePopover: (() -> ())?
-    var popoverController: UIPopoverController?
+    var popoverController: UIPopoverController? // For supporting iOS 7 popover close
+    var popoverMenuController: PopoverMenuController? // For supporting iOS 8 popover close
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Set office blueprint
         layoutView.backgroundColor = UIColor(patternImage: UIImage(named: "office.png")!)
         
-        var nav = self.navigationController?.navigationBar
-        nav?.barTintColor = TopbarBlue
-        nav?.barStyle = UIBarStyle.Default
-        nav?.tintColor = UIColor.whiteColor()
-        var font: UIFont = UIFont(name: "ProximaNova-Light", size: 20)!
-        nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
-        
+        // Set menu buttons on left
         navigationItem.leftBarButtonItems = [addItemButton, backgroundButton]
         navigationItem.setHidesBackButton(true, animated: false)
         
-        logoutButton.setTitleTextAttributes([NSFontAttributeName:font], forState: UIControlState.Normal)
+        // Set logout button on right
+        logoutButton.setTitleTextAttributes([NSFontAttributeName:ProximaNovaLight20], forState: UIControlState.Normal)
     }
     
+    // Set delegate to handle menu actions and make sure only one popover is open
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // If opening a new popover, preemtively close the old one
-        popoverController?.dismissPopoverAnimated(false) // iOS 7
-        closePopover?() // iOS 8
+        popoverMenuController?.dismissPopover(false)
         
-        // This is to support closing popovers in iOS 7 and to set frosted menu
+        // This is to support popovers in iOS 7
         if let popoverSegue = segue as? UIStoryboardPopoverSegue {
-            self.popoverController = popoverSegue.popoverController
-            self.popoverController?.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
-
+            popoverController = popoverSegue.popoverController
+            popoverController?.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
         }
         
+        // Set delegate to handle menu actions
         if let controller = segue.destinationViewController as? AddItemController {
             controller.delegate = self
-            closePopover = controller.closePopover // to support iOS 8 preemptive closing
+            popoverMenuController = controller
         } else if let controller = segue.destinationViewController as? ChangeBackgroundController {
             controller.delegate = self
-            closePopover = controller.closePopover // to support iOS 8 preemptive closing
+            popoverMenuController = controller
         }
     }
     
-    func dismissPopover() {
-        // Close popover in iOS 8
-        popoverController?.dismissPopoverAnimated(true)
+    // close popover in iOS 7
+    func dismissPopover(animated: Bool) {
+        popoverController?.dismissPopoverAnimated(animated)
         popoverController = nil
     }
     
+    // Set the background
     func setBackgroundLocally(type: String) {
         if let image = UIImage(named:"\(type).png") {
             backgroundView.backgroundColor = UIColor(patternImage: image)
         } else {
             backgroundView.backgroundColor = UIColor.clearColor()
         }
+    }
+    
+    // Logout from app
+    @IBAction func logout(sender: AnyObject) {
+        // Unauthenticate with Firebase
+        let ref = Firebase(url: OfficeMoverFirebaseUrl)
+        ref.unauth()
+        
+        // Also log out of Google
+        GPPSignIn.sharedInstance().signOut()
+        
+        
+        // Remove observers
+        for loc in refLocations {
+            ref.childByAppendingPath(loc).removeAllObservers()
+        }
+        
+        // Perform segue
+        self.performSegueWithIdentifier("LOGGED_OUT", sender: self)
     }
 }

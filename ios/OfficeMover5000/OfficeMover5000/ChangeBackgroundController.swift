@@ -7,15 +7,8 @@
 //
 import UIKit
 
-@objc protocol ChangeBackgroundDelegate : PopoverMenuDelegate {
-    func setBackgroundLocally(type: String)
-    optional func setBackground(type: String)
-}
-
 class ChangeBackgroundController : PopoverMenuController {
-    
-    var delegate: ChangeBackgroundDelegate?
-    
+        
     override var numItems: Int { return Floors.count }
     
     override func viewDidLoad() {
@@ -23,10 +16,6 @@ class ChangeBackgroundController : PopoverMenuController {
         tableView.contentInset = UIEdgeInsetsMake(15, 0, 15, 15);
         preferredContentSize.height += 30
 
-    }
-    
-    override func dismissIOS7Popover() {
-        delegate?.dismissPopover()
     }
     
     override func populateCell(cell: PopoverMenuItemCell, row: Int) {
@@ -43,9 +32,7 @@ class ChangeBackgroundController : PopoverMenuController {
                 UIGraphicsEndImageContext()
                 cell.imageView.image = blankImage
             }
-
         }
-        
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -56,7 +43,6 @@ class ChangeBackgroundController : PopoverMenuController {
 
         // Actually change background locally
         delegate?.setBackgroundLocally(type)
-        
-        dismissPopover()
+        dismissPopover(true)
     }
 }

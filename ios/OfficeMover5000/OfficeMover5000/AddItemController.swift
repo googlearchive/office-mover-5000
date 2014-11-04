@@ -7,19 +7,9 @@
 //
 import UIKit
 
-@objc protocol AddNewItemDelegate : PopoverMenuDelegate {
-    optional func addNewItem(type: String)
-}
-
 class AddItemController : PopoverMenuController {
     
-    var delegate: AddNewItemDelegate?
-    
     override var numItems: Int { return Items.count }
-    
-    override func dismissIOS7Popover() {
-        delegate?.dismissPopover()
-    }
     
     override func populateCell(cell: PopoverMenuItemCell, row: Int) {
         cell.textLabel.text = Items[row].0
@@ -31,6 +21,6 @@ class AddItemController : PopoverMenuController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var type = Items[indexPath.row].2
         delegate?.addNewItem?(type)
-        dismissPopover()
+        dismissPopover(true)
     }
 }
