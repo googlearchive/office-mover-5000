@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.PopupMenu;
 
@@ -160,13 +161,13 @@ public class OfficeMoverActivity extends Activity {
                 if (mActionMenu != null) {
                     mActionMenu.removeItem(ACTION_ROTATE_ID);
                     mActionMenu.removeItem(ACTION_DELETE_ID);
-                    mActionMenu.removeItem(44);
+                    mActionMenu.removeItem(ACTION_EDIT_ID);
 
                     if (officeThing != null && officeThing.getType().equals("desk")) {
                         // show desk menu
                         mActionMenu.add(Menu.NONE, ACTION_ROTATE_ID, Menu.NONE, "Rotate");
                         mActionMenu.add(Menu.NONE, ACTION_DELETE_ID, Menu.NONE, "Delete");
-//                        mActionMenu.add(Menu.NONE, ACTION_EDIT_ID, Menu.NONE, "Edit");
+                        mActionMenu.add(Menu.NONE, ACTION_EDIT_ID, Menu.NONE, "Edit");
                     } else if (officeThing != null) {
                         // show everything else menu
                         mActionMenu.add(Menu.NONE, ACTION_ROTATE_ID, Menu.NONE, "Rotate");
@@ -223,17 +224,22 @@ public class OfficeMoverActivity extends Activity {
             case ACTION_DELETE_ID:
                 deleteOfficeThing(mSelectedThing.getKey(), mSelectedThing);
                 break;
-//            case ACTION_EDIT_ID:
-//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                builder.setMessage("Edit the name for this desk")
-//                        .setTitle("Edit name");
-//                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        mSelectedThing.setName("hello");
-//                        updateOfficeThing(mSelectedThing.getKey(), mSelectedThing);
-//                    }
-//                });
-//                break;
+            case ACTION_EDIT_ID:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                final EditText entry = new EditText(this);
+
+                builder.setMessage("Edit the name for this desk")
+                        .setTitle("Edit name").setView(entry);
+
+                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String text = entry.getText().toString();
+                        mSelectedThing.setName(text);
+                        updateOfficeThing(mSelectedThing.getKey(), mSelectedThing);
+                    }
+                });
+                builder.show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
