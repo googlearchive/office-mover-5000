@@ -7,10 +7,11 @@
 //
 import UIKit
 
-class AddItemController : PopoverMenuController {
+class AddItemController: PopoverMenuController {
     
     override var numItems: Int { return Items.count }
     
+    // Set the cell with an image and the text
     override func populateCell(cell: PopoverMenuItemCell, row: Int) {
         cell.textLabel.text = Items[row].0
         cell.name = Items[row].1
@@ -18,6 +19,7 @@ class AddItemController : PopoverMenuController {
         cell.imageView.image = UIImage(named: "\(imageName)_unselected.png")
     }
     
+    // When selected, add an item using the delegate, and dismiss the popover
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var type = Items[indexPath.row].2
         delegate?.addNewItem?(type)

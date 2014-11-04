@@ -11,9 +11,9 @@ class PopoverMenuItemCell : UITableViewCell {
     
     var name: String?
     
+    // Override init to provide font
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         textLabel.font = UIFont(name: "ProximaNova-Light", size: 20)
         textLabel.textColor = UnselectedGrey
     }
@@ -22,12 +22,14 @@ class PopoverMenuItemCell : UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    
+    // On highlight, change image and colors
     override func setHighlighted(highlighted: Bool, animated: Bool) {
         if highlighted {
             backgroundColor = BorderBlue.colorWithAlphaComponent(0.5)
+            textLabel.textColor = SelectedGrey
         } else {
             backgroundColor = UIColor.clearColor()
+            textLabel.textColor = SelectedGrey
         }
         
         if let imageName = name {

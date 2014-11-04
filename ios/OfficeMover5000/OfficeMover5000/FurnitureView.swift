@@ -16,14 +16,14 @@ enum DragState: Int {
 
 class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
     
-    // -- Model state handlers
+    // --- Model state handlers
     var moveHandler: ((Int, Int) -> ())?
     var rotateHandler: ((Int, Int, Int) -> ())?
     var deleteHandler: (() -> ())?
     var editHandler: ((String) -> ())?
     var moveToTopHandler: (() -> ())?
     
-    // Calculated propeties
+    // --- Calculated propeties. Set these from the outside to set the view
     var top:Int {
         get {
             return Int(frame.origin.y)
@@ -99,6 +99,8 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
     var startDown: CGPoint?
     private var menuListener: AnyObject?
     
+    
+    // --- Initializers
     required init(coder aDecoder: NSCoder) {
         type = "desk"
         super.init(coder: aDecoder)
@@ -123,7 +125,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside | .TouchUpOutside)
     }
     
-    // set state
+    // --- Set state given model
     func setViewState(model: Furniture) {
         self.rotation = model.rotation
         self.top = model.top
@@ -132,7 +134,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         self.zIndex = model.zIndex
     }
     
-    // -- Methods for updating the view
+    // --- Delege the view
     func delete() {
         if menuShowing {
             let menuController = UIMenuController.sharedMenuController()
@@ -222,7 +224,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         moveHandler?(top, left)
     }
     
-    // --- Edit buttons were clicked
+    // --- Menu buttons were clicked
     func triggerRotate(sender: AnyObject) {
         transform = CGAffineTransformRotate(transform, CGFloat(M_PI / -2))
         hideShadow()
@@ -245,6 +247,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         alert.show()
     }
     
+    // --- Delegates for handling name editing
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         hideShadow()
         if buttonIndex == 1 { // This is the ok button, and not the cancel button
@@ -308,7 +311,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         watchForMenuExited()
     }
     
-    // Temporarily
+    // Temporarily hide it when item is moving
     func temporarilyHideMenu() {
         let menuController = UIMenuController.sharedMenuController()
         menuController.setMenuVisible(false, animated:false)

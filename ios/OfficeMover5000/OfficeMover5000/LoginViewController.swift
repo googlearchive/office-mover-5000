@@ -18,7 +18,9 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
+        
+        // Set the nav bar appearance
+        navigationItem.setHidesBackButton(true, animated: false)
         if let nav = self.navigationController?.navigationBar {
             nav.barTintColor = TopbarBlue
             nav.barStyle = UIBarStyle.Default
@@ -29,10 +31,11 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
             ]
         }
         
-        navigationItem.setHidesBackButton(true, animated: false)
+        // Handle cached Firebase auth
         autoLogin()
     }
     
+    // Automatically perform segue when Firebase says authenticated
     func autoLogin() {
         // If we already have an auth observer, remove that one.
         if authHandler != nil {
@@ -49,6 +52,7 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
         })
     }
     
+    // Get a GPPSignIn instance with the right parameters
     func signInInstance() -> GPPSignIn {
         var signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
@@ -59,24 +63,26 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
         return signIn
     }
     
+    // Fire off log in with Google. Authenticate will do a callback to finishedWithAuth:error:
     @IBAction func login(sender: AnyObject) {
-        println("Logging in!")
         let signIn = signInInstance()
-        // authenticate will do a callback to finishedWithAuth:error:
         signIn.authenticate()
     }
     
     func finishedWithAuth(auth: GTMOAuth2Authentication!, error: NSError!) {
+        // Handle automatically logging in when returning from Google flow
         autoLogin()
+        
         if error != nil {
             // There was an error obtaining the Google+ OAuth Token
-            println("There was an error logging in \(error)")
+            println("There was an error with Google when logging in: \(error)")
         } else {
             // We successfully obtained an OAuth token, authenticate on Firebase with it
             ref.authWithOAuthProvider("google", token: auth.accessToken,
                 withCompletionBlock: { error, authData in
                     if error != nil {
                         // Error authenticating with Firebase with OAuth token
+                        println("There was an error with Firebase when logging in: \(error)")
                     } else {
                         // User is now logged in!
                         println("Successfully logged in! \(authData)")

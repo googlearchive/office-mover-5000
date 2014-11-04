@@ -9,9 +9,9 @@ import UIKit
 
 @objc protocol PopoverMenuDelegate {
     func dismissPopover(animated: Bool)
-
+    
     optional func addNewItem(type: String)
-
+    
     func setBackgroundLocally(type: String)
     optional func setBackground(type: String)
 }
@@ -28,7 +28,6 @@ class PopoverMenuController : UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         preferredContentSize.height = 70 * CGFloat(numItems)
-        tableView.separatorStyle = .SingleLine
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
