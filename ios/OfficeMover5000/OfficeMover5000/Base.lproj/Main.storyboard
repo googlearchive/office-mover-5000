@@ -125,6 +125,7 @@
                         <outlet property="layoutView" destination="Tzx-AT-yQs" id="I2f-yE-jsX"/>
                         <outlet property="logoutButton" destination="3hu-j7-M5n" id="Xcs-I2-DhA"/>
                         <outlet property="roomView" destination="H65-Mr-WCT" id="rpl-Q4-vmj"/>
+                        <segue destination="dZX-Lh-g6S" kind="show" identifier="LOGGED_OUT" id="5jz-Lj-Hou"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -143,7 +144,7 @@
                     </connections>
                 </barButtonItem>
             </objects>
-            <point key="canvasLocation" x="2365" y="-8"/>
+            <point key="canvasLocation" x="2417" y="-8"/>
         </scene>
         <!--SYNERGY, THOUGHT LEADERSHIP, TPS REPORTS ...-->
         <scene sceneID="lPV-n8-7z6">
@@ -154,7 +155,7 @@
                         <viewControllerLayoutGuide type="bottom" id="eqc-HO-aBd"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="afa-bN-DFA">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="logoAndName" translatesAutoresizingMaskIntoConstraints="NO" id="HdE-fJ-c8y">

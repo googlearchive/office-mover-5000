@@ -25,7 +25,7 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
         nav?.tintColor = UIColor.whiteColor()
         var font: UIFont = UIFont(name: "ProximaNova-Light", size: 20)!
         nav?.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName:font]
-        
+        navigationItem.setHidesBackButton(true, animated: false)
         autoLogin()
     }
     
@@ -45,12 +45,19 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
         })
     }
     
-    @IBAction func login(sender: AnyObject) {
+    func signInInstance() -> GPPSignIn {
         var signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
         signIn.clientID = "311395164163-bhjoq6cb43hh1n92l7ntb8180uplbcll.apps.googleusercontent.com"
+        //signIn.clientID = "33816672509-qcgp7s8onp38fmtedli3prli3ql3j2i3.apps.googleusercontent.com" // extra
         signIn.scopes = [] // We pass an empty array to force Google login instead of Google+ login
         signIn.delegate = self
+        return signIn
+    }
+    
+    @IBAction func login(sender: AnyObject) {
+        println("Logging in!")
+        let signIn = signInInstance()
         // authenticate will do a callback to finishedWithAuth:error:
         signIn.authenticate()
     }
@@ -59,6 +66,7 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
         autoLogin()
         if error != nil {
             // There was an error obtaining the Google+ OAuth Token
+            println("There was an error logging in \(error)")
         } else {
             // We successfully obtained an OAuth token, authenticate on Firebase with it
             ref.authWithOAuthProvider("google", token: auth.accessToken,
