@@ -33,4 +33,8 @@
     <!-- Login -->
     <string name="login_with_google">Login with Google</string>
     <string name="action_floor_none">None</string>
+    <string name="action_rotate">Rotate</string>
+    <string name="action_delete">Delete</string>
+
+    <!-- change office name -->
 </resources>

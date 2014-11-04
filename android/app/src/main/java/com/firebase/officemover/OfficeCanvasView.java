@@ -29,6 +29,7 @@ public class OfficeCanvasView extends View {
     private String mSelectedThingKey;
     private OfficeLayout mOfficeLayout;
     private OfficeMoverActivity.ThingChangeListener mThingChangedListener;
+    private OfficeMoverActivity.ThingFocusChangeListener mThingFocusChangeListener;
 
 
     public OfficeCanvasView(final Context ct) {
@@ -135,6 +136,7 @@ public class OfficeCanvasView extends View {
                 if (touchedThing == null) {
                     Log.v(TAG, "Deselected " + mSelectedThingKey);
                     mSelectedThingKey = null;
+                    mThingFocusChangeListener.thingChanged(null);
                     break;
                 }
 
@@ -158,6 +160,7 @@ public class OfficeCanvasView extends View {
 
 
                 mSelectedThingKey = touchedThing.getKey();
+                mThingFocusChangeListener.thingChanged(touchedThing);
                 touchedThing.setzIndex(mOfficeLayout.getHighestzIndex() + 1);
 
                 Log.v(TAG, "Selected " + touchedThing);
@@ -294,5 +297,13 @@ public class OfficeCanvasView extends View {
 
     public void setThingChangedListener(OfficeMoverActivity.ThingChangeListener thingChangeListener) {
         this.mThingChangedListener = thingChangeListener;
+    }
+
+    public OfficeMoverActivity.ThingFocusChangeListener getThingFocusChangeListener() {
+        return mThingFocusChangeListener;
+    }
+
+    public void setThingFocusChangeListener(OfficeMoverActivity.ThingFocusChangeListener mThingFocusChangeListener) {
+        this.mThingFocusChangeListener = mThingFocusChangeListener;
     }
 }

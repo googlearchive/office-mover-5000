@@ -1,6 +1,8 @@
 package com.firebase.officemover;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,16 +32,26 @@ public class OfficeMoverActivity extends Activity {
     private final static String TAG = OfficeMoverActivity.class.getSimpleName();
     public static final String FIREBASE = "https://office-mover.firebaseio.com";
 
+    public static final int ACTION_ROTATE_ID = 42;
+    public static final int ACTION_DELETE_ID = 43;
+    public static final int ACTION_EDIT_ID = 44;
+
     private OfficeLayout mOfficeLayout;
     private OfficeCanvasView mOfficeCanvasView;
     private FrameLayout mOfficeFloorView;
     private Firebase mFirebaseRef;
+    private Menu mActionMenu;
+    private OfficeThing mSelectedThing;
 
     private ScheduledExecutorService mFirebaseUpdateScheduler;
     private HashMap<String, OfficeThing> mStuffToUpdate = new HashMap<String, OfficeThing>();
 
     public abstract class ThingChangeListener {
         public abstract void thingChanged(String key, OfficeThing officeThing);
+    }
+
+    public abstract class ThingFocusChangeListener {
+        public abstract void thingChanged(OfficeThing officeThing);
     }
 
     @Override
@@ -51,7 +63,7 @@ public class OfficeMoverActivity extends Activity {
         mOfficeLayout = new OfficeLayout();
         mOfficeCanvasView = (OfficeCanvasView) findViewById(R.id.office_canvas);
         mOfficeCanvasView.setOfficeLayout(mOfficeLayout);
-        mOfficeFloorView = (FrameLayout)findViewById(R.id.office_floor);
+        mOfficeFloorView = (FrameLayout) findViewById(R.id.office_floor);
 
         Firebase.setAndroidContext(this);
 
@@ -63,13 +75,13 @@ public class OfficeMoverActivity extends Activity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String floor = dataSnapshot.getValue(String.class);
-                if(floor.equals("carpet")) {
+                if (floor.equals("carpet")) {
                     mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_carpet));
-                } else if(floor.equals("grid")) {
+                } else if (floor.equals("grid")) {
                     mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_grid));
-                } else if(floor.equals("tile")) {
+                } else if (floor.equals("tile")) {
                     mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_tile));
-                } else if(floor.equals("wood")) {
+                } else if (floor.equals("wood")) {
                     mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_wood));
                 }
                 mOfficeFloorView.invalidate();
@@ -135,11 +147,32 @@ public class OfficeMoverActivity extends Activity {
             @Override
             public void thingChanged(String key, OfficeThing officeThing) {
                 mStuffToUpdate.put(key, officeThing);
-//                if(mFirebaseUpdateScheduler.isShutdown()) {
-//                }
-
-//                updateOfficeThing(key, officeThing);
                 mOfficeCanvasView.invalidate();
+            }
+        });
+
+
+        mOfficeCanvasView.setThingFocusChangeListener(new ThingFocusChangeListener() {
+            @Override
+            public void thingChanged(OfficeThing officeThing) {
+                mSelectedThing = officeThing;
+
+                if (mActionMenu != null) {
+                    mActionMenu.removeItem(ACTION_ROTATE_ID);
+                    mActionMenu.removeItem(ACTION_DELETE_ID);
+                    mActionMenu.removeItem(44);
+
+                    if (officeThing != null && officeThing.getType().equals("desk")) {
+                        // show desk menu
+                        mActionMenu.add(Menu.NONE, ACTION_ROTATE_ID, Menu.NONE, "Rotate");
+                        mActionMenu.add(Menu.NONE, ACTION_DELETE_ID, Menu.NONE, "Delete");
+//                        mActionMenu.add(Menu.NONE, ACTION_EDIT_ID, Menu.NONE, "Edit");
+                    } else if (officeThing != null) {
+                        // show everything else menu
+                        mActionMenu.add(Menu.NONE, ACTION_ROTATE_ID, Menu.NONE, "Rotate");
+                        mActionMenu.add(Menu.NONE, ACTION_DELETE_ID, Menu.NONE, "Delete");
+                    }
+                }
             }
         });
 
@@ -147,8 +180,8 @@ public class OfficeMoverActivity extends Activity {
         mFirebaseUpdateScheduler.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                if(mStuffToUpdate != null && mStuffToUpdate.size() > 0) {
-                    for(OfficeThing officeThing : mStuffToUpdate.values()) {
+                if (mStuffToUpdate != null && mStuffToUpdate.size() > 0) {
+                    for (OfficeThing officeThing : mStuffToUpdate.values()) {
                         updateOfficeThing(officeThing.getKey(), officeThing);
                         mStuffToUpdate.remove(officeThing.getKey());
                     }
@@ -160,13 +193,6 @@ public class OfficeMoverActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.office_mover, menu);
-        return true;
     }
 
     @Override
@@ -182,11 +208,42 @@ public class OfficeMoverActivity extends Activity {
             case R.id.change_floor:
                 renderChangeCarpetPopup();
                 break;
-            case R.id.action_sign_out:
+            case ACTION_ROTATE_ID:
+                if (mSelectedThing != null) {
+                    int rotation = mSelectedThing.getRotation();
 
+                    if (rotation >= 270) {
+                        mSelectedThing.setRotation(0);
+                    } else {
+                        mSelectedThing.setRotation(rotation + 90);
+                    }
+                    updateOfficeThing(mSelectedThing.getKey(), mSelectedThing);
+                }
                 break;
+            case ACTION_DELETE_ID:
+                deleteOfficeThing(mSelectedThing.getKey(), mSelectedThing);
+                break;
+//            case ACTION_EDIT_ID:
+//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                builder.setMessage("Edit the name for this desk")
+//                        .setTitle("Edit name");
+//                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        mSelectedThing.setName("hello");
+//                        updateOfficeThing(mSelectedThing.getKey(), mSelectedThing);
+//                    }
+//                });
+//                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.office_mover, menu);
+        mActionMenu = menu;
+        return true;
     }
 
     private void renderNewThingPopup() {
@@ -244,6 +301,7 @@ public class OfficeMoverActivity extends Activity {
         });
         popup.show();
     }
+
     private void renderChangeCarpetPopup() {
 
         View menuItemView = findViewById(R.id.change_floor);
@@ -256,7 +314,6 @@ public class OfficeMoverActivity extends Activity {
                 int id = item.getItemId();
                 switch (id) {
                     //TODO: do this with less copy and paste
-                    //TODO: make this real time
                     case R.id.action_floor_carpet:
                         mFirebaseRef.child("background").setValue("carpet");
                         break;
@@ -270,7 +327,7 @@ public class OfficeMoverActivity extends Activity {
                         mFirebaseRef.child("background").setValue("wood");
                         break;
                     default:
-                        throw new RuntimeException();
+                        mFirebaseRef.child("background").removeValue();
                 }
                 return true;
             }
@@ -281,6 +338,7 @@ public class OfficeMoverActivity extends Activity {
     /**
      * Saves a new thing to Firebase, which is then picked up and displayed by
      * the view
+     *
      * @param thingType
      */
     private void addOfficeThing(String thingType) {
@@ -308,8 +366,15 @@ public class OfficeMoverActivity extends Activity {
         mFirebaseRef.child("furniture").child(key).setValue(officeThing);
     }
 
+    public void deleteOfficeThing(String key, OfficeThing officeThing) {
+        if (null == key || null == officeThing) throw new IllegalArgumentException();
+
+        mFirebaseRef.child("furniture").child(key).removeValue();
+    }
+
     /**
      * Adds a thing to the local model used in rendering
+     *
      * @param key
      * @param officeThing
      */
@@ -321,6 +386,7 @@ public class OfficeMoverActivity extends Activity {
 
     /**
      * Removes a thing from the local model used in rendering
+     *
      * @param key
      */
     public void removeThingFromLocalModel(String key) {
