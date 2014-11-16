@@ -258,9 +258,10 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         }
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range:NSRange, replacementString string:NSString) {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range:NSRange, replacementString string:NSString) -> Bool {
         let newName = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string) as String
         editHandler?(newName)
+        return true
     }
     
     // --- Selected shadow
