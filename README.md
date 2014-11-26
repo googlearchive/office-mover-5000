@@ -18,7 +18,6 @@ This repository contains a client for each platform, and data common across all 
 - [HTML & JavaScript web client](/web)
 - [Java Android client](/android)
 - [Swift iOS client](/ios)
-
 - [Firebase security rules](security-rules.json)
 
 ## Setup
