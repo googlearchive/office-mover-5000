@@ -5,8 +5,10 @@
    for your Firebase.
 0. Make sure you have [node.js](http://nodejs.org/) and [bower](http://bower.io/) installed.
 0. Navigate to the `/web` directory and run these commands:
+
         $ bower install
         $ npm install ## or sudo npm install
         $ gulp
+
    The browser will open automatically with your app running. All changes to css, js, and html 
    are live reloaded.
