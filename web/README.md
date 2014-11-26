@@ -10,4 +10,4 @@
         $ npm install ## or sudo npm install
         $ gulp
 
-   Gulp automatically opens Office Mover in a web browser, and automatically reloads changes to css, js, and html.
+   Gulp automatically opens Office Mover in a web browser, and reloads when it detects changes to css, js, and html.
