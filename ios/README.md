@@ -2,5 +2,6 @@
 
 ## Setup
 
-0. Edit `./OfficeMover5000/OfficeMover5000/ViewController.swift` and change `<your-firebase>` to
+0. Edit `OfficeMover5000/OfficeMover5000/ViewController.swift` and change `<your-firebase>` to
    the subdomain for your Firebase.
+0. Open the project in Xcode and run it on an iPad or iPad emulator.

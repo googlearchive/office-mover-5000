@@ -1,7 +1,7 @@
 # Inetech Office Mover 5000 for Web
 
 ## Setup
-0. Edit `./resources/js/helpers/utils.js` and change `<your-firebase>` to the subdomain 
+0. Edit `resources/js/helpers/utils.js` and change `<your-firebase>` to the subdomain 
    for your Firebase.
 0. Make sure you have [node.js](http://nodejs.org/) and [bower](http://bower.io/) installed.
 0. Navigate to the `/web` directory and run these commands:
