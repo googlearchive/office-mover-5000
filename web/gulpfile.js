@@ -51,7 +51,7 @@ gulp.task("webpack", function() {
   var stream = gulp.src('resources/js/app.js')
     .pipe(webpack({
       output: {
-        filename: 'production.js',
+        filename: 'production.js'
       }
     }))
     .pipe(gulp.dest('resources/js/'))

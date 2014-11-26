@@ -8,8 +8,7 @@
 
 import UIKit
 
-//let OfficeMoverFirebaseUrl = "https://mover-app-5000-demo.firebaseio.com"
-let OfficeMoverFirebaseUrl = "https://office-mover.firebaseio.com"
+let OfficeMoverFirebaseUrl = "https://<your-firebase>.firebaseio.com"
 
 class ViewController: RoomViewController {
     
