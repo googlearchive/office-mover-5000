@@ -1,5 +1,5 @@
 // APP FIREBASE URL
-var root = 'https://office-mover.firebaseio.com/';
+var root = 'https://office-mover-demo.firebaseio.com/';
 
 
 /*

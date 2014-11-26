@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 public class OfficeMoverActivity extends Activity {
     private final static String TAG = OfficeMoverActivity.class.getSimpleName();
-    public static final String FIREBASE = "https://office-mover.firebaseio.com";
+    public static final String FIREBASE = "https://<your-firebase>.firebaseio.com";
 
     public static final int ACTION_ROTATE_ID = 42;
     public static final int ACTION_DELETE_ID = 43;
