@@ -32,8 +32,9 @@ import java.util.concurrent.TimeUnit;
 
 public class OfficeMoverActivity extends Activity {
     private final static String TAG = OfficeMoverActivity.class.getSimpleName();
-    public static final String FIREBASE = "https://<your-firebase>.firebaseio.com";
+    public static final String FIREBASE = "https://office-mover-demo.firebaseio.com";
 
+    // TODO: make these not random numbers
     public static final int ACTION_ROTATE_ID = 42;
     public static final int ACTION_DELETE_ID = 43;
     public static final int ACTION_EDIT_ID = 44;
@@ -64,7 +65,7 @@ public class OfficeMoverActivity extends Activity {
         setContentView(R.layout.activity_office_mover);
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null ) {
+        if (extras != null) {
             authToken = extras.getString("authToken");
         } else {
             throw new RuntimeException("not auth'd");
@@ -84,6 +85,7 @@ public class OfficeMoverActivity extends Activity {
             public void onAuthenticated(AuthData authData) {
                 Log.v(TAG, "Authentication worked");
             }
+
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
                 throw new RuntimeException("Auth failed :(" + firebaseError.getMessage());
@@ -95,7 +97,9 @@ public class OfficeMoverActivity extends Activity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String floor = dataSnapshot.getValue(String.class);
-                if (floor.equals("carpet")) {
+                if (floor == null || floor.equals("none")) {
+                    mOfficeFloorView.setBackground(null);
+                } else if (floor.equals("carpet")) {
                     mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_carpet));
                 } else if (floor.equals("grid")) {
                     mOfficeFloorView.setBackground(getResources().getDrawable(R.drawable.floor_grid));
@@ -280,47 +284,13 @@ public class OfficeMoverActivity extends Activity {
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                int id = item.getItemId();
-                switch (id) {
-                    //TODO: do this with less copy and paste
-                    case R.id.action_add_android:
-                        addOfficeThing("android");
-                        break;
-                    case R.id.action_add_ballpit:
-                        addOfficeThing("ballpit");
-                        break;
-                    case R.id.action_add_desk:
-                        addOfficeThing("desk");
-                        break;
-                    case R.id.action_add_dog_corgi:
-                        addOfficeThing("dog_corgi");
-                        break;
-                    case R.id.action_add_dog_retriever:
-                        addOfficeThing("dog_retriever");
-                        break;
-                    case R.id.action_add_laptop:
-                        addOfficeThing("laptop");
-                        break;
-                    case R.id.action_add_nerfgun:
-                        addOfficeThing("nerfgun");
-                        break;
-                    case R.id.action_add_pacman:
-                        addOfficeThing("pacman");
-                        break;
-                    case R.id.action_add_pingpong:
-                        addOfficeThing("pingpong");
-                        break;
-                    case R.id.action_add_plant1:
-                        addOfficeThing("plant1");
-                        break;
-                    case R.id.action_add_plant2:
-                        addOfficeThing("plant2");
-                        break;
-                    case R.id.action_add_redstapler:
-                        addOfficeThing("redstapler");
-                        break;
-                    default:
-                        throw new RuntimeException();
+                String menuName = getResources().getResourceName(item.getItemId());
+                if(menuName.contains("action_add_")) {
+                    String newThingName = menuName.split("action_add_")[1];
+                    addOfficeThing(newThingName);
+                } else {
+                    //TODO: better exception
+                    throw new RuntimeException();
                 }
                 return true;
             }
@@ -374,6 +344,7 @@ public class OfficeMoverActivity extends Activity {
         newThing.setType(thingType);
         newThing.setzIndex(mOfficeCanvasView.getOfficeLayout().getHighestzIndex() + 1);
         newThing.setRotation(0);
+        newThing.setName("");
         newThing.setLeft(mOfficeCanvasView.screenToModel(mOfficeCanvasView.getWidth()) / 2);
         newThing.setTop(mOfficeCanvasView.screenToModel(mOfficeCanvasView.getHeight()) / 2);
 
@@ -383,7 +354,7 @@ public class OfficeMoverActivity extends Activity {
         newThingFirebaseRef.setValue(newThing, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                if(firebaseError != null) {
+                if (firebaseError != null) {
                     Log.w(TAG, "Add failed! " + firebaseError.getMessage());
                 }
             }
@@ -399,7 +370,7 @@ public class OfficeMoverActivity extends Activity {
         mFirebaseRef.child("furniture").child(key).setValue(officeThing, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                if(firebaseError != null) {
+                if (firebaseError != null) {
                     Log.w(TAG, "Update failed! " + firebaseError.getMessage());
                 }
             }
