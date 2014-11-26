@@ -1,0 +1,10 @@
+{
+  "firebase": "<your-firebase>",
+  "public": "./web",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ],
+  "rules": "security-rules.json"
+}

@@ -1,0 +1,23 @@
+{
+    "rules": {
+        "background": {
+          ".read": true,
+          ".write": "auth != null",
+          ".validate": "newData.isString()"
+        },
+        "furniture": {
+          ".read": true,
+          "$fid": {
+            ".validate": "newData.hasChildren(['left', 'name', 'rotation', 'top', 'type', 'z-index']) && auth != null",
+            ".write": "newData.val() != null || (auth != null)",
+            "left": { ".validate": "newData.isNumber()" },
+            "rotation": { ".validate": "newData.isNumber() && (newData.val() == 0 || newData.val() == 90 || newData.val() == 180 || newData.val() == 270)" },
+            "top": {".validate": "newData.isNumber()" },
+            "type": {".validate": "newData.isString()"},
+            "name": {".validate": "newData.isString()"},
+            "z-index": {".validate": "newData.isNumber()"}
+          }
+        }
+    }
+}
+
