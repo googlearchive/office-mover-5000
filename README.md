@@ -22,11 +22,11 @@ This repository contains a client for each platform, and data common across all 
 
 ## Setup
 
-0. This is a pretty advanced example project, so if you're not already familiar with Firebase, run 
-   through one of our [quickstarts](https://www.firebase.com/docs/web/quickstart.html) and 
+0. This is a pretty advanced example project, so if you're not already familiar with Firebase, 
+   run through one of our [quickstarts](https://www.firebase.com/docs/web/quickstart.html) and 
    [platform guides](https://www.firebase.com/docs/web/guide/).
-0. Copy the [security rules] into your Firebase, either by pasting into Firebase Dashboard or by
-   deploying the web version with 
+0. Copy the [security rules](security-rules.json) into your Firebase, either by pasting into 
+   Firebase Dashboard or by deploying the web version with 
    [Firebase command line tools](https://www.firebase.com/docs/hosting/command-line-tool.html).
 0. Proceed to the setup instructions for your preferred platform.
     - [Android](/android)
