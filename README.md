@@ -1,4 +1,4 @@
-## Inetech Office Mover 5000
+# Inetech Office Mover 5000
 
 Inetech Office Mover 5000 is a cross-platform example of a collaborative app written on 
 [Firebase](https://firebase.com). It helps you and your coworkers plan the layout of your 
@@ -26,7 +26,7 @@ This repository contains a client for each platform, and data common across all 
    run through one of our [quickstarts](https://www.firebase.com/docs/web/quickstart.html) and 
    [platform guides](https://www.firebase.com/docs/web/guide/).
 0. Copy the [security rules](security-rules.json) into your Firebase, either by pasting into 
-   Firebase Dashboard or by deploying the web version with 
+   Firebase Dashboard or add your Firebase to `firebase.json` and deploy the web version with 
    [Firebase command line tools](https://www.firebase.com/docs/hosting/command-line-tool.html).
 0. Proceed to the setup instructions for your preferred platform.
     - [Android](/android)
