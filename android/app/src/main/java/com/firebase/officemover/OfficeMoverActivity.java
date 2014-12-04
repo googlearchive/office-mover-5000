@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 public class OfficeMoverActivity extends Activity {
     private final static String TAG = OfficeMoverActivity.class.getSimpleName();
-    public static final String FIREBASE = "https://<your-firebase>.firebaseio.com";
+    public static final String FIREBASE = "https://mover-app-5000-demo.firebaseio.com/";
 
     private OfficeLayout mOfficeLayout;
     private OfficeCanvasView mOfficeCanvasView;

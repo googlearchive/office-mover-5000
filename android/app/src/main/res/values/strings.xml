@@ -24,6 +24,11 @@
     <string name="action_add_ballpit">Ballpit</string>
     <string name="action_add_android">Android</string>
 
+    <!-- Furniture manipulation menu -->
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_rotate">Rotate</string>
+
     <!-- floor menu -->
     <string name="action_floor_tile">Tile Flooring</string>
     <string name="action_floor_carpet">Casino Carpet</string>
@@ -33,8 +38,4 @@
     <!-- Login -->
     <string name="login_with_google">Login with Google</string>
     <string name="action_floor_none">None</string>
-    <string name="action_rotate">Rotate</string>
-    <string name="action_delete">Delete</string>
-
-    <!-- change office name -->
 </resources>
