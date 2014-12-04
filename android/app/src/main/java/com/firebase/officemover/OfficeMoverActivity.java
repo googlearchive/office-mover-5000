@@ -32,12 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 public class OfficeMoverActivity extends Activity {
     private final static String TAG = OfficeMoverActivity.class.getSimpleName();
-    public static final String FIREBASE = "https://office-mover-demo.firebaseio.com";
-
-    // TODO: make these not random numbers
-    public static final int ACTION_ROTATE_ID = 42;
-    public static final int ACTION_DELETE_ID = 43;
-    public static final int ACTION_EDIT_ID = 44;
+    public static final String FIREBASE = "https://<your-firebase>.firebaseio.com";
 
     private OfficeLayout mOfficeLayout;
     private OfficeCanvasView mOfficeCanvasView;
@@ -183,19 +178,24 @@ public class OfficeMoverActivity extends Activity {
                 mSelectedThing = officeThing;
 
                 if (mActionMenu != null) {
-                    mActionMenu.removeItem(ACTION_ROTATE_ID);
-                    mActionMenu.removeItem(ACTION_DELETE_ID);
-                    mActionMenu.removeItem(ACTION_EDIT_ID);
+                    // Clean things up, if they're there
+                    mActionMenu.removeItem(R.id.action_delete);
+                    mActionMenu.removeItem(R.id.action_edit);
+                    mActionMenu.removeItem(R.id.action_rotate);
 
-                    if (officeThing != null && officeThing.getType().equals("desk")) {
-                        // show desk menu
-                        mActionMenu.add(Menu.NONE, ACTION_ROTATE_ID, Menu.NONE, "Rotate");
-                        mActionMenu.add(Menu.NONE, ACTION_DELETE_ID, Menu.NONE, "Delete");
-                        mActionMenu.add(Menu.NONE, ACTION_EDIT_ID, Menu.NONE, "Edit");
-                    } else if (officeThing != null) {
-                        // show everything else menu
-                        mActionMenu.add(Menu.NONE, ACTION_ROTATE_ID, Menu.NONE, "Rotate");
-                        mActionMenu.add(Menu.NONE, ACTION_DELETE_ID, Menu.NONE, "Delete");
+                    // If I have a new thing, add menu items back to it
+                    if(officeThing != null) {
+                        mActionMenu.add(Menu.NONE, R.id.action_delete, Menu.NONE,
+                                getString(R.string.action_delete));
+
+                        // Only desks can be edited
+                        if(officeThing.getType().equals("desk")) {
+                            mActionMenu.add(Menu.NONE, R.id.action_edit, Menu.NONE,
+                                    getString(R.string.action_edit));
+                        }
+
+                        mActionMenu.add(Menu.NONE, R.id.action_rotate, Menu.NONE,
+                                getString(R.string.action_rotate));
                     }
                 }
             }
@@ -233,7 +233,7 @@ public class OfficeMoverActivity extends Activity {
             case R.id.change_floor:
                 renderChangeCarpetPopup();
                 break;
-            case ACTION_ROTATE_ID:
+            case R.id.action_rotate:
                 if (mSelectedThing != null) {
                     int rotation = mSelectedThing.getRotation();
 
@@ -245,10 +245,10 @@ public class OfficeMoverActivity extends Activity {
                     updateOfficeThing(mSelectedThing.getKey(), mSelectedThing);
                 }
                 break;
-            case ACTION_DELETE_ID:
+            case R.id.action_delete:
                 deleteOfficeThing(mSelectedThing.getKey(), mSelectedThing);
                 break;
-            case ACTION_EDIT_ID:
+            case R.id.action_edit:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 final EditText entry = new EditText(this);
 

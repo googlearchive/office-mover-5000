@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="action_rotate" type="id" />
+    <item name="action_delete" type="id" />
+    <item name="action_edit" type="id" />
+</resources>
