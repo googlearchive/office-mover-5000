@@ -33,6 +33,7 @@ public class LoginActivity extends Activity  implements
 
     /* Request code used to invoke sign in user interactions for Google+ */
     public static final int RC_GOOGLE_LOGIN = 1;
+    public static final String AUTH_TOKEN_EXTRA = "authToken";
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
@@ -197,7 +198,7 @@ public class LoginActivity extends Activity  implements
             protected void onPostExecute(String token) {
                 mGoogleLoginClicked = false;
                 Intent intentWithToken = new Intent(LoginActivity.this, OfficeMoverActivity.class);
-                intentWithToken.putExtra("authToken", token);
+                intentWithToken.putExtra(AUTH_TOKEN_EXTRA, token);
                 startActivity(intentWithToken);
             }
         };

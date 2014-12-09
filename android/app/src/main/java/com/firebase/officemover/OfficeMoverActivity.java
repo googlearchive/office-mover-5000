@@ -32,24 +32,35 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author Jenny Tong (mimming)
- *         <p/>
- *         This is the main Activity for Office Mover. It manages the Firebase client and all of the
- *         listeners.
+ *
+ * This is the main Activity for Office Mover. It manages the Firebase client and all of the
+ * listeners.
  */
 public class OfficeMoverActivity extends Activity {
+    private static final String TAG = OfficeMoverActivity.class.getSimpleName();
+
     //TODO: Update to your Firebase
     public static final String FIREBASE = "https://<your-firebase>.firebaseio.com/";
 
-    private final static String TAG = OfficeMoverActivity.class.getSimpleName();
+    // How often (in ms) we push write updates to Firebase
+    private static final int UPDATE_THROTTLE_DELAY = 40;
 
-    private OfficeLayout mOfficeLayout;
-    private OfficeCanvasView mOfficeCanvasView;
-    private FrameLayout mOfficeFloorView;
+    // The Firebase client
     private Firebase mFirebaseRef;
-    private Menu mActionMenu;
+
+    // The office layout
+    private OfficeLayout mOfficeLayout;
+
+    // The currently selected thing in the office
     private OfficeThing mSelectedThing;
 
+    // A list of elements to be written to Firebase on the next push
     private HashMap<String, OfficeThing> mStuffToUpdate = new HashMap<String, OfficeThing>();
+
+    // View stuff
+    private OfficeCanvasView mOfficeCanvasView;
+    private FrameLayout mOfficeFloorView;
+    private Menu mActionMenu;
 
     public abstract class ThingChangeListener {
         public abstract void thingChanged(String key, OfficeThing officeThing);
@@ -65,10 +76,14 @@ public class OfficeMoverActivity extends Activity {
 
         setContentView(R.layout.activity_office_mover);
 
+        // Initialize Firebase
+        mFirebaseRef = new Firebase(FIREBASE);
+
+        // Process authentication
         Bundle extras = getIntent().getExtras();
         String authToken;
         if (extras != null) {
-            authToken = extras.getString("authToken");
+            authToken = extras.getString(LoginActivity.AUTH_TOKEN_EXTRA);
         } else {
             Log.w(TAG, "Users must be authenticated to do this activity. Redirecting to login activity.");
             Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -78,12 +93,6 @@ public class OfficeMoverActivity extends Activity {
             return;
         }
 
-        mOfficeLayout = new OfficeLayout();
-        mOfficeCanvasView = (OfficeCanvasView) findViewById(R.id.office_canvas);
-        mOfficeCanvasView.setOfficeLayout(mOfficeLayout);
-        mOfficeFloorView = (FrameLayout) findViewById(R.id.office_floor);
-
-        mFirebaseRef = new Firebase(FIREBASE);
         mFirebaseRef.authWithOAuthToken("google", authToken, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
@@ -97,6 +106,12 @@ public class OfficeMoverActivity extends Activity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Initialize the view stuff
+        mOfficeLayout = new OfficeLayout();
+        mOfficeCanvasView = (OfficeCanvasView) findViewById(R.id.office_canvas);
+        mOfficeCanvasView.setOfficeLayout(mOfficeLayout);
+        mOfficeFloorView = (FrameLayout) findViewById(R.id.office_floor);
 
         // Listen for floor changes
         mFirebaseRef.child("background").addValueEventListener(new ValueEventListener() {
@@ -132,7 +147,7 @@ public class OfficeMoverActivity extends Activity {
                 String key = dataSnapshot.getKey();
                 OfficeThing existingThing = dataSnapshot.getValue(OfficeThing.class);
 
-                Log.v(TAG, "New thing " + existingThing);
+                Log.v(TAG, "New thing added " + existingThing);
 
                 addUpdateThingToLocalModel(key, existingThing);
             }
@@ -168,20 +183,11 @@ public class OfficeMoverActivity extends Activity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                Log.v(TAG, "Something canceled");
-                //TODO: handle this
-                throw new RuntimeException();
+                Log.w(TAG, "Furniture move was canceled: " + firebaseError.getMessage());
             }
         });
 
-        mOfficeCanvasView.setThingChangedListener(new ThingChangeListener() {
-            @Override
-            public void thingChanged(String key, OfficeThing officeThing) {
-                mStuffToUpdate.put(key, officeThing);
-                mOfficeCanvasView.invalidate();
-            }
-        });
-
+        // Handles menu changes that happen when an office thing is selected or de-selected
         mOfficeCanvasView.setThingFocusChangeListener(new ThingFocusChangeListener() {
             @Override
             public void thingChanged(OfficeThing officeThing) {
@@ -211,6 +217,18 @@ public class OfficeMoverActivity extends Activity {
             }
         });
 
+        // Triggers whenever an office thing changes on the screen. This binds the
+        // user interface to the scheduler that throttles updates to Firebase
+        mOfficeCanvasView.setThingChangedListener(new ThingChangeListener() {
+            @Override
+            public void thingChanged(String key, OfficeThing officeThing) {
+                mStuffToUpdate.put(key, officeThing);
+                mOfficeCanvasView.invalidate();
+            }
+        });
+
+        // A scheduled executor that throttles updates to Firebase to about 40ms each.
+        // This prevents the high frequency change events from swamping Firebase.
         ScheduledExecutorService firebaseUpdateScheduler = Executors.newScheduledThreadPool(1);
         firebaseUpdateScheduler.scheduleAtFixedRate(new Runnable() {
             @Override
@@ -222,7 +240,7 @@ public class OfficeMoverActivity extends Activity {
                     }
                 }
             }
-        }, 40, 40, TimeUnit.MILLISECONDS);
+        }, UPDATE_THROTTLE_DELAY, UPDATE_THROTTLE_DELAY, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -360,7 +378,6 @@ public class OfficeMoverActivity extends Activity {
         });
         popup.show();
     }
-
 
     public void updateOfficeThing(String key, OfficeThing officeThing) {
         if (null == key || null == officeThing) throw new IllegalArgumentException();
