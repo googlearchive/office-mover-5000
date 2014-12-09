@@ -15,6 +15,9 @@ import android.view.View;
 import com.firebase.officemover.model.OfficeLayout;
 import com.firebase.officemover.model.OfficeThing;
 
+/**
+ * @author Jenny Tong (mimming)
+ */
 public class OfficeCanvasView extends View {
 
     private static final String TAG = OfficeCanvasView.class.getSimpleName();

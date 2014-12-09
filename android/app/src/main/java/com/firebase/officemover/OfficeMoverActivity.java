@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.ChildEventListener;
@@ -22,17 +23,24 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.firebase.officemover.model.OfficeLayout;
 import com.firebase.officemover.model.OfficeThing;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
 
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+
+/**
+ * @author Jenny Tong (mimming)
+ *         <p/>
+ *         This is the main Activity for Office Mover. It manages the Firebase client and all of the
+ *         listeners.
+ */
 public class OfficeMoverActivity extends Activity {
+    //TODO: Update to your Firebase
+    public static final String FIREBASE = "https://<your-firebase>.firebaseio.com/";
+
     private final static String TAG = OfficeMoverActivity.class.getSimpleName();
-    public static final String FIREBASE = "https://mover-app-5000-demo.firebaseio.com/";
 
     private OfficeLayout mOfficeLayout;
     private OfficeCanvasView mOfficeCanvasView;
@@ -40,9 +48,7 @@ public class OfficeMoverActivity extends Activity {
     private Firebase mFirebaseRef;
     private Menu mActionMenu;
     private OfficeThing mSelectedThing;
-    private String authToken;
 
-    private ScheduledExecutorService mFirebaseUpdateScheduler;
     private HashMap<String, OfficeThing> mStuffToUpdate = new HashMap<String, OfficeThing>();
 
     public abstract class ThingChangeListener {
@@ -60,10 +66,16 @@ public class OfficeMoverActivity extends Activity {
         setContentView(R.layout.activity_office_mover);
 
         Bundle extras = getIntent().getExtras();
+        String authToken;
         if (extras != null) {
             authToken = extras.getString("authToken");
         } else {
-            throw new RuntimeException("not auth'd");
+            Log.w(TAG, "Users must be authenticated to do this activity. Redirecting to login activity.");
+            Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginIntent);
+            finish();
+            return;
         }
 
         mOfficeLayout = new OfficeLayout();
@@ -71,9 +83,6 @@ public class OfficeMoverActivity extends Activity {
         mOfficeCanvasView.setOfficeLayout(mOfficeLayout);
         mOfficeFloorView = (FrameLayout) findViewById(R.id.office_floor);
 
-        Firebase.setAndroidContext(this);
-
-        // add an on child added listener for the table
         mFirebaseRef = new Firebase(FIREBASE);
         mFirebaseRef.authWithOAuthToken("google", authToken, new Firebase.AuthResultHandler() {
             @Override
@@ -83,7 +92,9 @@ public class OfficeMoverActivity extends Activity {
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-                throw new RuntimeException("Auth failed :(" + firebaseError.getMessage());
+                Log.e(TAG, "Authentication failed: " + firebaseError.getMessage());
+                Toast.makeText(getApplicationContext(), "Authentication failed. Please try again",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -118,7 +129,7 @@ public class OfficeMoverActivity extends Activity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                String key = dataSnapshot.getName();
+                String key = dataSnapshot.getKey();
                 OfficeThing existingThing = dataSnapshot.getValue(OfficeThing.class);
 
                 Log.v(TAG, "New thing " + existingThing);
@@ -128,7 +139,7 @@ public class OfficeMoverActivity extends Activity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                String key = dataSnapshot.getName();
+                String key = dataSnapshot.getKey();
                 OfficeThing existingThing = dataSnapshot.getValue(OfficeThing.class);
 
                 Log.v(TAG, "Thing changed " + existingThing);
@@ -138,7 +149,7 @@ public class OfficeMoverActivity extends Activity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                String key = dataSnapshot.getName();
+                String key = dataSnapshot.getKey();
 
                 Log.v(TAG, "Thing removed " + key);
 
@@ -147,7 +158,7 @@ public class OfficeMoverActivity extends Activity {
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                String key = dataSnapshot.getName();
+                String key = dataSnapshot.getKey();
                 OfficeThing existingThing = dataSnapshot.getValue(OfficeThing.class);
 
                 Log.v(TAG, "Thing moved " + existingThing);
@@ -171,7 +182,6 @@ public class OfficeMoverActivity extends Activity {
             }
         });
 
-
         mOfficeCanvasView.setThingFocusChangeListener(new ThingFocusChangeListener() {
             @Override
             public void thingChanged(OfficeThing officeThing) {
@@ -184,12 +194,12 @@ public class OfficeMoverActivity extends Activity {
                     mActionMenu.removeItem(R.id.action_rotate);
 
                     // If I have a new thing, add menu items back to it
-                    if(officeThing != null) {
+                    if (officeThing != null) {
                         mActionMenu.add(Menu.NONE, R.id.action_delete, Menu.NONE,
                                 getString(R.string.action_delete));
 
                         // Only desks can be edited
-                        if(officeThing.getType().equals("desk")) {
+                        if (officeThing.getType().equals("desk")) {
                             mActionMenu.add(Menu.NONE, R.id.action_edit, Menu.NONE,
                                     getString(R.string.action_edit));
                         }
@@ -201,8 +211,8 @@ public class OfficeMoverActivity extends Activity {
             }
         });
 
-        mFirebaseUpdateScheduler = Executors.newScheduledThreadPool(1);
-        mFirebaseUpdateScheduler.scheduleAtFixedRate(new Runnable() {
+        ScheduledExecutorService firebaseUpdateScheduler = Executors.newScheduledThreadPool(1);
+        firebaseUpdateScheduler.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 if (mStuffToUpdate != null && mStuffToUpdate.size() > 0) {
@@ -216,15 +226,7 @@ public class OfficeMoverActivity extends Activity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         switch (id) {
             case R.id.action_new_thing:
@@ -252,16 +254,17 @@ public class OfficeMoverActivity extends Activity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 final EditText entry = new EditText(this);
 
-                builder.setMessage("Edit the name for this desk")
-                        .setTitle("Edit name").setView(entry);
+                builder.setMessage(getString(R.string.edit_desk_name_description))
+                        .setTitle(getString(R.string.edit_desk_name_title)).setView(entry);
 
-                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String text = entry.getText().toString();
-                        mSelectedThing.setName(text);
-                        updateOfficeThing(mSelectedThing.getKey(), mSelectedThing);
-                    }
-                });
+                builder.setPositiveButton(getString(R.string.edit_desk_name_save),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                String text = entry.getText().toString();
+                                mSelectedThing.setName(text);
+                                updateOfficeThing(mSelectedThing.getKey(), mSelectedThing);
+                            }
+                        });
                 builder.show();
                 break;
         }
@@ -276,6 +279,9 @@ public class OfficeMoverActivity extends Activity {
         return true;
     }
 
+    /**
+     * The add item popup menu
+     */
     private void renderNewThingPopup() {
         View menuItemView = findViewById(R.id.action_new_thing);
         PopupMenu popup = new PopupMenu(this, menuItemView);
@@ -285,21 +291,52 @@ public class OfficeMoverActivity extends Activity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 String menuName = getResources().getResourceName(item.getItemId());
-                if(menuName.contains("action_add_")) {
+                if (menuName.contains("action_add_")) {
                     String newThingName = menuName.split("action_add_")[1];
                     addOfficeThing(newThingName);
                 } else {
-                    //TODO: better exception
-                    throw new RuntimeException();
+                    Log.e(TAG, "Attempted to add unknown thing " + menuName);
                 }
                 return true;
+            }
+
+            /**
+             * Saves a new thing to Firebase, which is then picked up and displayed by
+             * the view
+             *
+             * @param thingType The type of furniture to add to Firebase
+             */
+            private void addOfficeThing(String thingType) {
+                if (null == thingType) throw new IllegalArgumentException();
+
+                OfficeThing newThing = new OfficeThing();
+                newThing.setType(thingType);
+                newThing.setzIndex(mOfficeCanvasView.getOfficeLayout().getHighestzIndex() + 1);
+                newThing.setRotation(0);
+                newThing.setName("");
+                newThing.setLeft(mOfficeCanvasView.screenToModel(mOfficeCanvasView.getWidth()) / 2);
+                newThing.setTop(mOfficeCanvasView.screenToModel(mOfficeCanvasView.getHeight()) / 2);
+
+                Log.w(TAG, "Added thing to firebase " + newThing);
+
+                Firebase newThingFirebaseRef = mFirebaseRef.child("furniture").push();
+                newThingFirebaseRef.setValue(newThing, new Firebase.CompletionListener() {
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                        if (firebaseError != null) {
+                            Log.w(TAG, "Add failed! " + firebaseError.getMessage());
+                        }
+                    }
+                });
             }
         });
         popup.show();
     }
 
+    /**
+     * The change floor pattern popup menu
+     */
     private void renderChangeCarpetPopup() {
-
         View menuItemView = findViewById(R.id.change_floor);
         PopupMenu popup = new PopupMenu(this, menuItemView);
         MenuInflater inflater = popup.getMenuInflater();
@@ -307,23 +344,16 @@ public class OfficeMoverActivity extends Activity {
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                int id = item.getItemId();
-                switch (id) {
-                    //TODO: do this with less copy and paste
-                    case R.id.action_floor_carpet:
-                        mFirebaseRef.child("background").setValue("carpet");
-                        break;
-                    case R.id.action_floor_grid:
-                        mFirebaseRef.child("background").setValue("grid");
-                        break;
-                    case R.id.action_floor_tile:
-                        mFirebaseRef.child("background").setValue("tile");
-                        break;
-                    case R.id.action_floor_wood:
-                        mFirebaseRef.child("background").setValue("wood");
-                        break;
-                    default:
+                String menuName = getResources().getResourceName(item.getItemId());
+                if(menuName.contains("action_floor_")) {
+                    String newFloor = menuName.split("action_floor_")[1];
+                    if(newFloor.equals("none")) {
                         mFirebaseRef.child("background").removeValue();
+                    } else {
+                        mFirebaseRef.child("background").setValue(newFloor);
+                    }
+                } else {
+                    Log.e(TAG, "Attempted change carpet to unknown value " + menuName);
                 }
                 return true;
             }
@@ -331,35 +361,6 @@ public class OfficeMoverActivity extends Activity {
         popup.show();
     }
 
-    /**
-     * Saves a new thing to Firebase, which is then picked up and displayed by
-     * the view
-     *
-     * @param thingType
-     */
-    private void addOfficeThing(String thingType) {
-        if (null == thingType) throw new IllegalArgumentException();
-
-        OfficeThing newThing = new OfficeThing();
-        newThing.setType(thingType);
-        newThing.setzIndex(mOfficeCanvasView.getOfficeLayout().getHighestzIndex() + 1);
-        newThing.setRotation(0);
-        newThing.setName("");
-        newThing.setLeft(mOfficeCanvasView.screenToModel(mOfficeCanvasView.getWidth()) / 2);
-        newThing.setTop(mOfficeCanvasView.screenToModel(mOfficeCanvasView.getHeight()) / 2);
-
-        Log.w(TAG, "Added thing to firebase " + newThing);
-
-        Firebase newThingFirebaseRef = mFirebaseRef.child("furniture").push();
-        newThingFirebaseRef.setValue(newThing, new Firebase.CompletionListener() {
-            @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                if (firebaseError != null) {
-                    Log.w(TAG, "Add failed! " + firebaseError.getMessage());
-                }
-            }
-        });
-    }
 
     public void updateOfficeThing(String key, OfficeThing officeThing) {
         if (null == key || null == officeThing) throw new IllegalArgumentException();

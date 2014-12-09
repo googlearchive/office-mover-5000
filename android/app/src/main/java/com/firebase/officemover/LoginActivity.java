@@ -19,15 +19,18 @@ import com.google.android.gms.plus.Plus;
 
 import java.io.IOException;
 
+/**
+ * This class implements Google+ Sign-in. There's not much Firebase specific stuff here.
+ *
+ * If you'd like to learn more about Google+ Sign-in, you can find the official documentation here:
+ * https://developers.google.com/+/mobile/android/sign-in
+ */
 public class LoginActivity extends Activity  implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
-    /***************************************
-     *               GOOGLE                *
-     ***************************************/
     /* Request code used to invoke sign in user interactions for Google+ */
     public static final int RC_GOOGLE_LOGIN = 1;
 
@@ -45,10 +48,6 @@ public class LoginActivity extends Activity  implements
      * sign-in. */
     private ConnectionResult mGoogleConnectionResult;
 
-    /* The login button for Google */
-    private SignInButton mGoogleLoginButton;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +56,8 @@ public class LoginActivity extends Activity  implements
         setContentView(R.layout.activity_login);
 
         /* Load the Google login button */
-        mGoogleLoginButton = (SignInButton)findViewById(R.id.login_with_google);
-        mGoogleLoginButton.setOnClickListener(new View.OnClickListener() {
+        SignInButton googleLoginButton = (SignInButton) findViewById(R.id.login_with_google);
+        googleLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mGoogleLoginClicked = true;
@@ -102,7 +101,6 @@ public class LoginActivity extends Activity  implements
     public void onConnected(Bundle bundle) {
         /* Connected with Google API, use this to authenticate with Firebase */
         Log.i(TAG, "Login Connected");
-//        startActivity(new Intent(LoginActivity.this, OfficeMoverActivity.class));
         getGoogleOAuthTokenAndLogin();
     }
 
@@ -201,14 +199,6 @@ public class LoginActivity extends Activity  implements
                 Intent intentWithToken = new Intent(LoginActivity.this, OfficeMoverActivity.class);
                 intentWithToken.putExtra("authToken", token);
                 startActivity(intentWithToken);
-
-//                if (token != null) {
-//                    /* Successfully got OAuth token, now login with Google */
-//                    ref.authWithOAuthToken("google", token, new AuthResultHandler("google"));
-//                } else if (errorMessage != null) {
-//                    mAuthProgressDialog.hide();
-//                    showErrorDialog(errorMessage);
-//                }
             }
         };
         task.execute();
