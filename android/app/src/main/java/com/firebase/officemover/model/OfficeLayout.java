@@ -6,6 +6,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author Jenny Tong (mimming)
+ */
 public class OfficeLayout extends HashMap<String, OfficeThing> {
 
     public int getHighestzIndex() {

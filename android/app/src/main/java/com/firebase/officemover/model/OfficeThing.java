@@ -13,6 +13,9 @@ import android.util.Log;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author Jenny Tong (mimming)
+ */
 public class OfficeThing {
 
     private static final String TAG = OfficeThing.class.getSimpleName();

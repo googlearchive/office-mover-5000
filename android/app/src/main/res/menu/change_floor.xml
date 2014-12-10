@@ -16,8 +16,8 @@
     <item
         android:id="@+id/action_floor_wood"
         android:title="@string/action_floor_wood" />
-    <!--<item-->
-        <!--android:id="@+id/action_floor_none"-->
-        <!--android:title="@string/action_floor_none" />-->
 
+    <item
+        android:id="@+id/action_floor_none"
+        android:title="@string/action_floor_none" />
 </menu>

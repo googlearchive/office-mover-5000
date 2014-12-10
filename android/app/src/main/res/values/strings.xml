@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Main action bar -->
     <string name="app_name">Inetech Office Mover 5000</string>
     <string name="action_settings">Settings</string>
@@ -24,7 +23,18 @@
     <string name="action_add_ballpit">Ballpit</string>
     <string name="action_add_android">Android</string>
 
-    <!-- floor menu -->
+    <!-- Edit furniture -->
+    <string name="edit_desk_name_description">Edit the name for this desk.</string>
+    <string name="edit_desk_name_title">Edit name</string>
+    <string name="edit_desk_name_save">Save</string>
+
+
+    <!-- Furniture manipulation menu -->
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_rotate">Rotate</string>
+
+    <!-- Floor menu -->
     <string name="action_floor_tile">Tile Flooring</string>
     <string name="action_floor_carpet">Casino Carpet</string>
     <string name="action_floor_wood">Hardwood Floor</string>
@@ -33,8 +43,4 @@
     <!-- Login -->
     <string name="login_with_google">Login with Google</string>
     <string name="action_floor_none">None</string>
-    <string name="action_rotate">Rotate</string>
-    <string name="action_delete">Delete</string>
-
-    <!-- change office name -->
 </resources>
