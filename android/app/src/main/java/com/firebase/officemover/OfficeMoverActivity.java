@@ -40,7 +40,7 @@ public class OfficeMoverActivity extends Activity {
     private static final String TAG = OfficeMoverActivity.class.getSimpleName();
 
     //TODO: Update to your Firebase
-    public static final String FIREBASE = "https://office-mover-demo.firebaseio.com/";
+    public static final String FIREBASE = "https://<your-firebase>.firebaseio.com/";
 
     // How often (in ms) we push write updates to Firebase
     private static final int UPDATE_THROTTLE_DELAY = 40;
