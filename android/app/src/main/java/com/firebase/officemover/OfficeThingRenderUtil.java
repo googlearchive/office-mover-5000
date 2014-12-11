@@ -69,7 +69,6 @@ public class OfficeThingRenderUtil {
 
         String cacheKey = getCacheKey(thing);
 
-        // TODO: reimplement using LruCache's create method
         if(mBitmapCache.get(cacheKey) == null) {
             String packageName = mContext.getPackageName();
             int resourceId = mContext.getResources().getIdentifier(thing.getType(), "drawable", packageName);
@@ -80,7 +79,8 @@ public class OfficeThingRenderUtil {
             // rotate counter clockwise
             Matrix matrix = new Matrix();
             matrix.postRotate(-thing.getRotation());
-            matrix.postScale(0.9F, 0.9F); //TODO: figure out why this hack makes android match web
+            matrix.postScale(0.93F, 0.93F); //TODO: figure out why this hack makes android match web
+            // Is it render ratio / px per dp -> 1.5 / 1.8
 
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, resourceWidth, resourceHeight, matrix, true);
             mBitmapCache.put(cacheKey, bitmap);
@@ -123,7 +123,7 @@ public class OfficeThingRenderUtil {
         return mBitmapCache.get(cacheKey);
     }
 
-
+    // TODO: make less copy and paste
     public int getScreenHeight(OfficeThing thing) {
         String key = getCacheKey(thing);
 
@@ -136,12 +136,13 @@ public class OfficeThingRenderUtil {
             dimensions.inJustDecodeBounds = true;
             BitmapFactory.decodeResource(mContext.getResources(), resourceId, dimensions);
 
-            //TODO: make this use the screen logical density instead of a fixed value for TVDPI
+            int screenHeight;
             if(thing.getRotation() == 0 || thing.getRotation() == 180) {
-                mHeightCache.put(key, (int) ((dimensions.outHeight / 2D) * mCanvasRatio));
+                screenHeight = (int) ((dimensions.outHeight / 2D) * mCanvasRatio);
             } else {
-                mHeightCache.put(key, (int) ((dimensions.outWidth / 2D) * mCanvasRatio));
+                screenHeight = (int) ((dimensions.outWidth / 2D) * mCanvasRatio);
             }
+            mHeightCache.put(key,screenHeight);
         }
         return mHeightCache.get(key);
     }
@@ -158,14 +159,15 @@ public class OfficeThingRenderUtil {
             dimensions.inJustDecodeBounds = true;
             BitmapFactory.decodeResource(mContext.getResources(), resourceId, dimensions);
 
-            //TODO: make this use the screen logical density instead of a fixed value for TVDPI
+            int screenWidth;
             if(thing.getRotation() == 0 || thing.getRotation() == 180) {
-                mWidthCache.put(key, (int) ((dimensions.outWidth / 2D) * mCanvasRatio));
+                screenWidth = (int) ((dimensions.outWidth / 2D) * mCanvasRatio);
             } else {
-                mWidthCache.put(key, (int) ((dimensions.outHeight / 2D) * mCanvasRatio));
+                screenWidth = (int) ((dimensions.outHeight / 2D) * mCanvasRatio);
             }
+            mWidthCache.put(key,screenWidth);
         }
-        return mHeightCache.get(key);
+        return mWidthCache.get(key);
     }
 
     public int getModelHeight(OfficeThing thing) {

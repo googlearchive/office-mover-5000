@@ -22,10 +22,6 @@ public class OfficeThing {
 
     //Cache variables
     @JsonIgnore
-    private int height;
-    @JsonIgnore
-    private int width;
-    @JsonIgnore
     private String key;
 
     public OfficeThing() {
@@ -99,14 +95,4 @@ public class OfficeThing {
         }
         this.rotation = rotation;
     }
-
-    //TODO: remove
-    public void setX(int newX, OfficeThingRenderUtil renderUtil) {
-        this.setLeft(newX - (renderUtil.getScreenWidth(this) / 2));
-    }
-
-    public void setY(int newY, OfficeThingRenderUtil renderUtil) {
-        this.setTop(newY - (renderUtil.getScreenHeight(this) / 2));
-    }
-
 }

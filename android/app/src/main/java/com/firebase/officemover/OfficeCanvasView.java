@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -34,9 +33,7 @@ public class OfficeCanvasView extends View {
 
     public float mScreenRatio;
 
-    // A sparse array since we might have several pointers at once because multitouch
-    private final SparseArray<OfficeThing> mOfficeThingPointer = new SparseArray<OfficeThing>();
-    private String mSelectedThingKey;
+    private OfficeThing mSelectedThing;
 
     private OfficeLayout mOfficeLayout;
 
@@ -88,6 +85,18 @@ public class OfficeCanvasView extends View {
         });
     }
 
+    // Setters called from OfficeMoverActivity
+    public void setOfficeLayout(OfficeLayout officeLayout) {
+        this.mOfficeLayout = officeLayout;
+    }
+
+    public void setThingChangedListener(OfficeMoverActivity.ThingChangeListener thingChangeListener) {
+        this.mThingChangedListener = thingChangeListener;
+    }
+
+    public void setThingFocusChangeListener(OfficeMoverActivity.SelectedThingChangeListener mSelectedThingChangeListener) {
+        this.mSelectedThingChangeListener = mSelectedThingChangeListener;
+    }
 
     @Override
     public void onDraw(final Canvas canv) {
@@ -99,20 +108,23 @@ public class OfficeCanvasView extends View {
         for (OfficeThing thing : mOfficeLayout.getThingsBottomUp()) {
             Bitmap thingBitmap = mRenderUtil.getBitmap(thing);
 
-            // If it's the selected thing, make it GLOW!
-            if (thing.getKey().equals(mSelectedThingKey)) {
-                thingBitmap = mRenderUtil.getGlowingBitmap(thing);
-            }
+            //TODO: reimplement glow rendering
+//            // If it's the selected thing, make it GLOW!
+//            if (thing.getKey().equals(mSelectedThingKey)) {
+//                thingBitmap = mRenderUtil.getGlowingBitmap(thing);
+//            }
 
+            // Draw furniture
             canv.drawBitmap(thingBitmap, modelToScreen(thing.getLeft()), modelToScreen(thing.getTop()), DEFAULT_PAINT);
 
+            // Draw desk label
             if (thing.getType().equals("desk") && thing.getName() != null) {
-                // TODO: these offset numbers are empirically determined. Calculate them instead
+                // TODO: these offset numbers were empirically determined. Calculate them instead
                 float centerX = modelToScreen(thing.getLeft()) + 102;
                 float centerY = modelToScreen(thing.getTop()) + 70;
 
                 canv.save();
-                // TODO: OMG this is so hacky. Fix it. These numbers were also empirically determined
+                // TODO: OMG this is so hacky. Fix it. These numbers were empirically determined
                 if (thing.getRotation() == 180) {
                     canv.rotate(-thing.getRotation(), centerX, centerY - 10);
                 } else if (thing.getRotation() == 90) {
@@ -132,153 +144,64 @@ public class OfficeCanvasView extends View {
         boolean handled = false;
 
         OfficeThing touchedThing;
-        int xTouch;
-        int yTouch;
+        int xTouchLogical;
+        int yTouchLogical;
         int pointerId;
         int actionIndex = event.getActionIndex();
-
-        int newTop;
-        int newLeft;
-        int newBottom;
-        int newRight;
 
         // get touch event coordinates and make transparent wrapper from it
         switch (event.getActionMasked()) {
 
             case MotionEvent.ACTION_DOWN:
-                // first pointer, clear all existing pointers data
-                mOfficeThingPointer.clear();
+                // first pointer, clear the pointer
+                mSelectedThing = null;
 
-                xTouch = (int) event.getX(0);
-                yTouch = (int) event.getY(0);
+                xTouchLogical = screenToModel((int) event.getX(0));
+                yTouchLogical = screenToModel((int) event.getY(0));
 
                 // check if we've touched inside something
-                touchedThing = getTouchedThing(screenToModel(xTouch), screenToModel(yTouch));
+                touchedThing = getTouchedThing(xTouchLogical, yTouchLogical);
 
                 if (touchedThing == null) {
-                    Log.v(TAG, "Deselected " + mSelectedThingKey);
-                    mSelectedThingKey = null;
                     mSelectedThingChangeListener.thingChanged(null);
                     break;
                 }
 
-                //TODO: make sure these are accurate
-                newTop = yTouch - mRenderUtil.getScreenHeight(touchedThing) / 2;
-                newLeft = xTouch - mRenderUtil.getScreenWidth(touchedThing) / 2;
-                newBottom = yTouch + mRenderUtil.getScreenHeight(touchedThing) / 2;
-                newRight = xTouch + mRenderUtil.getScreenWidth(touchedThing) / 2;
+                mSelectedThing = touchedThing;
 
-                mOfficeThingPointer.put(event.getPointerId(0), touchedThing);
-
-                // Determine if it's still on the canvas
-                if (newTop >= 0 && newLeft >= 0 &&
-                        newBottom <= modelToScreen(LOGICAL_HEIGHT) &&
-                        newRight <= modelToScreen(LOGICAL_WIDTH)) {
-
-                    touchedThing.setX(screenToModel(xTouch), mRenderUtil);
-                    touchedThing.setY(screenToModel(yTouch), mRenderUtil);
-
-                    if (null != this.mThingChangedListener) {
-                        mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
-                    }
+                if(null != mSelectedThingChangeListener) {
+                    mSelectedThingChangeListener.thingChanged(touchedThing);
                 }
-
-
-                mSelectedThingKey = touchedThing.getKey();
-                mSelectedThingChangeListener.thingChanged(touchedThing);
                 touchedThing.setzIndex(mOfficeLayout.getHighestzIndex() + 1);
 
                 Log.v(TAG, "Selected " + touchedThing);
                 handled = true;
                 break;
 
-            case MotionEvent.ACTION_POINTER_DOWN:
-                Log.w(TAG, "Pointer down");
-                // It secondary pointers, so obtain their ids and check circles
+
+            case MotionEvent.ACTION_MOVE:
+
                 pointerId = event.getPointerId(actionIndex);
-
-                xTouch = (int) event.getX(actionIndex);
-                yTouch = (int) event.getY(actionIndex);
-
-                // check if we've touched inside something
-                touchedThing = getTouchedThing(screenToModel(xTouch), screenToModel(yTouch));
-                if (touchedThing == null) {
+                if(pointerId > 0) {
                     break;
                 }
 
-                //TODO: make sure these are accurate
-                newTop = yTouch - mRenderUtil.getScreenHeight(touchedThing) / 2;
-                newLeft = xTouch - mRenderUtil.getScreenWidth(touchedThing) / 2;
-                newBottom = yTouch + mRenderUtil.getScreenHeight(touchedThing) / 2;
-                newRight = xTouch + mRenderUtil.getScreenWidth(touchedThing) / 2;
+                xTouchLogical = screenToModel((int) event.getX(actionIndex));
+                yTouchLogical = screenToModel((int) event.getY(actionIndex));
 
-                mOfficeThingPointer.put(pointerId, touchedThing);
+                touchedThing = mSelectedThing;
 
-                // Determine if it's still on the canvas
-                if (newTop >= 0 && newLeft >= 0 &&
-                        newBottom <= modelToScreen(LOGICAL_HEIGHT) &&
-                        newRight <= modelToScreen(LOGICAL_WIDTH)) {
-
-                    touchedThing.setX(screenToModel(xTouch), mRenderUtil);
-                    touchedThing.setY(screenToModel(yTouch), mRenderUtil);
-
-                    if (null != this.mThingChangedListener) {
-                        mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
-                    }
+                if (null == touchedThing) {
+                    break;
                 }
 
-                handled = true;
-                break;
+                moveThing(touchedThing, xTouchLogical, yTouchLogical);
 
-            case MotionEvent.ACTION_MOVE:
-                final int pointerCount = event.getPointerCount();
-
-                for (actionIndex = 0; actionIndex < pointerCount; actionIndex++) {
-                    // Some pointer has moved, search it by pointer id
-                    pointerId = event.getPointerId(actionIndex);
-
-                    xTouch = (int) event.getX(actionIndex);
-                    yTouch = (int) event.getY(actionIndex);
-
-                    touchedThing = mOfficeThingPointer.get(pointerId);
-
-                    if (null == touchedThing) {
-                        Log.e(TAG, "Tried to move a null thing");
-                        break;
-                    }
-
-                    //TODO: make sure these are accurate
-                    newTop = yTouch - mRenderUtil.getScreenHeight(touchedThing) / 2;
-                    newLeft = xTouch - mRenderUtil.getScreenWidth(touchedThing) / 2;
-                    newBottom = yTouch + mRenderUtil.getScreenHeight(touchedThing) / 2;
-                    newRight = xTouch + mRenderUtil.getScreenWidth(touchedThing) / 2;
-
-                    // Determine if it's still on the canvas
-                    if (newTop >= 0 && newLeft >= 0 &&
-                            newBottom <= modelToScreen(LOGICAL_HEIGHT) &&
-                            newRight <= modelToScreen(LOGICAL_WIDTH)) {
-
-                        touchedThing.setX(screenToModel(xTouch), mRenderUtil);
-                        touchedThing.setY(screenToModel(yTouch), mRenderUtil);
-
-                        if (null != this.mThingChangedListener) {
-                            mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
-                        }
-                    }
-
-                }
                 handled = true;
                 break;
 
             case MotionEvent.ACTION_UP:
-                mOfficeThingPointer.clear();
-                invalidate();
-                handled = true;
-                break;
-
-            case MotionEvent.ACTION_POINTER_UP:
-                pointerId = event.getPointerId(actionIndex);
-                mOfficeThingPointer.remove(pointerId);
+                mSelectedThing = null;
                 invalidate();
                 handled = true;
                 break;
@@ -289,6 +212,40 @@ public class OfficeCanvasView extends View {
         }
 
         return super.onTouchEvent(event) || handled;
+    }
+
+    private void moveThing(OfficeThing touchedThing, int xTouchLogical, int yTouchLogical) {
+        //TODO: make sure these are accurate
+        int newTop = yTouchLogical - mRenderUtil.getModelHeight(touchedThing) / 2;
+        int newLeft = xTouchLogical - mRenderUtil.getModelWidth(touchedThing) / 2;
+        int newBottom = yTouchLogical + mRenderUtil.getModelHeight(touchedThing) / 2;
+        int newRight = xTouchLogical + mRenderUtil.getModelWidth(touchedThing) / 2;
+
+        if(newTop < 0 || newLeft < 0 || newBottom > LOGICAL_HEIGHT || newRight > LOGICAL_WIDTH) {
+            Log.v(TAG, "Dragging beyond screen edge. Limiting");
+        }
+        // Limit moves to the boundaries of the screen
+        if(newTop < 0) {
+            newTop = 0;
+        }
+        if(newLeft < 0) {
+            newLeft = 0;
+        }
+        if(newBottom > LOGICAL_HEIGHT) {
+            newTop = LOGICAL_HEIGHT - mRenderUtil.getModelHeight(touchedThing);
+        }
+        if(newRight > LOGICAL_WIDTH) {
+            newLeft = LOGICAL_WIDTH - mRenderUtil.getModelWidth(touchedThing);
+        }
+
+        // Save the object
+        touchedThing.setTop(newTop);
+        touchedThing.setLeft(newLeft);
+
+        // Notify listeners
+        if (null != this.mThingChangedListener) {
+            mThingChangedListener.thingChanged(touchedThing.getKey(), touchedThing);
+        }
     }
 
     private OfficeThing getTouchedThing(int xTouchModel, int yTouchModel) {
@@ -307,22 +264,6 @@ public class OfficeCanvasView extends View {
             }
         }
         return touched;
-    }
-
-    public OfficeLayout getOfficeLayout() {
-        return mOfficeLayout;
-    }
-
-    public void setOfficeLayout(OfficeLayout officeLayout) {
-        this.mOfficeLayout = officeLayout;
-    }
-
-    public void setThingChangedListener(OfficeMoverActivity.ThingChangeListener thingChangeListener) {
-        this.mThingChangedListener = thingChangeListener;
-    }
-
-    public void setThingFocusChangeListener(OfficeMoverActivity.SelectedThingChangeListener mSelectedThingChangeListener) {
-        this.mSelectedThingChangeListener = mSelectedThingChangeListener;
     }
 
     //Coordinate conversion
