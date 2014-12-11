@@ -40,7 +40,7 @@ public class OfficeMoverActivity extends Activity {
     private static final String TAG = OfficeMoverActivity.class.getSimpleName();
 
     //TODO: Update to your Firebase
-    public static final String FIREBASE = "https://<your-firebase>.firebaseio.com/";
+    public static final String FIREBASE = "https://office-mover-demo.firebaseio.com/";
 
     // How often (in ms) we push write updates to Firebase
     private static final int UPDATE_THROTTLE_DELAY = 40;
@@ -66,7 +66,7 @@ public class OfficeMoverActivity extends Activity {
         public abstract void thingChanged(String key, OfficeThing officeThing);
     }
 
-    public abstract class ThingFocusChangeListener {
+    public abstract class SelectedThingChangeListener {
         public abstract void thingChanged(OfficeThing officeThing);
     }
 
@@ -134,7 +134,7 @@ public class OfficeMoverActivity extends Activity {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                Log.v(TAG, "Canceled!" + firebaseError);
+                Log.v(TAG, "Floor update canceled: " + firebaseError.getMessage());
 
             }
         });
@@ -188,7 +188,7 @@ public class OfficeMoverActivity extends Activity {
         });
 
         // Handles menu changes that happen when an office thing is selected or de-selected
-        mOfficeCanvasView.setThingFocusChangeListener(new ThingFocusChangeListener() {
+        mOfficeCanvasView.setThingFocusChangeListener(new SelectedThingChangeListener() {
             @Override
             public void thingChanged(OfficeThing officeThing) {
                 mSelectedThing = officeThing;
@@ -325,15 +325,17 @@ public class OfficeMoverActivity extends Activity {
              * @param thingType The type of furniture to add to Firebase
              */
             private void addOfficeThing(String thingType) {
-                if (null == thingType) throw new IllegalArgumentException();
+                if (null == thingType) {
+                    throw new IllegalArgumentException("Typeless office things are not allowed");
+                }
 
                 OfficeThing newThing = new OfficeThing();
                 newThing.setType(thingType);
-                newThing.setzIndex(mOfficeCanvasView.getOfficeLayout().getHighestzIndex() + 1);
+                newThing.setzIndex(mOfficeLayout.getHighestzIndex() + 1);
                 newThing.setRotation(0);
                 newThing.setName("");
-                newThing.setLeft(mOfficeCanvasView.screenToModel(mOfficeCanvasView.getWidth()) / 2);
-                newThing.setTop(mOfficeCanvasView.screenToModel(mOfficeCanvasView.getHeight()) / 2);
+                newThing.setLeft(OfficeCanvasView.LOGICAL_WIDTH / 2);
+                newThing.setTop(OfficeCanvasView.LOGICAL_HEIGHT / 2);
 
                 Log.w(TAG, "Added thing to firebase " + newThing);
 

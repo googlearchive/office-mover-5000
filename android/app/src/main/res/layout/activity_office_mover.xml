@@ -14,18 +14,16 @@
 
         <FrameLayout
             android:id="@+id/office_walls"
-            android:layout_width="276dp"
-            android:layout_height="368dp"
+            android:layout_width="552dp"
+            android:layout_height="736dp"
             android:layout_gravity="center"
             android:background="@drawable/office">
 
             <com.firebase.officemover.OfficeCanvasView
                 android:id="@+id/office_canvas"
-                android:layout_width="270dp"
-                android:layout_height="360dp"
+                android:layout_width="540dp"
+                android:layout_height="720dp"
                 android:layout_gravity="center" />
         </FrameLayout>
-
     </FrameLayout>
-
 </FrameLayout>
