@@ -22,18 +22,18 @@ class ChangeBackgroundController : PopoverMenuController {
     
     // Set the cell with an image and the text
     override func populateCell(cell: PopoverMenuItemCell, row: Int) {
-        cell.textLabel.text = Floors[row].0
+        cell.textLabel?.text = Floors[row].0
         cell.name = Floors[row].1
         let imageName = Floors[row].1
         if let image = UIImage(named: "\(imageName)_unselected.png") {
-            cell.imageView.image = image
+            cell.imageView?.image = image
         } else {
             // Create blank image ths size of wood
             if let woodImage = UIImage(named: "wood_unselected.png") {
                 UIGraphicsBeginImageContextWithOptions(woodImage.size, false, 0.0)
                 let blankImage = UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
-                cell.imageView.image = blankImage
+                cell.imageView?.image = blankImage
             }
         }
     }
