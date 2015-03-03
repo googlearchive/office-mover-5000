@@ -101,7 +101,7 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, Popover
         
         for view in roomView.subviews {
             if let furnitureView = view as? FurnitureView {
-                furnitureView.stopDrag()
+                furnitureView.handleLogout()
             }
         }
         

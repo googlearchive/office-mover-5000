@@ -98,6 +98,24 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
     let type: String
     var startDown: CGPoint?
     private var menuListener: AnyObject?
+    private var alert: UIAlertView?
+    
+    func handleLogout() {
+        // Stop drag event
+        stopDrag()
+        
+        // Hide menu
+        let menuController = UIMenuController.sharedMenuController()
+        menuController.setMenuVisible(false, animated:false)
+        if let listener = menuListener {
+            NSNotificationCenter.defaultCenter().removeObserver(listener)
+        }
+        
+        // Hide alert view
+        if let alertView = alert {
+            alertView.dismissWithClickedButtonIndex(0, animated: false)
+        }
+    }
     
     
     // --- Initializers
@@ -154,11 +172,13 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         // Get the touch in view, bound it to the room, and move the button there
         if let touch = event.touchesForView(button)?.anyObject() as? UITouch {
             let touchLoc = touch.locationInView(self.superview)
-            if abs(startDown!.x - touchLoc.x) > 10 || abs(startDown!.y - touchLoc.y) > 10 {
-                dragging = DragState.Dragging // To avoid triggering tap functionality
-                showSeeThrough()
+            if let startDown = self.startDown {
+                if abs(startDown.x - touchLoc.x) > 10 || abs(startDown.y - touchLoc.y) > 10 {
+                    dragging = DragState.Dragging // To avoid triggering tap functionality
+                    showSeeThrough()
+                }
+                center = boundCenterLocToRoom(touchLoc)
             }
-            center = boundCenterLocToRoom(touchLoc)
         }
     }
     
@@ -215,6 +235,8 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         showMenu()
     }
     
+    
+    
     // --- Updates for move
     func debouncedMove(timer: NSTimer) {
         if dragging == .None {
@@ -240,7 +262,8 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
     }
     
     func triggerEdit(sender:AnyObject) {
-        let alert = UIAlertView(title: "Who sits here?", message: "Enter name below", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK")
+        // The OK button actually doesn't do anything.
+        let alert = UIAlertView(title: "Who sits here?", message: "Enter name below", delegate: self, cancelButtonTitle: "OK")
         alert.alertViewStyle = UIAlertViewStyle.PlainTextInput;
         if let textField = alert.textFieldAtIndex(0) {
             textField.text = name
@@ -249,6 +272,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
             textField.autocapitalizationType = .Words
         }
         alert.show()
+        self.alert = alert
     }
     
     // --- Delegates for handling name editing
@@ -327,7 +351,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         if menuListener != nil {
             NSNotificationCenter.defaultCenter().removeObserver(menuListener!)
         }
-        menuListener = NSNotificationCenter.defaultCenter().addObserverForName(UIMenuControllerWillHideMenuNotification, object:nil, queue: nil, usingBlock: {
+        menuListener = NSNotificationCenter.defaultCenter().addObserverForName(UIMenuControllerWillHideMenuNotification, object:nil, queue: nil, usingBlock: { [unowned self]
             notification in
             if self.dragging == .Dragging || self.dragging == .None {
                 self.menuShowing = false
