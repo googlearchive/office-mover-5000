@@ -48,18 +48,15 @@ class Furniture {
         let defaultLoc = Furniture.defaultLocation(self.type)
         self.top = defaultLoc.top
         self.left = defaultLoc.left
-        
     }
     
     convenience init(snap: FDataSnapshot) {
-        
         if let json = snap.value as? Dictionary<String, AnyObject> {
             self.init(key: snap.key, json: json)
         }
         else {
             fatalError("blah")
         }
-        
     }
     
     func toJson() -> Dictionary<String, AnyObject> {

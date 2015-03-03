@@ -22,7 +22,6 @@ class ViewController: RoomViewController {
         // Load the furniture items from Firebase
         furnitureRef.observeEventType(.ChildAdded, withBlock: { [unowned self] snapshot in
             self.refLocations += ["furniture/\(snapshot.key)"]
-            println("Furniture! \(snapshot)")
             let furniture = Furniture(snap: snapshot)
             self.createFurnitureView(furniture)
         })
@@ -44,16 +43,12 @@ class ViewController: RoomViewController {
 
         // move the view from a remote update
         currentFurnitureRef.observeEventType(.Value, withBlock: { snapshot in
-            // check if snapshot.value does not equal NSNull
-            if snapshot.value as? NSNull != NSNull() {
+            if snapshot.exists() {
                 let furniture = Furniture(snap: snapshot)
                 view.setViewState(furniture)
+            } else {
+                view.delete()
             }
-        })
-        
-        // delete the view from remote update
-        currentFurnitureRef.observeEventType(.ChildRemoved, withBlock: { snapshot in
-            view.delete()
         })
         
         
