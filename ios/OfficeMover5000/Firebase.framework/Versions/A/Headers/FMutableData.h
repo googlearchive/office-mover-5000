@@ -80,9 +80,11 @@
 
 
 /**
+ * This method is deprecated.
+ *
  * @return An FMutableData instance containing the data at the parent location, or nil if this is the top-most location
  */
-@property (strong, readonly, nonatomic) FMutableData* parent;
+@property (strong, readonly, nonatomic) FMutableData* parent __attribute__((deprecated("Deprecated. Do not use.")));;
 
 
 /**
@@ -131,9 +133,9 @@
 
 
 /**
- * @return The name of this node, or nil if it is the top-most location
+ * @return The key name of this node, or nil if it is the top-most location
  */
-@property (readonly, nonatomic, strong) NSString* name;
+@property (readonly, nonatomic, strong) NSString* key;
 
 
 @end

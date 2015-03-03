@@ -46,7 +46,7 @@
 
 /**
  * Get an FDataSnapshot for the location at the specified relative path.
- * The relative path can either be a simple child name (e.g. 'fred') 
+ * The relative path can either be a simple child key (e.g. 'fred') 
  * or a deeper slash-separated path (e.g. 'fred/name/first'). If the child
  * location has no data, an empty FDataSnapshot is returned.
  *
@@ -71,6 +71,14 @@
  * @return YES if this snapshot has any children, else NO.
  */
 - (BOOL) hasChildren;
+
+
+/**
+ * Return YES if the DataSnapshot contains a non-null value.
+ *
+ * @return YES if this snapshot contains a non-null value, otherwise NO.
+ */
+- (BOOL) exists;
 
 
 /** @name Data export */
@@ -119,9 +127,9 @@
 /**
  * The name of the location that generated this FDataSnapshot.
  *
- * @return An NSString containing the name for the location of this FDataSnapshot.
+ * @return An NSString containing the key for the location of this FDataSnapshot.
  */
-@property (strong, readonly, nonatomic) NSString* name;
+@property (strong, readonly, nonatomic) NSString* key;
 
 
 /**

@@ -29,6 +29,9 @@
 #import <Foundation/Foundation.h>
 #import "FMutableData.h"
 
+/**
+ * Used for runTransactionBlock:. An FTransactionResult instance is a container for the results of the transaction.
+ */
 @interface FTransactionResult : NSObject
 
 /**

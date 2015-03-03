@@ -33,6 +33,16 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, Popover
         
         // Set logout button on right
         logoutButton.setTitleTextAttributes([NSFontAttributeName:ProximaNovaLight20], forState: UIControlState.Normal)
+        
+        // Attach listener for logged out
+        let ref = Firebase(url: OfficeMoverFirebaseUrl)
+        ref.observeAuthEventWithBlock({ [unowned self]
+            authData in
+            if authData == nil {
+                // Not logged in, so let's explicitly transition to logout
+                self.logout()
+            }
+        })
     }
     
     // Set delegate to handle menu actions and make sure only one popover is open
@@ -73,17 +83,26 @@ class RoomViewController: UIViewController, UIPopoverControllerDelegate, Popover
     
     // Logout from app
     @IBAction func logout(sender: AnyObject) {
+        logout()
+        
+        // Also log out of Google
+        GPPSignIn.sharedInstance().signOut()
+    }
+    
+    func logout() {
         // Unauthenticate with Firebase
         let ref = Firebase(url: OfficeMoverFirebaseUrl)
         ref.unauth()
         
-        // Also log out of Google
-        GPPSignIn.sharedInstance().signOut()
-        
-        
         // Remove observers
         for loc in refLocations {
             ref.childByAppendingPath(loc).removeAllObservers()
+        }
+        
+        for view in roomView.subviews {
+            if let furnitureView = view as? FurnitureView {
+                furnitureView.stopDrag()
+            }
         }
         
         // Perform segue

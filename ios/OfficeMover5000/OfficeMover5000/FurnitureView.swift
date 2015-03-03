@@ -195,6 +195,10 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
     }
     
     func touchUp(button: UIButton, withEvent event: UIEvent) {
+        stopDrag()
+    }
+    
+    func stopDrag() {
         startDown = nil
         hideSeeThrough()
         if dragging == .Dragging {

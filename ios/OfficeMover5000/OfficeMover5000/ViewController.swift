@@ -8,7 +8,7 @@
 
 import UIKit
 
-let OfficeMoverFirebaseUrl = "https://<your-firebase>.firebaseio.com"
+let OfficeMoverFirebaseUrl = "https://bfot.firebaseio.com/office-mover"
 
 class ViewController: RoomViewController {
     
@@ -21,8 +21,9 @@ class ViewController: RoomViewController {
         
         // Load the furniture items from Firebase
         furnitureRef.observeEventType(.ChildAdded, withBlock: { [unowned self] snapshot in
-            self.refLocations += ["furniture/\(snapshot.name)"]
-            var furniture = Furniture(snap: snapshot)
+            self.refLocations += ["furniture/\(snapshot.key)"]
+            println("Furniture! \(snapshot)")
+            let furniture = Furniture(snap: snapshot)
             self.createFurnitureView(furniture)
         })
         
@@ -45,7 +46,7 @@ class ViewController: RoomViewController {
         currentFurnitureRef.observeEventType(.Value, withBlock: { snapshot in
             // check if snapshot.value does not equal NSNull
             if snapshot.value as? NSNull != NSNull() {
-                var furniture = Furniture(snap: snapshot)
+                let furniture = Furniture(snap: snapshot)
                 view.setViewState(furniture)
             }
         })
@@ -99,7 +100,7 @@ class ViewController: RoomViewController {
     // Handling adding a new item from the popover menu
     func addNewItem(type: String) {
         let itemRef = furnitureRef.childByAutoId()
-        let furniture = Furniture(key: itemRef.name, type: type)
+        let furniture = Furniture(key: itemRef.key, type: type)
         itemRef.setValue(furniture.toJson())
     }
 

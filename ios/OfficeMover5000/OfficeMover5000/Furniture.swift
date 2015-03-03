@@ -22,12 +22,14 @@ class Furniture {
 
     init(key: String, json: Dictionary<String, AnyObject>) {
         self.key = key
-        self.name = json["name"] as String
-        self.top = json["top"] as Int
-        self.left = json["left"] as Int
-        self.zIndex = json["z-index"] as Int
-        self.rotation = json["rotation"] as Int
-        self.type = json["type"] as String
+        self.name = json["name"] as? String ?? ""
+        self.type = json["type"] as? String ?? "desk"
+        self.zIndex = json["z-index"] as? Int ?? ++maxZIndex
+        self.rotation = json["rotation"] as? Int ?? 0
+        
+        let defaultLoc = Furniture.defaultLocation(self.type)
+        self.top = json["top"] as? Int ?? defaultLoc.top
+        self.left = json["left"] as? Int ?? defaultLoc.left
         
         if self.zIndex > maxZIndex {
             maxZIndex = self.zIndex
@@ -43,20 +45,16 @@ class Furniture {
         self.type = type
         self.zIndex = ++maxZIndex
         
-        // This is a huge hack to get the right top / left location of the object
-        if let image = UIImage(named:"\(type).png") {
-            self.top = RoomHeight/2 - Int(image.size.width)/2
-            self.left = RoomWidth/2 - Int(image.size.width)/2
-        } else {
-            self.top = RoomHeight/2
-            self.left = RoomHeight/2
-        }
+        let defaultLoc = Furniture.defaultLocation(self.type)
+        self.top = defaultLoc.top
+        self.left = defaultLoc.left
+        
     }
     
     convenience init(snap: FDataSnapshot) {
         
         if let json = snap.value as? Dictionary<String, AnyObject> {
-            self.init(key: snap.name, json: json)
+            self.init(key: snap.key, json: json)
         }
         else {
             fatalError("blah")
@@ -73,5 +71,13 @@ class Furniture {
             "rotation" : self.rotation,
             "type" : self.type,
         ];
-    }       
+    }
+    
+    class private func defaultLocation(type: String) -> (top: Int, left: Int) {
+        if let image = UIImage(named:"\(type).png") {
+            return (top: RoomHeight/2 - Int(image.size.height)/2, left: RoomWidth/2 - Int(image.size.width)/2)
+        } else {
+            return (top: RoomHeight/2, left: RoomWidth/2)
+        }
+    }
 }
