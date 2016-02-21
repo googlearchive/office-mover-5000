@@ -21,7 +21,7 @@ class AddItemController: PopoverMenuController {
     
     // When selected, add an item using the delegate, and dismiss the popover
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var type = Items[indexPath.row].2
+        let type = Items[indexPath.row].2
         delegate?.addNewItem?(type)
         dismissPopover(true)
     }

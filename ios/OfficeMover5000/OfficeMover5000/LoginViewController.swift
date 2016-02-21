@@ -54,7 +54,7 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
     
     // Get a GPPSignIn instance with the right parameters
     func signInInstance() -> GPPSignIn {
-        var signIn = GPPSignIn.sharedInstance()
+        let signIn = GPPSignIn.sharedInstance()
         signIn.shouldFetchGooglePlusUser = true
         signIn.clientID = "311395164163-bhjoq6cb43hh1n92l7ntb8180uplbcll.apps.googleusercontent.com"
         //signIn.clientID = "33816672509-qcgp7s8onp38fmtedli3prli3ql3j2i3.apps.googleusercontent.com" // extra
@@ -75,17 +75,17 @@ class LoginViewController: UIViewController, GPPSignInDelegate {
         
         if error != nil {
             // There was an error obtaining the Google+ OAuth Token
-            println("There was an error with Google when logging in: \(error)")
+            print("There was an error with Google when logging in: \(error)")
         } else {
             // We successfully obtained an OAuth token, authenticate on Firebase with it
             ref.authWithOAuthProvider("google", token: auth.accessToken,
                 withCompletionBlock: { error, authData in
                     if error != nil {
                         // Error authenticating with Firebase with OAuth token
-                        println("There was an error with Firebase when logging in: \(error)")
+                        print("There was an error with Firebase when logging in: \(error)")
                     } else {
                         // User is now logged in!
-                        println("Successfully logged in! \(authData)")
+                        print("Successfully logged in! \(authData)")
                     }
             })
         }

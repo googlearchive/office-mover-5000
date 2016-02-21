@@ -56,7 +56,7 @@ class PopoverMenuController : UITableViewController {
     // Dismiss the popover
     func dismissPopover(animated: Bool) {
         delegate?.dismissPopover(animated) // iOS 7
-        dismissViewControllerAnimated(animated, nil) // iOS 8
+        dismissViewControllerAnimated(animated, completion: nil) // iOS 8
     }
     
     // Override this in subclass

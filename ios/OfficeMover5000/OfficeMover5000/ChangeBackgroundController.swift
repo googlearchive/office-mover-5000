@@ -40,7 +40,7 @@ class ChangeBackgroundController : PopoverMenuController {
     
     // When selected, add an item using the delegate, and dismiss the popover
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var type = Floors[indexPath.row].1
+        let type = Floors[indexPath.row].1
         
         // Set background on Firebase
         delegate?.setBackground?(type)
