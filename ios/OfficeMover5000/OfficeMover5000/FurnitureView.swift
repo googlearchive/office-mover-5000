@@ -119,7 +119,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
     
     
     // --- Initializers
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         type = "desk"
         super.init(coder: aDecoder)
     }
@@ -138,9 +138,9 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         self.titleLabel?.font = UIFont(name: "Proxima Nova", size: 20)
         
         // Add touch events
-        addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:.TouchDragInside | .TouchDragOutside)
+        addTarget(self, action:Selector("dragged:withEvent:"), forControlEvents:[.TouchDragInside, .TouchDragOutside])
         addTarget(self, action:Selector("touchDown:withEvent:"), forControlEvents:.TouchDown)
-        addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:.TouchUpInside | .TouchUpOutside)
+        addTarget(self, action:Selector("touchUp:withEvent:"), forControlEvents:[.TouchUpInside, .TouchUpOutside])
     }
     
     // --- Set state given model
@@ -170,7 +170,7 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         temporarilyHideMenu() // Hide the menu while dragging
         
         // Get the touch in view, bound it to the room, and move the button there
-        if let touch = event.touchesForView(button)?.anyObject() as? UITouch {
+        if let touch = event.touchesForView(button)?.first {
             let touchLoc = touch.locationInView(self.superview)
             if let startDown = self.startDown {
                 if abs(startDown.x - touchLoc.x) > 10 || abs(startDown.y - touchLoc.y) > 10 {
@@ -286,8 +286,8 @@ class FurnitureView : UIButton, UIAlertViewDelegate, UITextFieldDelegate {
         }
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range:NSRange, replacementString string:NSString) -> Bool {
-        let newName = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string) as String
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let newName = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string as String) as String
         editHandler?(newName)
         return true
     }

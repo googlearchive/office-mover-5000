@@ -291,7 +291,9 @@
 		5F05D9FB1A0018C50076D47C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftMigration = 0720;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Firebase;
 				TargetAttributes = {
 					5F05DA021A0018C50076D47C = {
@@ -414,6 +416,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -489,6 +492,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.firebase.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OfficeMover5000;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OfficeMover5000/OfficeMover5000-Bridging-Header.h";
@@ -513,6 +517,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.firebase.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OfficeMover5000;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OfficeMover5000/OfficeMover5000-Bridging-Header.h";
@@ -534,6 +539,7 @@
 				);
 				INFOPLIST_FILE = OfficeMover5000Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.firebase.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OfficeMover5000Tests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OfficeMover5000.app/OfficeMover5000";
 			};
@@ -549,6 +555,7 @@
 				);
 				INFOPLIST_FILE = OfficeMover5000Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.firebase.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = OfficeMover5000Tests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OfficeMover5000.app/OfficeMover5000";
 			};
