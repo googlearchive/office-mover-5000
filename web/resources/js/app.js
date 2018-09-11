@@ -21,6 +21,7 @@ var app = {
   $alert: null,
   $signOutButton: null,
   maxZIndex: 0,
+  furnitureList: [],
 
 
   /*
@@ -45,6 +46,7 @@ var app = {
     this.createDropdowns();
     this.setOfficeBackground();
     this.logout();
+    $(window).keyup(this.pressDelete)
   },
 
 
@@ -154,7 +156,7 @@ var app = {
   */
 
   createFurniture: function(snapshot) {
-    new Furniture(snapshot, this);
+    this.furnitureList.push(new Furniture(snapshot, this));
   },
 
 
@@ -237,6 +239,18 @@ var app = {
     else {
       var zIndex = (value['z-index'] >= this.maxZIndex) ? value['z-index'] : this.maxZIndex;
       this.maxZIndex = zIndex;
+    }
+  },
+
+  pressDelete: function(ev){
+    if (ev.keyCode == 46) {
+      app.furnitureList = app.furnitureList.filter(function (furniture) {
+        if (furniture.isTooltipActive) {
+          furniture.delete();
+          return false;
+        }
+        return true;
+      });
     }
   }
 };

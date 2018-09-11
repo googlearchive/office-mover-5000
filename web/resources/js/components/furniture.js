@@ -15,6 +15,7 @@ var Furniture = function(snapshot, app) {
   this.app = app;
   this.id = snapshot.name();
   this.ref = snapshot.ref();
+  this.isTooltipActive = false;
 
   /*
   * Update Furniture Values
@@ -156,6 +157,7 @@ var Furniture = function(snapshot, app) {
     this.element.on("click", function(e){
       self.tooltip.toggleClass("is-hidden");
       self.element.toggleClass("is-active is-top");
+      self.isTooltipActive = !self.tooltip.hasClass('is-hidden');
     });
 
     // ADD CLICK EVENT TO BUTTONS
@@ -167,6 +169,7 @@ var Furniture = function(snapshot, app) {
       // HIDE TOOLTIP AND DESELECT
       self.tooltip.addClass("is-hidden");
       self.element.removeClass("is-active is-top");
+      self.isTooltipActive = false;
 
       switch (action) {
         case "edit": self.editName(); break;
@@ -210,6 +213,7 @@ var Furniture = function(snapshot, app) {
         self.tooltip.addClass("is-hidden");
         self.element.addClass("is-active is-top");
         self.ref.child("locked").set(true);
+        self.isTooltipActive = false;
       },
 
       drag: function(event, ui){
